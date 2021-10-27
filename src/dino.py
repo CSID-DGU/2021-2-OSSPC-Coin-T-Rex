@@ -102,8 +102,7 @@ class Dino():
             if self.collision_immune is True:
                 if self.counter % 5 == 0:
                     self.image = self.images[5]
-            self.rect.width = self.duck_pos_width
-
+            self.rect.width = self.duck_width
         self.rect = self.rect.move(self.movement)
         self.checkbounds()
 
