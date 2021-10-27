@@ -115,7 +115,6 @@ class Dino():
                 if self.counter % 5 == 0:
                     self.image = self.images[5]
             self.rect.width = self.duck_width
-
         self.rect = self.rect.move(self.movement)
         self.check_bounds()
         if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking :
