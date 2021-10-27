@@ -1,14 +1,14 @@
 import os
 import sys
 import random
-from pygame.locals import RESIZABLE,RLEACCEL
 import pygame
-from pygame import mixer
 from pygame import display
-from pygame import time
-from pygame import transform
+from pygame import mixer
 from pygame import Rect
 from pygame import Surface
+from pygame import time
+from pygame import transform
+from pygame.locals import RESIZABLE,RLEACCEL
 
 mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()

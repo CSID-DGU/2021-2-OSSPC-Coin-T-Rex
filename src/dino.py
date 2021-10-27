@@ -1,6 +1,10 @@
-from src.setting import *
 import pygame
 from pygame import mixer
+from src.setting import width, height, screen, gravity
+from src.setting import load_sprite_sheet
+from src.setting import check_point_sound
+
+
 
 
 class Dino():
