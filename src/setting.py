@@ -124,9 +124,9 @@ def disp_intro_buttons(btn_start, btn_board, btn_option):
     btn_start_rect.centerx = width * 0.72
     btn_board_rect.centerx = width * 0.72
     btn_option_rect.centerx = width * 0.72
-    btn_start_rect.centery = height * 0.5, 
-    btn_board_rect.centery =  height * (0.5 + button_offset)
-    btn_option_rect.centery = height * (0.5 + 2*button_offset)
+    btn_start_rect.centery = height * 0.5
+    btn_board_rect.centery = height * (0.5 + button_offset)
+    btn_option_rect.centery = height * (0.5 + 2 * button_offset)
     screen.blit(btn_start, btn_start_rect)
     screen.blit(btn_board, btn_board_rect)
     screen.blit(btn_option, btn_option_rect)

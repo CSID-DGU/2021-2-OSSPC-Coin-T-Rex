@@ -8,7 +8,7 @@ from db.db_interface import InterfDB
 db = InterfDB("db/score.db")
 
 
-## 시작 화면 ##
+# 시작 화면
 def introscreen():
     global resized_screen
 
@@ -16,17 +16,17 @@ def introscreen():
     global temp_dino
     global type_idx
     global dino_type
-    dino_type = ['ORIGINAL','RED','ORANGE','YELLOW','GREEN','PURPLE','BLACK','PINK']
+    dino_type = ['ORIGINAL', 'RED', 'ORANGE', 'YELLOW', 'GREEN', 'PURPLE', 'BLACK', 'PINK']
     type_idx = 0
     click_count = 0
     #
     temp_dino = Dino(dino_size[0], dino_size[1])
-    temp_dino.isBlinking = True
-    gameStart = False
+    temp_dino.is_blinking = True
+    game_start = False
 
-    ###이미지 로드###
+    # 이미지 로드
     # 배경 이미지
-    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
+    background, background_rect = load_image('intro_bg.png', width, height, -1)
     # 버튼 이미지
     r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
     btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
@@ -37,7 +37,7 @@ def introscreen():
     # DINO IMAGE
 
 
-    while not gameStart:
+    while not game_start:
         if pygame.display.get_surface() == None:
             print("Couldn't load display surface")
             return True
@@ -54,7 +54,7 @@ def introscreen():
 
                     ###IMGPOS###
                     #BACKGROUND IMG POS
-                    Background_rect.bottomleft = (width*0, height)
+                    background_rect.bottomleft = (width*0, height)
                     #이두용이 작성1 끝.
 
                 if event.type == pygame.QUIT:
@@ -66,9 +66,9 @@ def introscreen():
                         x, y = event.pos
                         #game button
                         if r_btn_gamestart_rect.collidepoint(x, y):
-                            temp_dino.isJumping = True
-                            temp_dino.isBlinking = False
-                            temp_dino.movement[1] = -1 * temp_dino.jumpSpeed
+                            temp_dino.is_jumping = True
+                            temp_dino.is_blinking = False
+                            temp_dino.movement[1] = -1 * temp_dino.jump_speed
 
                         #board button
                         if r_btn_board_rect.collidepoint(x, y):
@@ -82,7 +82,7 @@ def introscreen():
                             click_count += 1 
                             type_idx = click_count % len(dino_type)
                             temp_dino = Dino(dino_size[0], dino_size[1],type = dino_type[type_idx])
-                            temp_dino.isBlinking = True
+                            temp_dino.is_blinking = True
 
         temp_dino.update()
 
@@ -92,19 +92,19 @@ def introscreen():
             r_btn_gamestart_rect.centerx, r_btn_board_rect.centerx, r_btn_option_rect.centerx = resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72
             r_btn_gamestart_rect.centery, r_btn_board_rect.centery, r_btn_option_rect.centery = resized_screen.get_height() * 0.5, resized_screen.get_height() * (0.5+button_offset), resized_screen.get_height() * (0.5+2*button_offset)
 
-            screen.blit(Background, Background_rect)
+            screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_option)
 
             temp_dino.draw()
             resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_centerpos)
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
 
             pygame.display.update()
 
         clock.tick(FPS)
 
-        if temp_dino.isJumping == False and temp_dino.isBlinking == False:
-            gameStart = True
+        if temp_dino.is_jumping == False and temp_dino.is_blinking == False:
+            game_start = True
             selectMode()
 
     pygame.quit()
@@ -158,7 +158,7 @@ def option():
                 pass
                 ###IMGPOS###
                 #BACKGROUND IMG POS
-                # Background_rect.bottomleft = (width*0, height)
+                # background_rect.bottomleft = (width*0, height)
             
             # CHANGE SIZE END
 
@@ -197,7 +197,7 @@ def option():
                         credit()
 
             # if event.type == pygame.VIDEORESIZE:
-            #     checkscrsize(event.w, event.h)
+            #     check_scr_size(event.w, event.h)
 
         r_init_btn_rect.centerx, r_init_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
         r_btn_gamerule_rect.centerx, r_btn_gamerule_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
@@ -222,7 +222,7 @@ def option():
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_centerpos)
+            resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
@@ -233,7 +233,7 @@ def option():
 
 def selectMode():
     global resized_screen
-    gameStart = False
+    game_start = False
     btnpush_interval = 500
 
     # 버튼 이미지
@@ -245,18 +245,18 @@ def selectMode():
     btn_hardmode, btn_hardmode_rect = load_image('hard.png', 150, 50, -1)
     r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 150, 50, -1))
     # 배경 이미지
-    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
+    background, background_rect = load_image('intro_bg.png', width, height, -1)
 
 
     easymode_btn_rect.center = (width * 0.5, height * 0.5)
     btn_hardmode_rect.center = (width * 0.5, height * 0.75)
 
 
-    while not gameStart:
+    while not game_start:
         for event in pygame.event.get():
             
             if event.type == pygame.QUIT:
-                gameStart = True
+                game_start = True
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -271,20 +271,20 @@ def selectMode():
                         gameplay_hard()
 
             if event.type == pygame.VIDEORESIZE:
-                checkscrsize(event.w, event.h)
+                check_scr_size(event.w, event.h)
 
         r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
         r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * (
                 0.5 + button_offset)
 
-        screen.blit(Background, Background_rect)
+        screen.blit(background, background_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
         screen.blit(btn_hardmode, btn_hardmode_rect)
 
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_centerpos)
+            resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
@@ -381,14 +381,14 @@ def gameplay_easy():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if playerDino.rect.bottom == int(0.98 * height):
-                                playerDino.isJumping = True
+                                playerDino.is_jumping = True
                                 if pygame.mixer.get_init() != None:
                                     jump_sound.play()
-                                playerDino.movement[1] = -1 * playerDino.jumpSpeed
+                                playerDino.movement[1] = -1 * playerDino.jump_speed
 
                         if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
-                            if not (playerDino.isJumping and playerDino.isDead):
-                                playerDino.isDucking = True
+                            if not (playerDino.is_jumping and playerDino.is_dead):
+                                playerDino.is_ducking = True
 
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
@@ -396,26 +396,26 @@ def gameplay_easy():
 
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
-                            playerDino.isDucking = False
+                            playerDino.is_ducking = False
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if pygame.mouse.get_pressed() == (1, 0, 0) and playerDino.rect.bottom == int(0.98 * height):
                             # (mouse left button, wheel button, mouse right button)
-                            playerDino.isJumping = True
+                            playerDino.is_jumping = True
                             if pygame.mixer.get_init() != None:
                                 jump_sound.play()
-                            playerDino.movement[1] = -1 * playerDino.jumpSpeed
+                            playerDino.movement[1] = -1 * playerDino.jump_speed
 
                         if pygame.mouse.get_pressed() == (0, 0, 1):
                             # (mouse left button, wheel button, mouse right button)
-                            if not (playerDino.isJumping and playerDino.isDead):
-                                playerDino.isDucking = True
+                            if not (playerDino.is_jumping and playerDino.is_dead):
+                                playerDino.is_ducking = True
 
                     if event.type == pygame.MOUSEBUTTONUP:
-                        playerDino.isDucking = False
+                        playerDino.is_ducking = False
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             if not paused:
 
@@ -427,7 +427,7 @@ def gameplay_easy():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
@@ -439,11 +439,11 @@ def gameplay_easy():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
@@ -456,11 +456,11 @@ def gameplay_easy():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
@@ -473,29 +473,29 @@ def gameplay_easy():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
 
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
 
-                if not playerDino.isSuper:
+                if not playerDino.is_super:
                     for s in shield_items:
                         s.movement[0] = -1 * gamespeed
                         if pygame.sprite.collide_mask(playerDino, s):
                             if pygame.mixer.get_init() is not None:
-                                checkPoint_sound.play()
+                                check_point_sound.play()
                             playerDino.collision_immune = True
-                            playerDino.isSuper = True
+                            playerDino.is_super = True
                             s.kill()
                             item_time = pygame.time.get_ticks()
                         elif s.rect.right < 0:
@@ -583,17 +583,17 @@ def gameplay_easy():
                     playerDino.draw()
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                        resized_screen_centerpos)
+                        resized_screen_center)
                     pygame.display.update()
                 clock.tick(FPS)
 
-                if playerDino.isDead:
+                if playerDino.is_dead:
                     gameOver = True
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if playerDino.score > high_score:
                         high_score = playerDino.score
 
-                if counter % speed_up_limit_count == speed_up_limit_count - 1:
+                if counter % speed_up_limit == speed_up_limit - 1:
                     new_ground.speed -= 1
                     gamespeed += 1
 
@@ -642,17 +642,17 @@ def gameplay_easy():
                             board()
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             highsc.update(high_score)
             if pygame.display.get_surface() != None:
-                disp_gameOver_msg(gameover_image)
+                disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_centerpos)
+                    resized_screen_center)
                 pygame.display.update()
             clock.tick(FPS)
 
@@ -771,14 +771,14 @@ def gameplay_hard():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if playerDino.rect.bottom == int(0.98 * height):
-                                playerDino.isJumping = True
+                                playerDino.is_jumping = True
                                 if pygame.mixer.get_init() != None:
                                     jump_sound.play()
-                                playerDino.movement[1] = -1 * playerDino.jumpSpeed
+                                playerDino.movement[1] = -1 * playerDino.jump_speed
 
                         if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
-                            if not (playerDino.isJumping and playerDino.isDead):
-                                playerDino.isDucking = True
+                            if not (playerDino.is_jumping and playerDino.is_dead):
+                                playerDino.is_ducking = True
 
                         if event.key == pygame.K_LEFT:
                             # print("left")
@@ -804,7 +804,7 @@ def gameplay_hard():
 
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
-                            playerDino.isDucking = False
+                            playerDino.is_ducking = False
 
                         # 3.a키에서 손을 떼면, 미사일이 발사 되지 않습니다.
                         if event.key == pygame.K_a:
@@ -826,21 +826,21 @@ def gameplay_hard():
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if pygame.mouse.get_pressed() == (1, 0, 0) and playerDino.rect.bottom == int(0.98 * height):
                             # (mouse left button, wheel button, mouse right button)
-                            playerDino.isJumping = True
+                            playerDino.is_jumping = True
                             if pygame.mixer.get_init() != None:
                                 jump_sound.play()
-                            playerDino.movement[1] = -1 * playerDino.jumpSpeed
+                            playerDino.movement[1] = -1 * playerDino.jump_speed
 
                         if pygame.mouse.get_pressed() == (0, 0, 1):
                             # (mouse left button, wheel button, mouse right button)
-                            if not (playerDino.isJumping and playerDino.isDead):
-                                playerDino.isDucking = True
+                            if not (playerDino.is_jumping and playerDino.is_dead):
+                                playerDino.is_ducking = True
 
                     if event.type == pygame.MOUSEBUTTONUP:
-                        playerDino.isDucking = False
+                        playerDino.is_ducking = False
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             if not paused:
 
@@ -878,10 +878,10 @@ def gameplay_hard():
                         mm.change_size(10,10)
                     # 
                     
-                    if playerDino.isDucking ==False:
+                    if playerDino.is_ducking ==False:
                         mm.x = round(playerDino.rect.centerx)
                         mm.y = round(playerDino.rect.top*1.035)
-                    if playerDino.isDucking ==True:
+                    if playerDino.is_ducking ==True:
                         mm.x = round(playerDino.rect.centerx)
                         mm.y = round(playerDino.rect.centery*1.01)
                     mm.move = 15
@@ -902,8 +902,8 @@ def gameplay_hard():
 
                 if jumpingx2 :
                     if  playerDino.rect.bottom == int(height * 0.98):
-                        playerDino.isJumping = True
-                        playerDino.movement[1] = -1 * playerDino.superJumpSpeed
+                        playerDino.is_jumping = True
+                        playerDino.movement[1] = -1 * playerDino.super_jump_speed
 
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
                 if (isPkingTime) and (pking.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
@@ -965,11 +965,11 @@ def gameplay_hard():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
@@ -982,11 +982,11 @@ def gameplay_hard():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
@@ -1020,11 +1020,11 @@ def gameplay_hard():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                    elif not playerDino.isSuper:
+                    elif not playerDino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             playerDino.collision_immune = False
@@ -1037,18 +1037,18 @@ def gameplay_hard():
                             life -= 1
                             collision_time = pygame.time.get_ticks()
                             if life == 0:
-                                playerDino.isDead = True
+                                playerDino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                if not playerDino.isSuper:
+                if not playerDino.is_super:
                     for s in shield_items:
                         s.movement[0] = -1 * gamespeed
                         if pygame.sprite.collide_mask(playerDino, s):
                             if pygame.mixer.get_init() is not None:
-                                checkPoint_sound.play()
+                                check_point_sound.play()
                             playerDino.collision_immune = True
-                            playerDino.isSuper = True
+                            playerDino.is_super = True
                             s.kill()
                             item_time = pygame.time.get_ticks()
                         elif s.rect.right < 0:
@@ -1058,9 +1058,9 @@ def gameplay_hard():
                         s.movement[0] = -1 * gamespeed
                         if pygame.sprite.collide_mask(playerDino, s):
                             if pygame.mixer.get_init() is not None:
-                                checkPoint_sound.play()
+                                check_point_sound.play()
                             playerDino.collision_immune = True
-                            playerDino.isSuper = True
+                            playerDino.is_super = True
                             s.kill()
                             item_time = pygame.time.get_ticks()
                         elif s.rect.right < 0:
@@ -1068,13 +1068,13 @@ def gameplay_hard():
 
                     if pygame.time.get_ticks() - item_time > shield_time:
                         playerDino.collision_immune = False
-                        playerDino.isSuper = False
+                        playerDino.is_super = False
 
                 for l in life_items:
                     l.movement[0] = -1 * gamespeed
                     if pygame.sprite.collide_mask(playerDino, l):
                         if pygame.mixer.get_init() is not None:
-                            checkPoint_sound.play()
+                            check_point_sound.play()
                         life += 1
                         l.kill()
                     elif l.rect.right < 0:
@@ -1084,7 +1084,7 @@ def gameplay_hard():
                     k.movement[0] = -1 * gamespeed
                     if pygame.sprite.collide_mask(playerDino, k):
                         if pygame.mixer.get_init() is not None:
-                            checkPoint_sound.play()
+                            check_point_sound.play()
                         gamespeed -= 1
                         new_ground.speed += 1
                         k.kill()
@@ -1161,7 +1161,7 @@ def gameplay_hard():
                                 life -= 1
                                 collision_time = pygame.time.get_ticks()
                                 if life == 0:
-                                    playerDino.isDead = True
+                                    playerDino.is_dead = True
                                 pm_list.remove(pm)
                     #
                 else:
@@ -1282,17 +1282,17 @@ def gameplay_hard():
                     playerDino.draw()
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                        resized_screen_centerpos)
+                        resized_screen_center)
                     pygame.display.update()
                 clock.tick(FPS)
 
-                if playerDino.isDead:
+                if playerDino.is_dead:
                     gameOver = True
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if playerDino.score > high_score:
                         high_score = playerDino.score
 
-                if counter % speed_up_limit_count == speed_up_limit_count - 1:
+                if counter % speed_up_limit == speed_up_limit - 1:
                     new_ground.speed -= 1
                     gamespeed += 1
 
@@ -1341,17 +1341,17 @@ def gameplay_hard():
                             board()
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             highsc.update(high_score)
             if pygame.display.get_surface() != None:
-                disp_gameOver_msg(gameover_image)
+                disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_centerpos)
+                    resized_screen_center)
                 pygame.display.update()
             clock.tick(FPS)
 
@@ -1410,11 +1410,11 @@ def board():
                         gameQuit = True
                         introscreen()
                 if event.type == pygame.VIDEORESIZE:
-                    checkscrsize(event.w, event.h)
+                    check_scr_size(event.w, event.h)
 
             screen.blit(screen_board, (0, scroll_y))
             resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_centerpos)
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
             pygame.display.update()
         clock.tick(FPS)
 
@@ -1456,11 +1456,11 @@ def gamerule():
                         # introscreen()
                         option()
                 if event.type == pygame.VIDEORESIZE:
-                    checkscrsize(event.w, event.h)
+                    check_scr_size(event.w, event.h)
 
             screen.blit(screen_board, (0,0))
             resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_centerpos)
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
             pygame.display.update()
         clock.tick(FPS)
 
@@ -1520,7 +1520,7 @@ def pausing():
                             return False
 
                 if event.type == pygame.VIDEORESIZE:
-                    checkscrsize(event.w, event.h)
+                    check_scr_size(event.w, event.h)
 
             screen.fill(white)
             screen.blit(pause_pic, pause_pic_rect)
@@ -1528,7 +1528,7 @@ def pausing():
             screen.blit(resume_image, resume_rect)
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                resized_screen_centerpos)
+                resized_screen_center)
             pygame.display.update()
         clock.tick(FPS)
 
@@ -1573,10 +1573,10 @@ def typescore(score):
                             text += event.unicode
 
             if event.type == pygame.VIDEORESIZE:
-                checkscrsize(event.w, event.h)
+                check_scr_size(event.w, event.h)
 
         screen.fill(white)
-        txt_surface = textsize(50).render(text.upper(), True, color)
+        txt_surface = text_size(50).render(text.upper(), True, color)
         input_box.w = typebox_size
         screen.blit(txt_surface, (input_box.centerx - len(text) * 11 - 5, input_box.y))
         screen.blit(text2, message_pos)
@@ -1584,7 +1584,7 @@ def typescore(score):
         pygame.draw.rect(screen, color, input_box, 2)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_centerpos)
+            resized_screen_center)
 
         pygame.display.flip()
         clock.tick(FPS)
@@ -1606,12 +1606,12 @@ def credit():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 return False
             if event.type == pygame.VIDEORESIZE:
-                checkscrsize(event.w, event.h)
+                check_scr_size(event.w, event.h)
         screen.fill(white)
         screen.blit(creditimg, creditimg_rect)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_centerpos)
+            resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)

@@ -99,7 +99,7 @@ class Scoreboard:
         screen.blit(self.image, self.rect)
 
     def update(self,score):
-        score_digits = extractDigits(score)
+        score_digits = extract_digits(score)
         self.image.fill(background_col)
         for s in score_digits:
             self.image.blit(self.tempimages[s], self.temprect)
