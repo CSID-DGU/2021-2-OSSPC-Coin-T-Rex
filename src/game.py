@@ -329,7 +329,7 @@ def gameplay_easy():
     Stone.containers = stones
 
     Cactus.containers = cacti
-    fire_Cactus.containers = fire_cacti
+    FireCactus.containers = fire_cacti  # fire_Cactus => FireCactus
     Ptera.containers = pteras
     Cloud.containers = clouds
     ShieldItem.containers = shield_items
@@ -513,7 +513,7 @@ def gameplay_easy():
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(fire_Cactus(game_speed, object_size[0], object_size[1]))
+                            last_obstacle.add(FireCactus(game_speed, object_size[0], object_size[1]))
 
                 if len(stones) < 2:
                     for l in last_obstacle:
@@ -690,7 +690,7 @@ def gameplay_hard():
     slow_items = pygame.sprite.Group()
 
     Cactus.containers = cacti
-    fire_Cactus.containers = fire_cacti
+    FireCactus.containers = fire_cacti
     Ptera.containers = pteras
     Cloud.containers = clouds
     ShieldItem.containers = shield_items
@@ -839,7 +839,7 @@ def gameplay_hard():
                 # 4. space_go가 True이고, 일정 시간이 지나면, 미사일을 만들고, 이를 미사일 배열에 넣습니다.
                 if space_go and (int(bk % 15) == 0):
                     # print(bk)
-                    mm = obj()
+                    mm = Obj()
 
                     # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
                     if player_dino.type == 'RED':
@@ -890,13 +890,13 @@ def gameplay_hard():
 
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
                 if is_pking_time and (pking.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
-                    pm = obj()
+                    pm = Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15, 15)
                     pm.x = round(pking.rect.centerx)
                     pm.y = round(pking.rect.centery)
-                    pm.xmove = random.randint(0, 15)
-                    pm.ymove = random.randint(1, 3)
+                    pm.x_move = random.randint(0, 15)
+                    pm.y_move = random.randint(1, 3)
 
                     pm_list.append(pm)
                 pm_pattern0_count += 1
@@ -904,8 +904,8 @@ def gameplay_hard():
 
                 for i in range(len(pm_list)):
                     pm = pm_list[i]
-                    pm.x -= pm.xmove
-                    pm.y += pm.ymove
+                    pm.x -= pm.x_move
+                    pm.y += pm.y_move
                     if pm.y > height or pm.x < 0:
                         pd_list.append(i)
                 pd_list.reverse()
@@ -915,7 +915,7 @@ def gameplay_hard():
                 # 보스 몬스터 패턴1(좌우로 왔다갔다 하는 패턴): 보스 익룡이 쏘는 미사일.
                 if is_pking_time and (pking.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
                     # print(pm_list)
-                    pm = obj()
+                    pm = Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15, 15)
                     pm.x = round(pking.rect.centerx)
@@ -982,7 +982,7 @@ def gameplay_hard():
                                 m.y < p.rect.bottom):
                             print("격추 성공")
                             is_down = True
-                            boom = obj()
+                            boom = Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200, 100)
                             boom.x = p.rect.centerx - round(p.rect.width) * 2.5
@@ -1104,7 +1104,7 @@ def gameplay_hard():
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(
                                     CACTUS_INTERVAL * 5) == MAGIC_NUM:
                                 last_obstacle.empty()
-                                last_obstacle.add(fire_Cactus(game_speed, object_size[0], object_size[1]))
+                                last_obstacle.add(FireCactus(game_speed, object_size[0], object_size[1]))
 
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
@@ -1115,7 +1115,7 @@ def gameplay_hard():
                         if (m.x >= pking.rect.left) and (m.x <= pking.rect.right) and (m.y > pking.rect.top) and (
                                 m.y < pking.rect.bottom):
                             is_down = True
-                            boom = obj()
+                            boom = Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200, 100)
                             boom.x = pking.rect.centerx - round(pking.rect.width)
@@ -1161,7 +1161,7 @@ def gameplay_hard():
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(
                                     CACTUS_INTERVAL * 5) == MAGIC_NUM:
                                 last_obstacle.empty()
-                                last_obstacle.add(fire_Cactus(game_speed, object_size[0], object_size[1]))
+                                last_obstacle.add(FireCactus(game_speed, object_size[0], object_size[1]))
 
                     if len(stones) < 2:
                         for l in last_obstacle:
