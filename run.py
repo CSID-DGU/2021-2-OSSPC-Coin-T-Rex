@@ -7,9 +7,9 @@ from src.game import *
 
 def main():
     db.init_db()
-    isGameQuit = introscreen()
+    isGameQuit = intro_screen()
     if not isGameQuit:
-        introscreen()
+        intro_screen()
 
 
 if __name__ == "__main__":

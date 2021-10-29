@@ -5,10 +5,7 @@ from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
 
 
-
-
-
-class Dino():
+class Dino:
     def __init__(self, sizex=-1, sizey=-1,type = None):
         self.type = type
         if type == 'ORIGINAL':
@@ -69,7 +66,7 @@ class Dino():
         self.is_blinking = False
         self.movement = [0, 0]
         self.jump_speed = 11.5
-        self.super_jump_speed = self.jumpSpeed * 1.3
+        self.super_jump_speed = self.jump_speed * 1.3
         self.collision_immune = False
         self.is_super = False
         self.stand_width = self.rect.width
