@@ -82,7 +82,7 @@ def intro_screen():
         temp_dino.update()
 
         # interface draw
-        if pygame.display.get_surface() != None:
+        if pygame.display.get_surface() is not None:
             r_btn_gamestart_rect.centerx, r_btn_board_rect.centerx, r_btn_option_rect.centerx = resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72
             r_btn_gamestart_rect.centery, r_btn_board_rect.centery, r_btn_option_rect.centery = resized_screen.get_height() * 0.5, resized_screen.get_height() * (
                     0.5 + button_offset), resized_screen.get_height() * (0.5 + 2 * button_offset)
@@ -355,7 +355,7 @@ def gameplay_easy():
         while start_menu:
             pass
         while not game_over:
-            if pygame.display.get_surface() == None:
+            if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
                 game_over = True
@@ -369,7 +369,7 @@ def gameplay_easy():
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
-                                if pygame.mixer.get_init() != None:
+                                if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
@@ -389,7 +389,7 @@ def gameplay_easy():
                         if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.98 * height):
                             # (mouse left button, wheel button, mouse right button)
                             player_dino.is_jumping = True
-                            if pygame.mixer.get_init() != None:
+                            if pygame.mixer.get_init() is not None:
                                 jump_sound.play()
                             player_dino.movement[1] = -1 * player_dino.jump_speed
 
@@ -547,7 +547,7 @@ def gameplay_easy():
 
                 stones.update()
 
-                if pygame.display.get_surface() != None:
+                if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
                     new_ground.draw()
                     clouds.draw(screen)
@@ -589,7 +589,7 @@ def gameplay_easy():
             break
 
         while game_over:
-            if pygame.display.get_surface() == None:
+            if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
                 game_over = False
@@ -631,7 +631,7 @@ def gameplay_easy():
                         check_scr_size(event.w, event.h)
 
             highsc.update(high_score)
-            if pygame.display.get_surface() != None:
+            if pygame.display.get_surface() is not None:
                 disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
@@ -735,14 +735,14 @@ def gameplay_hard():
     pm_pattern0_count = 0
     pm_pattern1_count = 0
     pking_appearance_score = 100
-    
+
     jumpingx2 = False
 
     while not game_quit:
         while start_menu:
             pass
         while not game_over:
-            if pygame.display.get_surface() == None:
+            if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
                 game_over = True
@@ -756,7 +756,7 @@ def gameplay_hard():
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
-                                if pygame.mixer.get_init() != None:
+                                if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
@@ -811,7 +811,7 @@ def gameplay_hard():
                         if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.98 * height):
                             # (mouse left button, wheel button, mouse right button)
                             player_dino.is_jumping = True
-                            if pygame.mixer.get_init() != None:
+                            if pygame.mixer.get_init() is not None:
                                 jump_sound.play()
                             player_dino.movement[1] = -1 * player_dino.jump_speed
 
@@ -864,7 +864,7 @@ def gameplay_hard():
                     if player_dino.is_ducking == False:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.top * 1.035)
-                        
+
                     if player_dino.is_ducking == True:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.centery * 1.01)
@@ -1109,7 +1109,7 @@ def gameplay_hard():
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
 
-                    if (len(m_list) == 0):
+                    if len(m_list) == 0:
                         pass
                     else:
                         if (m.x >= pking.rect.left) and (m.x <= pking.rect.right) and (m.y > pking.rect.top) and (
@@ -1220,7 +1220,7 @@ def gameplay_hard():
                     pking.update()
                 #
 
-                if pygame.display.get_surface() != None:
+                if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
                     new_ground.draw()
                     clouds.draw(screen)
@@ -1284,7 +1284,7 @@ def gameplay_hard():
             break
 
         while game_over:
-            if pygame.display.get_surface() == None:
+            if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
                 game_over = False
@@ -1326,7 +1326,7 @@ def gameplay_hard():
                         check_scr_size(event.w, event.h)
 
             highsc.update(high_score)
-            if pygame.display.get_surface() != None:
+            if pygame.display.get_surface() is not None:
                 disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
@@ -1558,7 +1558,7 @@ def type_score(score):
                 elif event.key == pygame.K_BACKSPACE:
                     text = text[:-1]
                 else:
-                    if event.unicode.isalpha() == True:
+                    if event.unicode.isalpha():
                         if len(text) < letternum_restriction:
                             text += event.unicode
 
