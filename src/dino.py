@@ -5,10 +5,7 @@ from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
 
 
-
-
-
-class Dino():
+class Dino:
     def __init__(self, sizex=-1, sizey=-1,type = None):
         self.type = type
         if type == 'ORIGINAL':
