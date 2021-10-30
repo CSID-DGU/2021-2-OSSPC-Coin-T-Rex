@@ -25,6 +25,7 @@ def intro_screen():
 
     # 이미지 로드
     # 배경 이미지
+    # TODO 배경 우리 조껄로 바꾸기
     background, background_rect = load_image('intro_bg.png', width, height, -1)
     # 버튼 이미지
     r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
@@ -339,7 +340,7 @@ def gameplay_easy():
 
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    gameover_image, gameover_rect = load_image('game_over.png', 380, 22, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
 
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
     HI_image = pygame.Surface((30, int(15 * 6 / 5)))
@@ -609,7 +610,7 @@ def gameplay_easy():
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score):
                                 db.query_db(
-                                    f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                    f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -621,7 +622,7 @@ def gameplay_easy():
                         type_score(player_dino.score)
                         if not db.is_limit_data(player_dino.score):
                             db.query_db(
-                                f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
                             db.commit()
                             board()
                         else:
@@ -632,7 +633,7 @@ def gameplay_easy():
 
             highsc.update(high_score)
             if pygame.display.get_surface() is not None:
-                disp_gameover_msg(gameover_image)
+                disp_gameover_msg(game_over_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
@@ -700,7 +701,7 @@ def gameplay_hard():
 
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    gameover_image, gameover_rect = load_image('game_over.png', 380, 22, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
 
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
     HI_image = pygame.Surface((30, int(15 * 6 / 5)))
@@ -830,10 +831,16 @@ def gameplay_hard():
 
                 # 방향키 추가 (현재 여기 근데 수정더):
                 if go_left:
-                    player_dino.rect.left = player_dino.rect.left - (game_speed)
+                    if player_dino.rect.left < 0:
+                        player_dino.rect.left = 0
+                    else:
+                        player_dino.rect.left = player_dino.rect.left - game_speed
 
                 if go_right:
-                    player_dino.rect.left = player_dino.rect.left + game_speed
+                    if player_dino.rect.right > width:
+                        player_dino.rect.right = width
+                    else:
+                        player_dino.rect.left = player_dino.rect.left + game_speed
                 #
 
                 # 4. space_go가 True이고, 일정 시간이 지나면, 미사일을 만들고, 이를 미사일 배열에 넣습니다.
@@ -1304,7 +1311,7 @@ def gameplay_hard():
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score):
                                 db.query_db(
-                                    f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                    f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -1316,7 +1323,7 @@ def gameplay_hard():
                         type_score(player_dino.score)
                         if not db.is_limit_data(player_dino.score):
                             db.query_db(
-                                f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
                             db.commit()
                             board()
                         else:
@@ -1327,7 +1334,7 @@ def gameplay_hard():
 
             highsc.update(high_score)
             if pygame.display.get_surface() is not None:
-                disp_gameover_msg(gameover_image)
+                disp_gameover_msg(game_over_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
@@ -1528,17 +1535,17 @@ def pausing():
 
 def type_score(score):
     global resized_screen
-    global gamername
+    global gamer_name
     global width, height
     done = False
     active = True
 
     message_pos = (width * 0.25, height * 0.3)
     score_pos = (width * 0.35, height * 0.4)
-    inputbox_pos = (width * 0.43, height * 0.5)
-    typebox_size = 100
-    letternum_restriction = 3
-    input_box = pygame.Rect(inputbox_pos[0], inputbox_pos[1], 500, 50)
+    input_box_pos = (width * 0.43, height * 0.5)
+    type_box_size = 100
+    letter_num_restriction = 3
+    input_box = pygame.Rect(input_box_pos[0], input_box_pos[1], 500, 50)
     color = pygame.Color('dodgerblue2')
 
     text = ''
@@ -1553,13 +1560,13 @@ def type_score(score):
             if event.type == pygame.KEYDOWN:
                 # if active:
                 if event.key == pygame.K_RETURN:
-                    gamername = text.upper()
+                    gamer_name = text.upper()
                     done = True
                 elif event.key == pygame.K_BACKSPACE:
                     text = text[:-1]
                 else:
                     if event.unicode.isalpha():
-                        if len(text) < letternum_restriction:
+                        if len(text) < letter_num_restriction:
                             text += event.unicode
 
             if event.type == pygame.VIDEORESIZE:
@@ -1567,7 +1574,7 @@ def type_score(score):
 
         screen.fill(white)
         txt_surface = text_size(50).render(text.upper(), True, color)
-        input_box.w = typebox_size
+        input_box.w = type_box_size
         screen.blit(txt_surface, (input_box.centerx - len(text) * 11 - 5, input_box.y))
         screen.blit(text2, message_pos)
         screen.blit(text3, score_pos)
