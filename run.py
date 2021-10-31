@@ -1,14 +1,12 @@
-__author__ = "Shivam Shekhar"
-made_by = "MilkDragon-6"
+from src.game import intro_screen, db
 
-
-from src.game import *
+made_by = "TwoSeokTwoJu-3"
 
 
 def main():
     db.init_db()
-    isGameQuit = intro_screen()
-    if not isGameQuit:
+    is_game_quit = intro_screen()
+    if not is_game_quit:
         intro_screen()
 
 
