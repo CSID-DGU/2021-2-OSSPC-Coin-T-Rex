@@ -377,14 +377,16 @@ def gameplay_easy():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  
+                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
-                        if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                        if event.key == pygame.K_DOWN:  
+                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
 
@@ -1514,7 +1516,8 @@ def pausing():
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        pygame.mixer.music.unpause()  # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
+                        pygame.mixer.music.unpause()  
+                        # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
                         return False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -1524,7 +1527,8 @@ def pausing():
                             intro_screen()
 
                         if resized_resume_rect.collidepoint(x, y):
-                            pygame.mixer.music.unpause()  # pausing상태에서 오른쪽의 아이콘 클릭하면 배경음악 일시정지 해제
+                            pygame.mixer.music.unpause()  
+                            # pausing상태에서 오른쪽의 아이콘 클릭하면 배경음악 일시정지 해제
 
                             return False
 
