@@ -84,9 +84,12 @@ def intro_screen():
 
         # interface draw
         if pygame.display.get_surface() is not None:
-            r_btn_gamestart_rect.centerx, r_btn_board_rect.centerx, r_btn_option_rect.centerx = resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72
-            r_btn_gamestart_rect.centery, r_btn_board_rect.centery, r_btn_option_rect.centery = resized_screen.get_height() * 0.5, resized_screen.get_height() * (
-                    0.5 + button_offset), resized_screen.get_height() * (0.5 + 2 * button_offset)
+            r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.72
+            r_btn_board_rect.centerx =  resized_screen.get_width() * 0.72
+            r_btn_option_rect.centerx = resized_screen.get_width() * 0.72
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.5 
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.5 + button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.5 + 2 * button_offset)
 
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_option)
@@ -94,7 +97,7 @@ def intro_screen():
             temp_dino.draw()
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                resized_screen_center)
+                                        resized_screen_center)
 
             pygame.display.update()
 
@@ -196,10 +199,14 @@ def option():
             # if event.type == pygame.VIDEORESIZE:
             #     check_scr_size(event.w, event.h)
 
-        r_init_btn_rect.centerx, r_init_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-        r_btn_gamerule_rect.centerx, r_btn_gamerule_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
-        r_btn_home_rect.centerx, r_btn_home_rect.centery = resized_screen.get_width() * 0.9, resized_screen.get_height() * 0.15
-        r_btn_credit_rect.centerx, r_btn_credit_rect.centery = resized_screen.get_width() * 0.9, resized_screen.get_height() * 0.85
+        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5, 
+        r_init_btn_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
+        r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_home_rect.centerx = resized_screen.get_width() * 0.9
+        r_btn_home_rect.centery = resized_screen.get_height() * 0.15
+        r_btn_credit_rect.centerx = resized_screen.get_width() * 0.9
+        r_btn_credit_rect.centery = resized_screen.get_height() * 0.85
 
         screen.fill(background_col)
         screen.blit(text_surf, text_rect)
@@ -210,16 +217,18 @@ def option():
 
         if bgm_on:
             screen.blit(btn_bgm_on, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx, r_btn_bgm_on_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
+            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
         if not bgm_on:
             screen.blit(btn_bgm_off, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx, r_btn_bgm_on_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
+            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
         if db_init:
             draw_text("Scoreboard cleared", font, screen, 400, 300, black)
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_center)
+                                    resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
@@ -267,9 +276,10 @@ def select_mode():
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
 
-        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * (
-                0.5 + button_offset)
+        r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
+        r_easy_btn_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.5 + button_offset)
 
         screen.blit(background, background_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
@@ -754,14 +764,16 @@ def gameplay_hard():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  
+                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
-                        if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                        if event.key == pygame.K_DOWN:  
+                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
 
