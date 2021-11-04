@@ -1,4 +1,4 @@
-<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"> <img alt="" src ="https://img.shields.io/badge/IDE-PyCharm-tomato"><br>
+<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"><br>
 <img src="https://img.shields.io/badge/python-blue?style=뱃지모양&logo=Python&logoColor=white"/> 
 <img src="https://img.shields.io/badge/GitHub-skyblue?style=뱃지모양&logo=GitHub&logoColor=white"/>
 <img src="https://img.shields.io/badge/notion-dodgerblue?style=뱃지모양&logo=notion&logoColor=white"/>
