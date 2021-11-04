@@ -1,5 +1,8 @@
-<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-green">
-<img alt="Python" src ="https://img.shields.io/badge/Python-3776AB.svg?&style=for-the-badge&logo=Python&logoColor=white"/>
+<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"> <img alt="" src ="https://img.shields.io/badge/IDE-PyCharm-tomato"><br>
+<img src="https://img.shields.io/badge/python-blue?style=뱃지모양&logo=Python&logoColor=white"/> 
+<img src="https://img.shields.io/badge/GitHub-skyblue?style=뱃지모양&logo=GitHub&logoColor=white"/>
+<img src="https://img.shields.io/badge/notion-dodgerblue?style=뱃지모양&logo=notion&logoColor=white"/>
+
 
 # 2021-1-OSSPC-MilkDragon-6
 ## Milk Dragon’s Adventure
