@@ -664,6 +664,9 @@ def gameplay_hard():
     game_quit = False
     ###
     life = 5
+    shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
+    life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
+    slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
     ###
     paused = False
 
@@ -787,6 +790,39 @@ def gameplay_hard():
                             bk = 0
                         #
 
+                        # shield item
+                        if event.key == pygame.K_q:
+                            print("q")
+                            print(shield_item_count)
+                            if shield_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                player_dino.collision_immune = True
+                                player_dino.is_super = True
+                                item_time = pygame.time.get_ticks()
+                                shield_item_count -= 1
+
+                        # life item
+                        if event.key == pygame.K_w:
+                            print("e")
+                            print(life_item_count)
+                            if life_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                life += 1
+                                life_item_count -= 1
+
+                        # slow item
+                        if event.key == pygame.K_e:
+                            print("e")
+                            print(slow_item_count)
+                            if slow_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                game_speed -= 1
+                                new_ground.speed += 1
+                                slow_item_count -= 1
+
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
                             player_dino.is_ducking = False
@@ -829,7 +865,6 @@ def gameplay_hard():
 
             if not paused:
 
-                # 방향키 추가 (현재 여기 근데 수정더):
                 if go_left:
                     if player_dino.rect.left < 0:
                         player_dino.rect.left = 0
@@ -868,11 +903,11 @@ def gameplay_hard():
                         mm.put_img("./sprites/red_bullet.png")
                         mm.change_size(10, 10)
 
-                    if player_dino.is_ducking == False:
+                    if not player_dino.is_ducking:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.top * 1.035)
 
-                    if player_dino.is_ducking == True:
+                    if player_dino.is_ducking:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.centery * 1.01)
                     mm.move = 15
@@ -1026,55 +1061,10 @@ def gameplay_hard():
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                if not player_dino.is_super:
-                    for s in shield_items:
-                        s.movement[0] = -1 * game_speed
-                        if pygame.sprite.collide_mask(player_dino, s):
-                            if pygame.mixer.get_init() is not None:
-                                check_point_sound.play()
-                            player_dino.collision_immune = True
-                            player_dino.is_super = True
-                            s.kill()
-                            item_time = pygame.time.get_ticks()
-                        elif s.rect.right < 0:
-                            s.kill()
-                else:
-                    for s in shield_items:
-                        s.movement[0] = -1 * game_speed
-                        if pygame.sprite.collide_mask(player_dino, s):
-                            if pygame.mixer.get_init() is not None:
-                                check_point_sound.play()
-                            player_dino.collision_immune = True
-                            player_dino.is_super = True
-                            s.kill()
-                            item_time = pygame.time.get_ticks()
-                        elif s.rect.right < 0:
-                            s.kill()
-
+                if player_dino.is_super:
                     if pygame.time.get_ticks() - item_time > shield_time:
                         player_dino.collision_immune = False
                         player_dino.is_super = False
-
-                for l in life_items:
-                    l.movement[0] = -1 * game_speed
-                    if pygame.sprite.collide_mask(player_dino, l):
-                        if pygame.mixer.get_init() is not None:
-                            check_point_sound.play()
-                        life += 1
-                        l.kill()
-                    elif l.rect.right < 0:
-                        l.kill()
-
-                for k in slow_items:
-                    k.movement[0] = -1 * game_speed
-                    if pygame.sprite.collide_mask(player_dino, k):
-                        if pygame.mixer.get_init() is not None:
-                            check_point_sound.play()
-                        game_speed -= 1
-                        new_ground.speed += 1
-                        k.kill()
-                    elif k.rect.right < 0:
-                        k.kill()
 
                 STONE_INTERVAL = 100
                 CACTUS_INTERVAL = 50
@@ -1184,27 +1174,6 @@ def gameplay_hard():
 
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
-
-                    if len(shield_items) == 0 and random.randrange(
-                            SHIELD_INTERVAL) == MAGIC_NUM and counter > SHIELD_INTERVAL:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(ShieldItem(game_speed, object_size[0], object_size[1]))
-
-                    if len(life_items) == 0 and random.randrange(
-                            LIFE_INTERVAL) == MAGIC_NUM and counter > LIFE_INTERVAL * 2:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(LifeItem(game_speed, object_size[0], object_size[1]))
-
-                    if len(slow_items) == 0 and random.randrange(
-                            SLOW_INTERVAL) == MAGIC_NUM and counter > SLOW_INTERVAL:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(SlowItem(game_speed, object_size[0], object_size[1]))
 
                 player_dino.update()
                 cacti.update()

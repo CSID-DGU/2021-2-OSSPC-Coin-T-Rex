@@ -4,6 +4,7 @@ from src.setting import pygame
 from src.setting import screen
 from src.setting import width, height
 
+
 class ShieldItem(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
