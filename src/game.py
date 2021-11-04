@@ -26,7 +26,7 @@ def intro_screen():
     # 이미지 로드
     # 배경 이미지
     # TODO 배경 우리 조껄로 바꾸기
-    background, background_rect = load_image('intro_bg.png', width, height, -1)
+    background, background_rect = load_image('coin_t_rex.png', width, height)
     # 버튼 이미지
     r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
     btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
@@ -34,6 +34,7 @@ def intro_screen():
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
+    
     # DINO IMAGE
     while not game_start:
         if pygame.display.get_surface() is None:
@@ -84,12 +85,12 @@ def intro_screen():
 
         # interface draw
         if pygame.display.get_surface() is not None:
-            r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.72
-            r_btn_board_rect.centerx =  resized_screen.get_width() * 0.72
-            r_btn_option_rect.centerx = resized_screen.get_width() * 0.72
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.5 
-            r_btn_board_rect.centery = resized_screen.get_height() * (0.5 + button_offset)
-            r_btn_option_rect.centery = resized_screen.get_height() * (0.5 + 2 * button_offset)
+            r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
+            r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.31 
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
 
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_option)
@@ -199,7 +200,7 @@ def option():
             # if event.type == pygame.VIDEORESIZE:
             #     check_scr_size(event.w, event.h)
 
-        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5, 
+        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5 
         r_init_btn_rect.centery = resized_screen.get_height() * 0.5
         r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
         r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
@@ -242,25 +243,22 @@ def select_mode():
     btnpush_interval = 500
 
     # 버튼 이미지
-
     # easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 150, 50, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 150, 50, -1))
+    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 160, 80, -1)
+    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 160, 80, -1))
     # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 160, 80, -1)
+    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 160, 80, -1))
     # 배경 이미지
-    background, background_rect = load_image('intro_bg.png', width, height, -1)
-
-    easymode_btn_rect.center = (width * 0.5, height * 0.5)
-    btn_hardmode_rect.center = (width * 0.5, height * 0.75)
+    background, background_rect = load_image('coin_t_rex2.png', width, height)
+    easymode_btn_rect.center = (width * 0.5, height * 0.42)
+    btn_hardmode_rect.center = (width * 0.5, height * 0.67)
 
     while not game_start:
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 game_start = True
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
@@ -269,7 +267,6 @@ def select_mode():
                     x, y = event.pos
                     if r_easy_btn_rect.collidepoint(x, y):
                         gameplay_easy()
-
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
@@ -278,8 +275,8 @@ def select_mode():
 
         r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
         r_easy_btn_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.5 + button_offset)
+        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.42
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.42 + button_offset)
 
         screen.blit(background, background_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
@@ -377,16 +374,14 @@ def gameplay_easy():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  
-                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
-                        if event.key == pygame.K_DOWN:  
-                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                        if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
 
@@ -1527,8 +1522,7 @@ def pausing():
                             intro_screen()
 
                         if resized_resume_rect.collidepoint(x, y):
-                            pygame.mixer.music.unpause()  
-                            # pausing상태에서 오른쪽의 아이콘 클릭하면 배경음악 일시정지 해제
+                            pygame.mixer.music.unpause()  # pausing상태에서 오른쪽의 아이콘 클릭하면 배경음악 일시정지 해제
 
                             return False
 
