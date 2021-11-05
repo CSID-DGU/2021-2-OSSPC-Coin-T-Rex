@@ -52,9 +52,11 @@ die_sound = mixer.Sound('sprites/die.wav')
 check_point_sound = mixer.Sound('sprites/checkPoint.wav')
 
 
-# background_music = pygame.mixer.Sound('sprites/t-rex_bgm1.mp3')
+
+sound_vol=0.3
 # HERE: REMOVE SOUND!!
-# pygame.mixer.music.load('sprites/t-rex_bgm1.mp3')
+pygame.mixer.music.load('sprites/t-rex_bgm1.mp3')
+pygame.mixer.music.set_volume(sound_vol)
 
 
 # 게임 내에 text를 넣을때 쓰는 함수

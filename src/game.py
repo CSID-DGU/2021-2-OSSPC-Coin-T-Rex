@@ -49,14 +49,12 @@ def intro_screen():
                     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
                     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
                     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
-
                     # IMGPOS
                     # BACKGROUND IMG POS
                     background_rect.bottomleft = (width * 0, height)
-
                 if event.type == pygame.QUIT:
-                    return True
-
+                    pygame.quit()
+                    quit()
                 # 버튼 클릭했을 때 event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
@@ -68,7 +66,6 @@ def intro_screen():
                             temp_dino.movement[1] = -1 * temp_dino.jump_speed
                             game_start = True
                             select_mode()
-
                         # board button
                         if r_btn_board_rect.collidepoint(x, y):
                             board()
@@ -301,8 +298,8 @@ def gameplay_easy():
     result = db.query_db("select score from user order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
-    #    if bgm_on:
-    #       pygame.mixer.music.play(-1) # 배경음악 실행
+        if bgm_on:
+           pygame.mixer.music.play(-1) # 배경음악 실행
     game_speed = 4
     start_menu = False
     game_over = False
@@ -345,7 +342,6 @@ def gameplay_easy():
     # highjump_items = pygame.sprite.Group()
 
     Stone.containers = stones
-
     Cactus.containers = cacti
     FireCactus.containers = fire_cacti  # fire_Cactus => FireCactus
     Ptera.containers = pteras
@@ -419,7 +415,6 @@ def gameplay_easy():
                         check_scr_size(event.w, event.h)
 
             if not paused:
-
                 for s in stones:
                     s.movement[0] = -1 * game_speed
                     if not player_dino.collision_immune:
@@ -661,7 +656,7 @@ def gameplay_easy():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
@@ -693,8 +688,8 @@ def gameplay_hard():
         high_score = result['score']
 
     # HERE: REMOVE SOUND!!    
-    # if bgm_on:
-    #     pygame.mixer.music.play(-1)  # 배경음악 실행
+    if bgm_on:
+        pygame.mixer.music.play(-1)  # 배경음악 실행
 
     game_speed = 4
     start_menu = False
@@ -1362,7 +1357,7 @@ def gameplay_hard():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
