@@ -652,6 +652,7 @@ def gameplay_easy():
                                     board()
                                 else:
                                     board()
+
                             if r_btn_exit_rect.collidepoint(x, y):
                                 intro_screen()
                         # type_score(player_dino.score)
@@ -667,7 +668,7 @@ def gameplay_easy():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
@@ -1368,7 +1369,7 @@ def gameplay_hard():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
