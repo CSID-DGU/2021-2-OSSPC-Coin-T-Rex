@@ -34,6 +34,7 @@ def intro_screen():
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
+
     # DINO IMAGE
     while not game_start:
         if pygame.display.get_surface() is None:
@@ -298,6 +299,17 @@ def gameplay_easy():
     start_menu = False
     game_over = False
     game_quit = False
+    # 게임 후 버튼
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 50, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 50, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 50, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', 150, 50, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 50, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 50, -1)
+
+    btn_restart_rect.center = (width * 0.25, height * 0.5)
+    btn_save_rect.center = (width * 0.5, height * 0.5)
+    btn_exit_rect.center = (width * 0.75,height * 0.5)
     ###
     life = 5
     ###
@@ -617,21 +629,46 @@ def gameplay_easy():
                                 board()
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        game_over = False
-                        game_quit = True
-                        type_score(player_dino.score)
-                        if not db.is_limit_data(player_dino.score):
-                            db.query_db(
-                                f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
-                            db.commit()
-                            board()
-                        else:
-                            board()
+                        # game_over = True
+                        # game_quit = False
+                        if pygame.mouse.get_pressed() == (1, 0, 0):
+                            x, y = event.pos
+                            if r_btn_restart_rect.collidepoint(x, y):
+                                select_mode()
+
+                            if r_btn_save_rect.collidepoint(x, y):
+                                type_score(player_dino.score)
+                                if not db.is_limit_data(player_dino.score):
+                                    db.query_db(
+                                        f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    db.commit()
+                                    board()
+                                else:
+                                    board()
+                            if r_btn_exit_rect.collidepoint(x, y):
+                                intro_screen()
+                        # type_score(player_dino.score)
+                        # if not db.is_limit_data(player_dino.score):
+                        #     db.query_db(
+                        #         f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                        #     db.commit()
+                        #     board()
+                        # else:
+                        #     board()
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                screen.blit(btn_restart, btn_restart_rect)
+                screen.blit(btn_save, btn_save_rect)
+                screen.blit(btn_exit, btn_exit_rect)
 
-            highsc.update(high_score)
+                resized_screen.blit(
+                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    resized_screen_center)
+                pygame.display.update()
             if pygame.display.get_surface() is not None:
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
@@ -666,6 +703,18 @@ def gameplay_hard():
     life = 5
     ###
     paused = False
+
+    # 게임 후 버튼
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 50, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 50, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 50, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', 150, 50, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 50, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 50, -1)
+
+    btn_restart_rect.center = (width * 0.25, height * 0.5)
+    btn_save_rect.center = (width * 0.5, height * 0.5)
+    btn_exit_rect.center = (width * 0.75,height * 0.5)
 
     # 디노 타입 때문에 변경된 부분
     player_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
@@ -1318,20 +1367,38 @@ def gameplay_hard():
                                 board()
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        game_over = False
-                        game_quit = True
-                        type_score(player_dino.score)
-                        if not db.is_limit_data(player_dino.score):
-                            db.query_db(
-                                f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
-                            db.commit()
-                            board()
-                        else:
-                            board()
+                        #game_over = False
+                        #game_quit = True
+                        if pygame.mouse.get_pressed() == (1, 0, 0):
+                            x, y = event.pos
+                            if r_btn_restart_rect.collidepoint(x, y):
+                                select_mode()
+
+                            if r_btn_save_rect.collidepoint(x, y):
+                                type_score(player_dino.score)
+                                if not db.is_limit_data(player_dino.score):
+                                    db.query_db(
+                                        f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    db.commit()
+                                    board()
+                                else:
+                                    board()
+                            if r_btn_exit_rect.collidepoint(x, y):
+                                intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                screen.blit(btn_restart, btn_restart_rect)
+                screen.blit(btn_save, btn_save_rect)
+                screen.blit(btn_exit, btn_exit_rect)
 
+                resized_screen.blit(
+                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    resized_screen_center)
+                pygame.display.update()
             highsc.update(high_score)
             if pygame.display.get_surface() is not None:
                 disp_gameover_msg(game_over_image)
