@@ -26,7 +26,7 @@ def intro_screen():
     # 이미지 로드
     # 배경 이미지
     # TODO 배경 우리 조껄로 바꾸기
-    background, background_rect = load_image('intro_bg.png', width, height, -1)
+    background, background_rect = load_image('coin_t_rex.png', width, height)
     # 버튼 이미지
     r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
     btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
@@ -34,6 +34,7 @@ def intro_screen():
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
+
 
     # DINO IMAGE
     while not game_start:
@@ -85,9 +86,12 @@ def intro_screen():
 
         # interface draw
         if pygame.display.get_surface() is not None:
-            r_btn_gamestart_rect.centerx, r_btn_board_rect.centerx, r_btn_option_rect.centerx = resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72, resized_screen.get_width() * 0.72
-            r_btn_gamestart_rect.centery, r_btn_board_rect.centery, r_btn_option_rect.centery = resized_screen.get_height() * 0.5, resized_screen.get_height() * (
-                    0.5 + button_offset), resized_screen.get_height() * (0.5 + 2 * button_offset)
+            r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
+            r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.31 
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
 
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_option)
@@ -95,7 +99,7 @@ def intro_screen():
             temp_dino.draw()
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                resized_screen_center)
+                                        resized_screen_center)
 
             pygame.display.update()
 
@@ -197,10 +201,14 @@ def option():
             # if event.type == pygame.VIDEORESIZE:
             #     check_scr_size(event.w, event.h)
 
-        r_init_btn_rect.centerx, r_init_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-        r_btn_gamerule_rect.centerx, r_btn_gamerule_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
-        r_btn_home_rect.centerx, r_btn_home_rect.centery = resized_screen.get_width() * 0.9, resized_screen.get_height() * 0.15
-        r_btn_credit_rect.centerx, r_btn_credit_rect.centery = resized_screen.get_width() * 0.9, resized_screen.get_height() * 0.85
+        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5 
+        r_init_btn_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
+        r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_home_rect.centerx = resized_screen.get_width() * 0.9
+        r_btn_home_rect.centery = resized_screen.get_height() * 0.15
+        r_btn_credit_rect.centerx = resized_screen.get_width() * 0.9
+        r_btn_credit_rect.centery = resized_screen.get_height() * 0.85
 
         screen.fill(background_col)
         screen.blit(text_surf, text_rect)
@@ -211,16 +219,18 @@ def option():
 
         if bgm_on:
             screen.blit(btn_bgm_on, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx, r_btn_bgm_on_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
+            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
         if not bgm_on:
             screen.blit(btn_bgm_off, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx, r_btn_bgm_on_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
+            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
+            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
         if db_init:
             draw_text("Scoreboard cleared", font, screen, 400, 300, black)
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_center)
+                                    resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
@@ -234,25 +244,22 @@ def select_mode():
     btnpush_interval = 500
 
     # 버튼 이미지
-
     # easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 150, 50, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 150, 50, -1))
+    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 160, 80, -1)
+    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 160, 80, -1))
     # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 160, 80, -1)
+    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 160, 80, -1))
     # 배경 이미지
-    background, background_rect = load_image('intro_bg.png', width, height, -1)
-
-    easymode_btn_rect.center = (width * 0.5, height * 0.5)
-    btn_hardmode_rect.center = (width * 0.5, height * 0.75)
+    background, background_rect = load_image('coin_t_rex2.png', width, height)
+    easymode_btn_rect.center = (width * 0.5, height * 0.42)
+    btn_hardmode_rect.center = (width * 0.5, height * 0.67)
 
     while not game_start:
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 game_start = True
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
@@ -261,16 +268,16 @@ def select_mode():
                     x, y = event.pos
                     if r_easy_btn_rect.collidepoint(x, y):
                         gameplay_easy()
-
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
 
-        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * (
-                0.5 + button_offset)
+        r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
+        r_easy_btn_rect.centery = resized_screen.get_height() * 0.5
+        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.42
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.42 + button_offset)
 
         screen.blit(background, background_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
@@ -701,6 +708,9 @@ def gameplay_hard():
     game_quit = False
     ###
     life = 5
+    shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
+    life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
+    slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
     ###
     paused = False
 
@@ -803,14 +813,16 @@ def gameplay_hard():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  
+                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
-                        if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                        if event.key == pygame.K_DOWN:  
+                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
 
@@ -835,6 +847,39 @@ def gameplay_hard():
                             space_go = True
                             bk = 0
                         #
+
+                        # shield item
+                        if event.key == pygame.K_q:
+                            print("q")
+                            print(shield_item_count)
+                            if shield_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                player_dino.collision_immune = True
+                                player_dino.is_super = True
+                                item_time = pygame.time.get_ticks()
+                                shield_item_count -= 1
+
+                        # life item
+                        if event.key == pygame.K_w:
+                            print("e")
+                            print(life_item_count)
+                            if life_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                life += 1
+                                life_item_count -= 1
+
+                        # slow item
+                        if event.key == pygame.K_e:
+                            print("e")
+                            print(slow_item_count)
+                            if slow_item_count > 0:
+                                if pygame.mixer.get_init() is not None:
+                                    check_point_sound.play()
+                                game_speed -= 1
+                                new_ground.speed += 1
+                                slow_item_count -= 1
 
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
@@ -878,7 +923,6 @@ def gameplay_hard():
 
             if not paused:
 
-                # 방향키 추가 (현재 여기 근데 수정더):
                 if go_left:
                     if player_dino.rect.left < 0:
                         player_dino.rect.left = 0
@@ -917,11 +961,11 @@ def gameplay_hard():
                         mm.put_img("./sprites/red_bullet.png")
                         mm.change_size(10, 10)
 
-                    if player_dino.is_ducking == False:
+                    if not player_dino.is_ducking:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.top * 1.035)
 
-                    if player_dino.is_ducking == True:
+                    if player_dino.is_ducking:
                         mm.x = round(player_dino.rect.centerx)
                         mm.y = round(player_dino.rect.centery * 1.01)
                     mm.move = 15
@@ -1075,55 +1119,10 @@ def gameplay_hard():
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                if not player_dino.is_super:
-                    for s in shield_items:
-                        s.movement[0] = -1 * game_speed
-                        if pygame.sprite.collide_mask(player_dino, s):
-                            if pygame.mixer.get_init() is not None:
-                                check_point_sound.play()
-                            player_dino.collision_immune = True
-                            player_dino.is_super = True
-                            s.kill()
-                            item_time = pygame.time.get_ticks()
-                        elif s.rect.right < 0:
-                            s.kill()
-                else:
-                    for s in shield_items:
-                        s.movement[0] = -1 * game_speed
-                        if pygame.sprite.collide_mask(player_dino, s):
-                            if pygame.mixer.get_init() is not None:
-                                check_point_sound.play()
-                            player_dino.collision_immune = True
-                            player_dino.is_super = True
-                            s.kill()
-                            item_time = pygame.time.get_ticks()
-                        elif s.rect.right < 0:
-                            s.kill()
-
+                if player_dino.is_super:
                     if pygame.time.get_ticks() - item_time > shield_time:
                         player_dino.collision_immune = False
                         player_dino.is_super = False
-
-                for l in life_items:
-                    l.movement[0] = -1 * game_speed
-                    if pygame.sprite.collide_mask(player_dino, l):
-                        if pygame.mixer.get_init() is not None:
-                            check_point_sound.play()
-                        life += 1
-                        l.kill()
-                    elif l.rect.right < 0:
-                        l.kill()
-
-                for k in slow_items:
-                    k.movement[0] = -1 * game_speed
-                    if pygame.sprite.collide_mask(player_dino, k):
-                        if pygame.mixer.get_init() is not None:
-                            check_point_sound.play()
-                        game_speed -= 1
-                        new_ground.speed += 1
-                        k.kill()
-                    elif k.rect.right < 0:
-                        k.kill()
 
                 STONE_INTERVAL = 100
                 CACTUS_INTERVAL = 50
@@ -1233,27 +1232,6 @@ def gameplay_hard():
 
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
-
-                    if len(shield_items) == 0 and random.randrange(
-                            SHIELD_INTERVAL) == MAGIC_NUM and counter > SHIELD_INTERVAL:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(ShieldItem(game_speed, object_size[0], object_size[1]))
-
-                    if len(life_items) == 0 and random.randrange(
-                            LIFE_INTERVAL) == MAGIC_NUM and counter > LIFE_INTERVAL * 2:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(LifeItem(game_speed, object_size[0], object_size[1]))
-
-                    if len(slow_items) == 0 and random.randrange(
-                            SLOW_INTERVAL) == MAGIC_NUM and counter > SLOW_INTERVAL:
-                        for l in last_obstacle:
-                            if l.rect.right < OBJECT_REFRESH_LINE:
-                                last_obstacle.empty()
-                                last_obstacle.add(SlowItem(game_speed, object_size[0], object_size[1]))
 
                 player_dino.update()
                 cacti.update()
@@ -1569,7 +1547,8 @@ def pausing():
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        pygame.mixer.music.unpause()  # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
+                        pygame.mixer.music.unpause()  
+                        # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
                         return False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:

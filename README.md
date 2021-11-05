@@ -1,8 +1,11 @@
-<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-green">
-<img alt="Python" src ="https://img.shields.io/badge/Python-3776AB.svg?&style=for-the-badge&logo=Python&logoColor=white"/>
+<img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"><br>
+<img src="https://img.shields.io/badge/python-blue?style=뱃지모양&logo=Python&logoColor=white"/> 
+<img src="https://img.shields.io/badge/GitHub-skyblue?style=뱃지모양&logo=GitHub&logoColor=white"/>
+<img src="https://img.shields.io/badge/notion-dodgerblue?style=뱃지모양&logo=notion&logoColor=white"/>
 
-# 2021-1-OSSPC-MilkDragon-6
-## Milk Dragon’s Adventure
+
+# 2021-2-OSSProj-TwoSeokTwoJoo-3
+## Coin-T-Rex
 <img width="599" alt="시작화면" src="https://user-images.githubusercontent.com/70673826/121240479-57b4fb80-c8d5-11eb-8ed2-fba2ba055709.PNG">
 
 #### Chrome의 이스터에그 게임인 T-rex Rush에 다양한 모션과 공격 기능을 추가하여 즐거움을 더한 게임
