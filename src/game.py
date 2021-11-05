@@ -1,3 +1,4 @@
+from pygame.image import load
 from src.dino import *
 from src.obstacle import *
 from src.item import *
@@ -43,12 +44,13 @@ def intro_screen():
         else:
             for event in pygame.event.get():
                 if event.type == pygame.VIDEORESIZE and not full_screen:
-                    r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
-                    btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
-                    r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
-                    btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
-                    r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
-                    btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
+                    #민주 -> 필요없어보여서 주석처리
+                    # r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
+                    # btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
+                    # r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
+                    # btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
+                    # r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
+                    # btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
                     # IMGPOS
                     # BACKGROUND IMG POS
                     background_rect.bottomleft = (width * 0, height)
@@ -241,6 +243,8 @@ def select_mode():
     game_start = False
     btnpush_interval = 500
 
+    # 배경 이미지
+    background, background_rect = load_image('coin_t_rex2.png', width, height)
     # 버튼 이미지
     # easy mode button
     easymode_btn_image, easymode_btn_rect = load_image('easy.png', 160, 80, -1)
@@ -248,14 +252,17 @@ def select_mode():
     # hardmode button
     btn_hardmode, btn_hardmode_rect = load_image('hard.png', 160, 80, -1)
     r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 160, 80, -1))
-    # 배경 이미지
-    background, background_rect = load_image('coin_t_rex2.png', width, height)
-    easymode_btn_rect.center = (width * 0.5, height * 0.42)
-    btn_hardmode_rect.center = (width * 0.5, height * 0.67)
+    #store button
+    btn_store, btn_store_rect=load_image('store.png', 160,80,-1)
+    r_btn_store, r_btn_store_rect=load_image(*resize('store.png', 160, 80, -1))
+    # easymode_btn_rect.center = (width * 0.5, height * 0.3)
+    # btn_hardmode_rect.center = (width * 0.5, height * 0.55)
+    # btn_store_rect.center = (width * 0.5, height * 0.7)
 
     while not game_start:
         for event in pygame.event.get():
-
+            if event.type == pygame.VIDEORESIZE and not full_screen:
+                background_rect.bottomleft = (width * 0, height)
             if event.type == pygame.QUIT:
                 game_start = True
             if event.type == pygame.KEYDOWN:
@@ -273,14 +280,14 @@ def select_mode():
                 check_scr_size(event.w, event.h)
 
         r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
-        r_easy_btn_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.42
-        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.42 + button_offset)
+        r_easy_btn_rect.centery = resized_screen.get_height() * 0.31
+        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
+        r_btn_store_rect.centerx = resized_screen.get_width() * 0.5
+        r_btn_store_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
 
         screen.blit(background, background_rect)
-        screen.blit(easymode_btn_image, easymode_btn_rect)
-        screen.blit(btn_hardmode, btn_hardmode_rect)
-
+        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
