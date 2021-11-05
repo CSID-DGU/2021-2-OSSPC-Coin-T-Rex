@@ -37,6 +37,7 @@ def intro_screen():
 
     # DINO IMAGE
     while not game_start:
+
         if pygame.display.get_surface() is None:
             print("Couldn't load display surface")
             return True
@@ -301,8 +302,8 @@ def gameplay_easy():
     result = db.query_db("select score from user order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
-    #    if bgm_on:
-    #       pygame.mixer.music.play(-1) # 배경음악 실행
+        if bgm_on:
+           pygame.mixer.music.play(-1) # 배경음악 실행
     game_speed = 4
     start_menu = False
     game_over = False
@@ -693,8 +694,8 @@ def gameplay_hard():
         high_score = result['score']
 
     # HERE: REMOVE SOUND!!    
-    # if bgm_on:
-    #     pygame.mixer.music.play(-1)  # 배경음악 실행
+    if bgm_on:
+        pygame.mixer.music.play(-1)  # 배경음악 실행
 
     game_speed = 4
     start_menu = False
