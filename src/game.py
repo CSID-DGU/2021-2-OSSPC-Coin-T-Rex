@@ -3,7 +3,6 @@ from src.obstacle import *
 from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
-
 db = InterfDB("db/score.db")
 
 
@@ -64,9 +63,11 @@ def intro_screen():
                         x, y = event.pos
                         # game button
                         if r_btn_gamestart_rect.collidepoint(x, y):
-                            temp_dino.is_jumping = True
-                            temp_dino.is_blinking = False
+                            #temp_dino.is_jumping = True
+                            #temp_dino.is_blinking = False
                             temp_dino.movement[1] = -1 * temp_dino.jump_speed
+                            game_start = True
+                            select_mode()
 
                         # board button
                         if r_btn_board_rect.collidepoint(x, y):
@@ -76,11 +77,11 @@ def intro_screen():
                             option()
 
                         # temp_dino를 누르는 경우: 
-                        if temp_dino.rect.collidepoint(x, y):
-                            click_count += 1
-                            type_idx = click_count % len(dino_type)
-                            temp_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
-                            temp_dino.is_blinking = True
+                        # if temp_dino.rect.collidepoint(x, y):
+                        #     click_count += 1
+                        #     type_idx = click_count % len(dino_type)
+                        #     temp_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
+                        #     temp_dino.is_blinking = True
 
         temp_dino.update()
 
@@ -96,7 +97,7 @@ def intro_screen():
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_option)
 
-            temp_dino.draw()
+            # temp_dino.draw()
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                                         resized_screen_center)
@@ -105,9 +106,9 @@ def intro_screen():
 
         clock.tick(FPS)
 
-        if temp_dino.is_jumping == False and temp_dino.is_blinking == False:
-            game_start = True
-            select_mode()
+        # if temp_dino.is_jumping == False and temp_dino.is_blinking == False:
+        #     game_start = True
+        #     select_mode()
 
     pygame.quit()
     quit()
@@ -330,16 +331,13 @@ def gameplay_easy():
     heart = HeartIndicator(life)
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
-
     speed_text = font.render("SPEED", True, black)
-
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
     pteras = pygame.sprite.Group()
     clouds = pygame.sprite.Group()
     # add stones
     stones = pygame.sprite.Group()
-
     last_obstacle = pygame.sprite.Group()
     shield_items = pygame.sprite.Group()
     life_items = pygame.sprite.Group()
@@ -360,7 +358,6 @@ def gameplay_easy():
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
-
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
     HI_image = pygame.Surface((30, int(15 * 6 / 5)))
     HI_rect = HI_image.get_rect()
@@ -384,7 +381,6 @@ def gameplay_easy():
                     if event.type == pygame.QUIT:  # 종료
                         game_quit = True
                         game_over = True
-
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
@@ -392,16 +388,14 @@ def gameplay_easy():
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
-
                         if event.key == pygame.K_DOWN:  # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
-
-                        if event.key == pygame.K_ESCAPE:
+                        if event.key == pygame.K_ESCAPE: #ESC = 일시정지
                             paused = not paused
                             paused = pausing()
 
-                    if event.type == pygame.KEYUP:
+                    if event.type == pygame.KEYUP: 
                         if event.key == pygame.K_DOWN:
                             player_dino.is_ducking = False
 
@@ -652,7 +646,6 @@ def gameplay_easy():
                                     board()
                                 else:
                                     board()
-
                             if r_btn_exit_rect.collidepoint(x, y):
                                 intro_screen()
                         # type_score(player_dino.score)
@@ -668,7 +661,7 @@ def gameplay_easy():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
@@ -1369,7 +1362,7 @@ def gameplay_hard():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
+                r_btn_exit_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
                 screen.blit(btn_restart, btn_restart_rect)
                 screen.blit(btn_save, btn_save_rect)
                 screen.blit(btn_exit, btn_exit_rect)
