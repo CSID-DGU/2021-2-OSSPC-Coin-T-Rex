@@ -74,7 +74,7 @@ def intro_screen():
                         if r_btn_option_rect.collidepoint(x, y):
                             option()
 
-                        # temp_dino를 누르는 경우: 
+                        # temp_dino를 누르는 경우:
                         # if temp_dino.rect.collidepoint(x, y):
                         #     click_count += 1
                         #     type_idx = click_count % len(dino_type)
@@ -88,7 +88,7 @@ def intro_screen():
             r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.31 
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.31
             r_btn_board_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
             r_btn_option_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
 
@@ -200,7 +200,7 @@ def option():
             # if event.type == pygame.VIDEORESIZE:
             #     check_scr_size(event.w, event.h)
 
-        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5 
+        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5
         r_init_btn_rect.centery = resized_screen.get_height() * 0.5
         r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
         r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
@@ -313,16 +313,13 @@ def gameplay_easy():
     game_over = False
     game_quit = False
     # 게임 후 버튼
-    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 50, -1))
-    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 50, -1)
-    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 50, -1))
-    btn_save, btn_save_rect = load_image('btn_save.png', 150, 50, -1)
-    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 50, -1))
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 50, -1)
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 80, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', 150, 80, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
 
-    btn_restart_rect.center = (width * 0.25, height * 0.5)
-    btn_save_rect.center = (width * 0.5, height * 0.5)
-    btn_exit_rect.center = (width * 0.75,height * 0.5)
     ###
     life = 5
     ###
@@ -399,7 +396,7 @@ def gameplay_easy():
                             paused = not paused
                             paused = pausing()
 
-                    if event.type == pygame.KEYUP: 
+                    if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
                             player_dino.is_ducking = False
 
@@ -662,12 +659,10 @@ def gameplay_easy():
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
-                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
-                screen.blit(btn_restart, btn_restart_rect)
-                screen.blit(btn_save, btn_save_rect)
-                screen.blit(btn_exit, btn_exit_rect)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                disp_gameover_buttons(btn_restart, btn_save, btn_exit)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -695,7 +690,7 @@ def gameplay_hard():
     if result is not None:
         high_score = result['score']
 
-    # HERE: REMOVE SOUND!!    
+    # HERE: REMOVE SOUND!!
     if bgm_on:
         pygame.mixer.music.play(-1)  # 배경음악 실행
 
@@ -712,20 +707,18 @@ def gameplay_hard():
     paused = False
 
     # 게임 후 버튼
-    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 50, -1))
-    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 50, -1)
-    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 50, -1))
-    btn_save, btn_save_rect = load_image('btn_save.png', 150, 50, -1)
-    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 50, -1))
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 50, -1)
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 80, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', 150, 80, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
 
-    btn_restart_rect.center = (width * 0.25, height * 0.5)
-    btn_save_rect.center = (width * 0.5, height * 0.5)
-    btn_exit_rect.center = (width * 0.75, height * 0.5)
+
 
     # 디노 타입 때문에 변경된 부분
     player_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
-    # 
+    #
 
     new_ground = Ground(-1 * game_speed)
     scb = Scoreboard()
@@ -812,7 +805,7 @@ def gameplay_hard():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  
+                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
                                 player_dino.is_jumping = True
@@ -820,7 +813,7 @@ def gameplay_hard():
                                     jump_sound.play()
                                 player_dino.movement[1] = -1 * player_dino.jump_speed
 
-                        if event.key == pygame.K_DOWN:  
+                        if event.key == pygame.K_DOWN:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player_dino.is_jumping and player_dino.is_dead):
                                 player_dino.is_ducking = True
@@ -1365,12 +1358,10 @@ def gameplay_hard():
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.5
-                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.5
-                screen.blit(btn_restart, btn_restart_rect)
-                screen.blit(btn_save, btn_save_rect)
-                screen.blit(btn_exit, btn_exit_rect)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                disp_gameover_buttons(btn_restart, btn_save, btn_exit)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -1546,7 +1537,7 @@ def pausing():
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        pygame.mixer.music.unpause()  
+                        pygame.mixer.music.unpause()
                         # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
                         return False
 
