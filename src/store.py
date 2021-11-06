@@ -29,15 +29,15 @@ def store():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     if pygame.mouse.get_pressed() == (1, 0, 0):
-            #         x, y = event.pos
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                 if pygame.mouse.get_pressed() == (1, 0, 0):
+                     x, y = event.pos
             #         if r_char_btn_rect.collidepoint(x, y):
             #             #gameplay_easy()
             #         if r_skin_btn_rect.collidepoint(x, y):
             #             #gameplay_hard()
-            #         if r_item_btn_rect.collidepoint(x, y):
-            #             #store()
+                     if r_item_btn_rect.collidepoint(x, y):
+                         item_store()
 
         r_char_btn_rect.centerx = resized_screen.get_width() * 0.2
         r_char_btn_rect.centery = resized_screen.get_height() * 0.5
@@ -47,6 +47,91 @@ def store():
         r_item_btn_rect.centery = resized_screen.get_height() * 0.5
         screen.blit(back_store, back_store_rect)
         disp_store_buttons(char_btn_image, skin_btn_image, item_btn_image)
+        resized_screen.blit(
+            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+            resized_screen_center)
+        pygame.display.update()
+        clock.tick(FPS)
+    pygame.quit()
+    quit()
+
+def item_store():
+    global resized_screen
+    image_space = 0.3
+    game_start = False
+    btn_offset = 0.25
+    item_price_offset = 0.18
+    item_btn_offset = 0.28
+    # 배경 이미지
+    back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    # 코인 이미지
+    coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
+    coin1_image = transform.scale(coin1_image[0], (25,25))
+    coin1_rect = coin1_image.get_rect()
+    coin2_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
+    coin2_image = transform.scale(coin2_image[0], (25, 25))
+    coin2_rect = coin2_image.get_rect()
+    coin3_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
+    coin3_image = transform.scale(coin3_image[0], (25, 25))
+    coin3_rect = coin3_image.get_rect()
+    # 아이템 이미지
+    shield_image, _ = load_sprite_sheet('item.png', 2, 1, -1, -1, -1)
+    life_image, life_rect= load_image('heart_bullet.png', 70, 70, -1)
+    time_image, _ = load_sprite_sheet('slow_pic.png', 2, 1, -1, -1, -1)
+    shield_image = transform.scale(shield_image[0], (80, 80))
+    shield_rect = shield_image.get_rect()
+    time_image = transform.scale(time_image[0], (80, 80))
+    time_rect = time_image.get_rect()
+    #버튼 이미지
+    buy_btn1_image, buy_btn1_rect = load_image('buy.png', 100, 50, -1)
+    buy_btn2_image, buy_btn2_rect = load_image('buy.png', 100, 50, -1)
+    buy_btn3_image, buy_btn3_rect = load_image('buy.png', 100, 50, -1)
+    # 폰트
+    my_font = pygame.font.Font('DungGeunMo.ttf', 18)
+    shield_price = my_font.render('x 25', True, black)
+    life_price = my_font.render('x 25', True, black)
+    time_price = my_font.render('x 25', True, black)
+    #배치
+    (shield_rect.centerx, shield_rect.centery) = (width * 0.25, height * 0.37)
+    (coin1_rect.centerx, coin1_rect.centery) = (width * 0.23, height * (0.37 + item_price_offset))
+    shield_price_rect = shield_price.get_rect(center=(width * 0.28, height * (0.37 + item_price_offset)))
+    (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
+    #
+    (life_rect.centerx, life_rect.centery) = (width * (0.25 + btn_offset) , height * 0.37)
+    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.23 + btn_offset), height * (0.37 + item_price_offset))
+    life_price_rect = life_price.get_rect(center=(width * (0.28 + btn_offset), height * (0.37 + item_price_offset)))
+    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
+    #
+    (time_rect.centerx, time_rect.centery) = (width * (0.25 + 2 * btn_offset), height * 0.37)
+    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height *(0.37 + item_price_offset))
+    time_price_rect = time_price.get_rect(center=(width * (0.28 + 2 * btn_offset), height * (0.37 + item_price_offset)))
+    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+
+    while not game_start:
+        for event in pygame.event.get():
+            if event.type == pygame.VIDEORESIZE and not full_screen:
+                back_store_rect.bottomleft = (width * 0, height)
+            if event.type == pygame.VIDEORESIZE:
+                check_scr_size(event.w, event.h)
+            if event.type == pygame.QUIT:
+                game_start = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
+
+        screen.blit(back_store, back_store_rect)
+        screen.blit(coin1_image, coin1_rect)
+        screen.blit(coin2_image, coin2_rect)
+        screen.blit(coin3_image, coin3_rect)
+        screen.blit(shield_image, shield_rect)
+        screen.blit(life_image, life_rect)
+        screen.blit(time_image, time_rect)
+        screen.blit(buy_btn1_image, buy_btn1_rect)
+        screen.blit(buy_btn2_image, buy_btn2_rect)
+        screen.blit(buy_btn3_image, buy_btn3_rect)
+        screen.blit(shield_price, shield_price_rect)
+        screen.blit(life_price, life_price_rect)
+        screen.blit(time_price, time_price_rect)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
