@@ -4,6 +4,7 @@ from src.obstacle import *
 from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
+from src.store import store
 db = InterfDB("db/score.db")
 
 
@@ -55,8 +56,7 @@ def intro_screen():
                     # BACKGROUND IMG POS
                     background_rect.bottomleft = (width * 0, height)
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
+                    game_start = True
                 # 버튼 클릭했을 때 event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
@@ -275,6 +275,8 @@ def select_mode():
                         gameplay_easy()
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
+                    if r_btn_store_rect.collidepoint(x, y):
+                        store()
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
