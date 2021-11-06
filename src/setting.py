@@ -37,6 +37,7 @@ resized_screen_center = (0, 0)
 r_width = resized_screen.get_width()
 r_height = resized_screen.get_height()
 button_offset = 0.2
+width_offset = 0.3
 clock = time.Clock()
 on_pushtime = 0
 off_pushtime = 0
@@ -119,6 +120,21 @@ def disp_gameover_msg(gameover_img):
     gameover_rect.centery = height * 0.35
     screen.blit(gameover_img, gameover_rect)
 
+def disp_store_buttons(btn_restart, btn_save, btn_exit):
+    btn_restart_rect = btn_restart.get_rect()
+    btn_save_rect = btn_save.get_rect()
+    btn_exit_rect = btn_exit.get_rect()
+    btn_restart_rect.centerx = width * 0.2
+    btn_save_rect.centerx = width * (0.2 + width_offset)
+    btn_exit_rect.centerx = width * (0.2 + 2 * width_offset)
+    btn_restart_rect.centery = height * 0.5
+    btn_save_rect.centery = height * 0.5
+    btn_exit_rect.centery = height * 0.5
+    screen.blit(btn_restart, btn_restart_rect)
+    screen.blit(btn_save, btn_save_rect)
+    screen.blit(btn_exit, btn_exit_rect)
+
+
 def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     btn_restart_rect = btn_restart.get_rect()
     btn_save_rect = btn_save.get_rect()
@@ -126,12 +142,13 @@ def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     btn_restart_rect.centerx = width * 0.25
     btn_save_rect.centerx = width * 0.5
     btn_exit_rect.centerx = width * 0.75
-    btn_restart_rect.centery = height * 0.5
-    btn_save_rect.centery = height * 0.5
-    btn_exit_rect.centery = height * 0.5
+    btn_restart_rect.centery = height * 0.6
+    btn_save_rect.centery = height * 0.6
+    btn_exit_rect.centery = height * 0.6
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
+
 
 def disp_intro_buttons(btn_start, btn_board, btn_option):
     btn_start_rect = btn_start.get_rect()
