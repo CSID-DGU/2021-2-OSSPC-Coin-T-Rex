@@ -92,7 +92,7 @@ def load_sprite_sheet(sheet_name, nx, ny,
                       scalex=-1, scaley=-1, color_key=None):
     full_name = os.path.join('sprites', sheet_name)
     sheet = pygame.image.load(full_name)
-    sheet = sheet.convert()
+    sheet = sheet.convert_alpha()
     sheet_rect = sheet.get_rect()
     sprites = []
     sizex = sheet_rect.width / nx
@@ -100,6 +100,7 @@ def load_sprite_sheet(sheet_name, nx, ny,
     for i in range(0, ny):
         for j in range(0, nx):
             rect = Rect((j * sizex, i * sizey, sizex, sizey))
+            #Rect((left, top), (width, height)) -> Rect
             img = Surface(rect.size)
             img = img.convert()
             img.blit(sheet, (0, 0), rect)

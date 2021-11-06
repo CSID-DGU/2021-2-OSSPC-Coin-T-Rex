@@ -56,6 +56,9 @@ def intro_screen():
                     background_rect.bottomleft = (width * 0, height)
                 if event.type == pygame.QUIT:
                     game_start = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return False
                 # 버튼 클릭했을 때 event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
@@ -306,8 +309,8 @@ def gameplay_easy():
     result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
-        if bgm_on:
-           pygame.mixer.music.play(-1) # 배경음악 실행
+    if bgm_on:
+        pygame.mixer.music.play(-1) # 배경음악 실행
     game_speed = 4
     start_menu = False
     game_over = False
