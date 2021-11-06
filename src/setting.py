@@ -147,6 +147,20 @@ def disp_intro_buttons(btn_start, btn_board, btn_option):
     screen.blit(btn_board, btn_board_rect)
     screen.blit(btn_option, btn_option_rect)
 
+def disp_select_buttons(btn_easy, btn_hard, btn_store):
+    btn_easy_rect = btn_easy.get_rect()
+    btn_hard_rect = btn_hard.get_rect()
+    btn_store_rect = btn_store.get_rect()
+    btn_easy_rect.centerx = width * 0.5
+    btn_hard_rect.centerx = width * 0.5
+    btn_store_rect.centerx = width * 0.5
+    btn_easy_rect.centery = height * 0.31
+    btn_hard_rect.centery = height * (0.31 + button_offset)
+    btn_store_rect.centery = height * (0.31 + 2 * button_offset)
+    screen.blit(btn_easy, btn_easy_rect)
+    screen.blit(btn_hard, btn_hard_rect)
+    screen.blit(btn_store, btn_store_rect)
+
 
 def check_scr_size(eventw, eventh):
     if (eventw < width and eventh < height) or (eventw < width) or (eventh < height):
