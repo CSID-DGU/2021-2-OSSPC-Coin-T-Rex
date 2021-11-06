@@ -72,7 +72,7 @@ class Dino:
         self.duck_width = self.rect1.width
 
     def draw(self):
-        screen.blit(self.image,self.rect)
+        screen.blit(self.image, self.rect)
 
     #충돌판단
     def check_bounds(self):

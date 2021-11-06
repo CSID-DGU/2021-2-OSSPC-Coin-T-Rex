@@ -1,6 +1,10 @@
--- drop table if exists user;
+create table if not exists easy_mode (
+    user_id integer primary key autoincrement,
+    username string not null,
+    score string not null
+);
 
-create table if not exists user(
+create table if not exists hard_mode (
     user_id integer primary key autoincrement,
     username string not null,
     score string not null

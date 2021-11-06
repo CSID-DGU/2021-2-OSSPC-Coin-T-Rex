@@ -12,7 +12,7 @@ from pygame.locals import RESIZABLE, RLEACCEL
 
 mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
-display.set_caption("Milk Dragon's Adventure by_MilkDragon")
+display.set_caption("Coin-T-REX by_TwoSeokTwoJoo")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
 FPS = 60
@@ -119,6 +119,7 @@ def disp_gameover_msg(gameover_img):
     gameover_rect.centery = height * 0.35
     screen.blit(gameover_img, gameover_rect)
 
+
 def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     btn_restart_rect = btn_restart.get_rect()
     btn_save_rect = btn_save.get_rect()
@@ -133,6 +134,7 @@ def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
 
+
 def disp_intro_buttons(btn_start, btn_board, btn_option):
     btn_start_rect = btn_start.get_rect()
     btn_board_rect = btn_board.get_rect()
@@ -146,6 +148,7 @@ def disp_intro_buttons(btn_start, btn_board, btn_option):
     screen.blit(btn_start, btn_start_rect)
     screen.blit(btn_board, btn_board_rect)
     screen.blit(btn_option, btn_option_rect)
+
 
 def disp_select_buttons(btn_easy, btn_hard, btn_store):
     btn_easy_rect = btn_easy.get_rect()

@@ -44,7 +44,6 @@ class Cloud(pygame.sprite.Sprite):
 
 
 class Heart:
-
     def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1):
         self.images, self.rect = load_sprite_sheet("hpbar.png", 2, 1, sizex, sizey, -1)
         self.image = self.images[1]
@@ -63,7 +62,6 @@ class Heart:
 
 
 class HeartIndicator:
-
     def __init__(self, life):
         # self.heart_size = 40
         self.life = life
@@ -80,7 +78,6 @@ class HeartIndicator:
 
 
 class Scoreboard:
-
     def __init__(self, x=-1, y=-1):
         self.score = 0
         self.tempimages, self.temprect = load_sprite_sheet('numbers.png', 12, 1, 15, int(15*6/5), -1)
@@ -98,7 +95,7 @@ class Scoreboard:
     def draw(self):
         screen.blit(self.image, self.rect)
 
-    def update(self,score):
+    def update(self, score):
         score_digits = extract_digits(score)
         self.image.fill(background_col)
         for s in score_digits:

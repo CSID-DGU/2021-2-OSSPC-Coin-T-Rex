@@ -26,7 +26,6 @@ def intro_screen():
 
     # 이미지 로드
     # 배경 이미지
-    # TODO 배경 우리 조껄로 바꾸기
     background, background_rect = load_image('coin_t_rex.png', width, height)
     # 버튼 이미지
     r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
@@ -304,7 +303,7 @@ def select_mode():
 def gameplay_easy():
     global resized_screen
     global high_score
-    result = db.query_db("select score from user order by score desc;", one=True)
+    result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
         if bgm_on:
@@ -627,7 +626,7 @@ def gameplay_easy():
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score):
                                 db.query_db(
-                                    f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -645,7 +644,7 @@ def gameplay_easy():
                                 type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score):
                                     db.query_db(
-                                        f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                        f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                     db.commit()
                                     board()
                                 else:
@@ -692,7 +691,7 @@ def gameplay_easy():
 def gameplay_hard():
     global resized_screen
     global high_score
-    result = db.query_db("select score from user order by score desc;", one=True)
+    result = db.query_db("select score from hard_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
 
@@ -722,7 +721,7 @@ def gameplay_hard():
 
     btn_restart_rect.center = (width * 0.25, height * 0.5)
     btn_save_rect.center = (width * 0.5, height * 0.5)
-    btn_exit_rect.center = (width * 0.75,height * 0.5)
+    btn_exit_rect.center = (width * 0.75, height * 0.5)
 
     # 디노 타입 때문에 변경된 부분
     player_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
@@ -759,7 +758,9 @@ def gameplay_hard():
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
-
+    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 30, 30, -1)
+    heart_item_image, heart_item_rect = load_image('heart_bullet.png', 30, 30, -1)
+    slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
     HI_image = pygame.Surface((30, int(15 * 6 / 5)))
     HI_rect = HI_image.get_rect()
@@ -848,8 +849,6 @@ def gameplay_hard():
 
                         # shield item
                         if event.key == pygame.K_q:
-                            print("q")
-                            print(shield_item_count)
                             if shield_item_count > 0:
                                 if pygame.mixer.get_init() is not None:
                                     check_point_sound.play()
@@ -860,9 +859,7 @@ def gameplay_hard():
 
                         # life item
                         if event.key == pygame.K_w:
-                            print("e")
-                            print(life_item_count)
-                            if life_item_count > 0:
+                            if life_item_count > 0 and life < 5:
                                 if pygame.mixer.get_init() is not None:
                                     check_point_sound.play()
                                 life += 1
@@ -870,9 +867,7 @@ def gameplay_hard():
 
                         # slow item
                         if event.key == pygame.K_e:
-                            print("e")
-                            print(slow_item_count)
-                            if slow_item_count > 0:
+                            if slow_item_count > 0 and game_speed > 4:
                                 if pygame.mixer.get_init() is not None:
                                     check_point_sound.play()
                                 game_speed -= 1
@@ -1128,9 +1123,6 @@ def gameplay_hard():
                 PTERA_INTERVAL = 12
                 #
                 CLOUD_INTERVAL = 300
-                SHIELD_INTERVAL = 500
-                LIFE_INTERVAL = 1000
-                SLOW_INTERVAL = 1000
 
                 OBJECT_REFRESH_LINE = width * 0.8
                 MAGIC_NUM = 10
@@ -1259,6 +1251,15 @@ def gameplay_hard():
                     scb.draw()
                     speed_indicator.draw()
                     screen.blit(speed_text, (width * 0.01, height * 0.13))
+                    screen.blit(shield_item_image[0], (width * 0.01, height * 0.23))
+                    screen.blit(heart_item_image, (width * 0.01, height * 0.33))
+                    screen.blit(slow_item_image[0], (width * 0.01, height * 0.43))
+                    shield_item_count_text = font.render(f"X{shield_item_count}", True, black)
+                    life_item_count_text = font.render(f"X{life_item_count}", True, black)
+                    slow_item_count_text = font.render(f"X{slow_item_count}", True, black)
+                    screen.blit(shield_item_count_text, (width * 0.05, height * 0.23))
+                    screen.blit(life_item_count_text, (width * 0.05, height * 0.33))
+                    screen.blit(slow_item_count_text, (width * 0.05, height * 0.43))
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
@@ -1336,7 +1337,7 @@ def gameplay_hard():
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score):
                                 db.query_db(
-                                    f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -1354,7 +1355,7 @@ def gameplay_hard():
                                 type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score):
                                     db.query_db(
-                                        f"insert into user(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                        f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                     db.commit()
                                     board()
                                 else:
