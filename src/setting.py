@@ -164,10 +164,10 @@ def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     btn_2p_rect.centerx = width * 0.8
     btn_board_rect.centerx = width * 0.8
     btn_option_rect.centerx = width * 0.8
-    btn_1p_rect.centery = height * 0.3
-    btn_2p_rect.centery = height * (0.3 + 0.75 * button_offset)
-    btn_board_rect.centery = height * (0.3 + 1.5 * button_offset)
-    btn_option_rect.centery = height * (0.3 + 2.25 * button_offset)
+    btn_1p_rect.centery = height * 0.25
+    btn_2p_rect.centery = height * (0.25 + 0.75 * button_offset)
+    btn_board_rect.centery = height * (0.25 + 1.5 * button_offset)
+    btn_option_rect.centery = height * (0.25 + 2.25 * button_offset)
     screen.blit(btn_1p, btn_1p_rect)
     screen.blit(btn_2p, btn_2p_rect)
     screen.blit(btn_board, btn_board_rect)
@@ -183,9 +183,9 @@ def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_back):
     btn_hard_rect.centerx = width * 0.5
     btn_store_rect.centerx = width * 0.5
     btn_back_rect.centerx = width * 0.1
-    btn_easy_rect.centery = height * 0.31
-    btn_hard_rect.centery = height * (0.31 + button_offset)
-    btn_store_rect.centery = height * (0.31 + 2 * button_offset)
+    btn_easy_rect.centery = height * 0.26
+    btn_hard_rect.centery = height * (0.26 + button_offset)
+    btn_store_rect.centery = height * (0.26 + 2 * button_offset)
     btn_back_rect.centery = height * 0.1
     screen.blit(btn_easy, btn_easy_rect)
     screen.blit(btn_hard, btn_hard_rect)

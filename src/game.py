@@ -97,10 +97,10 @@ def intro_screen():
             r_btn_2p_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
-            r_btn_1p_rect.centery = resized_screen.get_height() * 0.3
-            r_btn_2p_rect.centery = resized_screen.get_height() * (0.3 + 0.75 * button_offset)
-            r_btn_board_rect.centery = resized_screen.get_height() * (0.3 + 1.5 * button_offset)
-            r_btn_option_rect.centery = resized_screen.get_height() * (0.3 + 2.25 * button_offset)
+            r_btn_1p_rect.centery = resized_screen.get_height() * 0.25
+            r_btn_2p_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.25+ 2.25 * button_offset)
 
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option)
@@ -296,11 +296,11 @@ def select_mode():
                 check_scr_size(event.w, event.h)
 
         r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
-        r_easy_btn_rect.centery = resized_screen.get_height() * 0.31
+        r_easy_btn_rect.centery = resized_screen.get_height() * 0.26
         r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.26 + button_offset)
         r_btn_store_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_store_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
+        r_btn_store_rect.centery = resized_screen.get_height() * (0.26 + 2 * button_offset)
         r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
         r_btn_back_rect.centery = resized_screen.get_height() * 0.1
 
@@ -1671,7 +1671,6 @@ def credit():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
@@ -1685,8 +1684,6 @@ def credit():
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
         pygame.display.update()
-
         clock.tick(FPS)
-
     pygame.quit()
     quit()
