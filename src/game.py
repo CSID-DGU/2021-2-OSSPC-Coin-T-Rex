@@ -28,8 +28,10 @@ def intro_screen():
     # 배경 이미지
     background, background_rect = load_image('coin_t_rex.png', width, height)
     # 버튼 이미지
-    r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
-    btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
+    r_btn_1p, r_btn_1p_rect = load_image(*resize('btn_1p.png', 150, 50, -1))
+    btn_1p, btn_1p_rect = load_image('btn_1p.png', 150, 50, -1)
+    r_btn_2p, r_btn_2p_rect = load_image(*resize('btn_2p.png', 150, 50, -1))
+    btn_2p, btn_2p_rect = load_image('btn_2p.png', 150, 50, -1)
     r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
@@ -63,13 +65,16 @@ def intro_screen():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
-                        # game button
-                        if r_btn_gamestart_rect.collidepoint(x, y):
+                        # 1player game button
+                        if r_btn_1p_rect.collidepoint(x, y):
                             #temp_dino.is_jumping = True
                             #temp_dino.is_blinking = False
                             temp_dino.movement[1] = -1 * temp_dino.jump_speed
                             game_start = True
                             select_mode()
+                        # 2player game button
+                        if r_btn_2p_rect.collidepoint(x, y):
+                            pass
                         # board button
                         if r_btn_board_rect.collidepoint(x, y):
                             board()
@@ -88,15 +93,17 @@ def intro_screen():
 
         # interface draw
         if pygame.display.get_surface() is not None:
-            r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_1p_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_2p_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.31
-            r_btn_board_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
-            r_btn_option_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
+            r_btn_1p_rect.centery = resized_screen.get_height() * 0.3
+            r_btn_2p_rect.centery = resized_screen.get_height() * (0.3 + 0.75 * button_offset)
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.3 + 1.5 * button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.3 + 2.25 * button_offset)
 
             screen.blit(background, background_rect)
-            disp_intro_buttons(btn_gamestart, btn_board, btn_option)
+            disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option)
 
             # temp_dino.draw()
             resized_screen.blit(
