@@ -151,17 +151,21 @@ def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     screen.blit(btn_exit, btn_exit_rect)
 
 
-def disp_intro_buttons(btn_start, btn_board, btn_option):
-    btn_start_rect = btn_start.get_rect()
+def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
+    btn_1p_rect = btn_1p.get_rect()
+    btn_2p_rect = btn_2p.get_rect()
     btn_board_rect = btn_board.get_rect()
     btn_option_rect = btn_option.get_rect()
-    btn_start_rect.centerx = width * 0.8
+    btn_1p_rect.centerx = width * 0.8
+    btn_2p_rect.centerx = width * 0.8
     btn_board_rect.centerx = width * 0.8
     btn_option_rect.centerx = width * 0.8
-    btn_start_rect.centery = height * 0.31
-    btn_board_rect.centery = height * (0.31 + button_offset)
-    btn_option_rect.centery = height * (0.31 + 2 * button_offset)
-    screen.blit(btn_start, btn_start_rect)
+    btn_1p_rect.centery = height * 0.3
+    btn_2p_rect.centery = height * (0.3 + 0.75 * button_offset)
+    btn_board_rect.centery = height * (0.3 + 1.5 * button_offset)
+    btn_option_rect.centery = height * (0.3 + 2.25 * button_offset)
+    screen.blit(btn_1p, btn_1p_rect)
+    screen.blit(btn_2p, btn_2p_rect)
     screen.blit(btn_board, btn_board_rect)
     screen.blit(btn_option, btn_option_rect)
 
