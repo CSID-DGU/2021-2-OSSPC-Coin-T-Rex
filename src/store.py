@@ -96,10 +96,11 @@ def item_store():
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # 폰트
+    s_price, l_price, t_price = 25, 25, 25
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
-    shield_price = my_font.render('x 25', True, black)
-    life_price = my_font.render('x 25', True, black)
-    time_price = my_font.render('x 25', True, black)
+    shield_price = my_font.render(f"x {s_price}", True, black)
+    life_price = my_font.render(f'x {l_price}', True, black)
+    time_price = my_font.render(f'x {t_price}', True, black)
     #배치
     (shield_rect.centerx, shield_rect.centery) = (width * 0.25, height * 0.37)
     (coin1_rect.centerx, coin1_rect.centery) = (width * 0.23, height * (0.37 + item_price_offset))
