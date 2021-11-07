@@ -2,7 +2,7 @@ from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
 db = InterfDB("db/score.db")
-
+import src.game
 
 def store():
     global resized_screen
@@ -17,6 +17,8 @@ def store():
     r_skin_btn_image, r_skin_btn_rect = load_image(*resize('skin.png', 150, 80,-1))
     item_btn_image, item_btn_rect = load_image('item_btn.png', 150, 80,-1)
     r_item_btn_image, r_item_btn_rect = load_image(*resize('item_btn.png', 150, 80,-1))
+    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
 
     while not game_start:
         for event in pygame.event.get():
@@ -38,6 +40,8 @@ def store():
             #             #gameplay_hard()
                      if r_item_btn_rect.collidepoint(x, y):
                          item_store()
+                     if r_back_btn_rect.collidepoint(x, y):
+                         src.game.select_mode()
 
         r_char_btn_rect.centerx = resized_screen.get_width() * 0.2
         r_char_btn_rect.centery = resized_screen.get_height() * 0.5
@@ -45,8 +49,10 @@ def store():
         r_skin_btn_rect.centery = resized_screen.get_height() * 0.5
         r_item_btn_rect.centerx = resized_screen.get_width() * (0.2 + 2 * width_offset)
         r_item_btn_rect.centery = resized_screen.get_height() * 0.5
+        r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
+        r_back_btn_rect.centery = resized_screen.get_height() * 0.1
         screen.blit(back_store, back_store_rect)
-        disp_store_buttons(char_btn_image, skin_btn_image, item_btn_image)
+        disp_store_buttons(char_btn_image, skin_btn_image, item_btn_image, back_btn_image)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
@@ -86,6 +92,9 @@ def item_store():
     buy_btn1_image, buy_btn1_rect = load_image('buy.png', 100, 50, -1)
     buy_btn2_image, buy_btn2_rect = load_image('buy.png', 100, 50, -1)
     buy_btn3_image, buy_btn3_rect = load_image('buy.png', 100, 50, -1)
+    #뒤로 가기 버튼 이미지
+    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # 폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     shield_price = my_font.render('x 25', True, black)
@@ -106,7 +115,9 @@ def item_store():
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height *(0.37 + item_price_offset))
     time_price_rect = time_price.get_rect(center=(width * (0.28 + 2 * btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
-
+    #
+    r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
+    r_back_btn_rect.centery = resized_screen.get_height() * 0.1
     while not game_start:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE and not full_screen:
@@ -118,6 +129,10 @@ def item_store():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
+            if pygame.mouse.get_pressed() == (1, 0, 0):
+                x, y = event.pos
+                if r_back_btn_rect.collidepoint(x, y):
+                    store()
 
         screen.blit(back_store, back_store_rect)
         screen.blit(coin1_image, coin1_rect)
@@ -132,6 +147,7 @@ def item_store():
         screen.blit(shield_price, shield_price_rect)
         screen.blit(life_price, life_price_rect)
         screen.blit(time_price, time_price_rect)
+        screen.blit(back_btn_image, back_btn_rect)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)

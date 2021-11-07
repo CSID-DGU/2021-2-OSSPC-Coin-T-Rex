@@ -122,19 +122,23 @@ def disp_gameover_msg(gameover_img):
     screen.blit(gameover_img, gameover_rect)
 
     
-def disp_store_buttons(btn_restart, btn_save, btn_exit):
+def disp_store_buttons(btn_restart, btn_save, btn_exit, btn_back):
     btn_restart_rect = btn_restart.get_rect()
     btn_save_rect = btn_save.get_rect()
     btn_exit_rect = btn_exit.get_rect()
+    btn_back_rect = btn_back.get_rect()
     btn_restart_rect.centerx = width * 0.2
     btn_save_rect.centerx = width * (0.2 + width_offset)
     btn_exit_rect.centerx = width * (0.2 + 2 * width_offset)
+    btn_back_rect.centerx = width * 0.1
     btn_restart_rect.centery = height * 0.5
     btn_save_rect.centery = height * 0.5
     btn_exit_rect.centery = height * 0.5
+    btn_back_rect.centery = height * 0.1
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
+    screen.blit(btn_back, btn_back_rect)
 
 def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     btn_restart_rect = btn_restart.get_rect()
@@ -170,19 +174,23 @@ def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     screen.blit(btn_option, btn_option_rect)
 
 
-def disp_select_buttons(btn_easy, btn_hard, btn_store):
+def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_back):
     btn_easy_rect = btn_easy.get_rect()
     btn_hard_rect = btn_hard.get_rect()
     btn_store_rect = btn_store.get_rect()
+    btn_back_rect = btn_back.get_rect()
     btn_easy_rect.centerx = width * 0.5
     btn_hard_rect.centerx = width * 0.5
     btn_store_rect.centerx = width * 0.5
+    btn_back_rect.centerx = width * 0.1
     btn_easy_rect.centery = height * 0.31
     btn_hard_rect.centery = height * (0.31 + button_offset)
     btn_store_rect.centery = height * (0.31 + 2 * button_offset)
+    btn_back_rect.centery = height * 0.1
     screen.blit(btn_easy, btn_easy_rect)
     screen.blit(btn_hard, btn_hard_rect)
     screen.blit(btn_store, btn_store_rect)
+    screen.blit(btn_back, btn_back_rect)
 
 
 def check_scr_size(eventw, eventh):
@@ -227,3 +235,9 @@ def resize(name, w, h, color):
 def text_size(size):
     font = pygame.font.Font('DungGeunMo.ttf', size)
     return font
+
+def score_board(btn_back):
+    btn_back_rect = btn_back.get_rect()
+    btn_back_rect.centerx = width * 0.1
+    btn_back_rect.centery = height * 0.1
+    screen.blit(btn_back, btn_back_rect)

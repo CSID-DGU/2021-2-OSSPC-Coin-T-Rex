@@ -264,6 +264,9 @@ def select_mode():
     #store button
     btn_store, btn_store_rect=load_image('store.png', 160,80,-1)
     r_btn_store, r_btn_store_rect=load_image(*resize('store.png', 160, 80, -1))
+    #back button
+    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # easymode_btn_rect.center = (width * 0.5, height * 0.3)
     # btn_hardmode_rect.center = (width * 0.5, height * 0.55)
     # btn_store_rect.center = (width * 0.5, height * 0.7)
@@ -286,6 +289,8 @@ def select_mode():
                         gameplay_hard()
                     if r_btn_store_rect.collidepoint(x, y):
                         store()
+                    if r_btn_back_rect.collidepoint(x, y):
+                        intro_screen()
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
@@ -296,9 +301,11 @@ def select_mode():
         r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.31 + button_offset)
         r_btn_store_rect.centerx = resized_screen.get_width() * 0.5
         r_btn_store_rect.centery = resized_screen.get_height() * (0.31 + 2 * button_offset)
+        r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
+        r_btn_back_rect.centery = resized_screen.get_height() * 0.1
 
         screen.blit(background, background_rect)
-        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store)
+        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_back)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
@@ -1410,12 +1417,17 @@ def board():
     title_rect.centerx = width * 0.5
     title_rect.centery = height * 0.2
 
+    #back button
+    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+
     while not game_quit:
         if pygame.display.get_surface() is None:
             game_quit = True
         else:
             screen_board.fill(background_col)
             screen_board.blit(title_image, title_rect)
+            screen_board.blit(btn_back, btn_back_rect)
             for i, result in enumerate(results):
                 top_i_surface = font.render(f"TOP {i + 1}", True, black)
                 name_inform_surface = font.render("Name", True, black)
@@ -1440,16 +1452,23 @@ def board():
                     if event.key == pygame.K_DOWN:
                         scroll_y = max(scroll_y - 15, -(len(results) // max_per_screen) * scr_size[1])
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if pygame.mouse.get_pressed() == (1, 0, 0):
+                        x, y = event.pos
+                        if r_btn_back_rect.collidepoint(x, y):
+                            intro_screen()  
                     if event.button == 4:
                         scroll_y = min(scroll_y + 15, 0)
                     if event.button == 5:
                         scroll_y = max(scroll_y - 15, -(len(results) // max_per_screen) * scr_size[1])
-                    if event.button == 1:
-                        game_quit = True
-                        intro_screen()
+                    #if event.button == 1:
+                        #game_quit = True
+                        #intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
-
+            r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
+            r_btn_back_rect.centery = resized_screen.get_height() * 0.1        
+            score_board(btn_back)
+            screen.blit(btn_back, btn_back_rect)
             screen.blit(screen_board, (0, scroll_y))
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -1475,13 +1494,17 @@ def gamerule():
     gamerule_rect.centerx = width * 0.5
     gamerule_rect.centery = height * 0.5
 
+    #back button
+    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+
     while not game_quit:
         if pygame.display.get_surface() is None:
             game_quit = True
         else:
             screen_board.fill(background_col)
             screen_board.blit(gamerule_image, gamerule_rect)
-
+            screen_board.blit(btn_back, btn_back_rect)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_quit = True
@@ -1491,13 +1514,19 @@ def gamerule():
                         # intro_screen()
                         option()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        game_quit = True
+                    if pygame.mouse.get_pressed() == (1, 0, 0):
+                        x, y = event.pos
+                        if r_btn_back_rect.collidepoint(x, y):
+                            option()
+                    #if event.button == 1:
+                        #game_quit = True
                         # intro_screen()
-                        option()
+                        #option()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
-
+            r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
+            r_btn_back_rect.centery = resized_screen.get_height() * 0.1        
+            score_board(btn_back)
             screen.blit(screen_board, (0, 0))
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
