@@ -28,14 +28,14 @@ def intro_screen():
     # 배경 이미지
     background, background_rect = load_image('coin_t_rex.png', width, height)
     # 버튼 이미지
-    r_btn_1p, r_btn_1p_rect = load_image(*resize('btn_1p.png', 150, 50, -1))
-    btn_1p, btn_1p_rect = load_image('btn_1p.png', 150, 50, -1)
-    r_btn_2p, r_btn_2p_rect = load_image(*resize('btn_2p.png', 150, 50, -1))
-    btn_2p, btn_2p_rect = load_image('btn_2p.png', 150, 50, -1)
-    r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
-    btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
-    r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
-    btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
+    r_btn_1p, r_btn_1p_rect = load_image(*resize('btn_1p.png', 150, 60, -1))
+    btn_1p, btn_1p_rect = load_image('btn_1p.png', 150, 60, -1)
+    r_btn_2p, r_btn_2p_rect = load_image(*resize('btn_2p.png', 150, 60, -1))
+    btn_2p, btn_2p_rect = load_image('btn_2p.png', 150, 60, -1)
+    r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 60, -1))
+    btn_board, btn_board_rect = load_image('btn_board.png', 150, 60, -1)
+    r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 60, -1))
+    btn_option, btn_option_rect = load_image('btn_option.png', 150, 60, -1)
 
 
     # DINO IMAGE
@@ -375,14 +375,11 @@ def gameplay_easy():
 
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
-    HI_image = pygame.Surface((30, int(15 * 6 / 5)))
+    my_font = pygame.font.Font('DungGeunMo.ttf', 30)
+    HI_image = my_font.render('HI', True, black)
     HI_rect = HI_image.get_rect()
-    HI_image.fill(background_col)
-    HI_image.blit(temp_images[10], temp_rect)
-    temp_rect.left += temp_rect.width
-    HI_image.blit(temp_images[11], temp_rect)
     HI_rect.top = height * 0.05
     HI_rect.left = width * 0.73
 
@@ -584,7 +581,7 @@ def gameplay_easy():
                     clouds.draw(screen)
                     scb.draw()
                     speed_indicator.draw()
-                    screen.blit(speed_text, (width * 0.01, height * 0.13))
+                    screen.blit(speed_text, (width * 0.01, height * 0.15))
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
@@ -772,17 +769,13 @@ def gameplay_hard():
 
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 30, 30, -1)
     heart_item_image, heart_item_rect = load_image('heart_bullet.png', 30, 30, -1)
     slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
-    temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
-    HI_image = pygame.Surface((30, int(15 * 6 / 5)))
+    my_font = pygame.font.Font('DungGeunMo.ttf', 30)
+    HI_image =my_font.render('HI', True, black)
     HI_rect = HI_image.get_rect()
-    HI_image.fill(background_col)
-    HI_image.blit(temp_images[10], temp_rect)
-    temp_rect.left += temp_rect.width
-    HI_image.blit(temp_images[11], temp_rect)
     HI_rect.top = height * 0.05
     HI_rect.left = width * 0.73
 
@@ -1286,7 +1279,7 @@ def gameplay_hard():
                     clouds.draw(screen)
                     scb.draw()
                     speed_indicator.draw()
-                    screen.blit(speed_text, (width * 0.01, height * 0.13))
+                    screen.blit(speed_text, (width * 0.01, height * 0.15))
                     screen.blit(shield_item_image[0], (width * 0.01, height * 0.23))
                     screen.blit(heart_item_image, (width * 0.01, height * 0.33))
                     screen.blit(slow_item_image[0], (width * 0.01, height * 0.43))
