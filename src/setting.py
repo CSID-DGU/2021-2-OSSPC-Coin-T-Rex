@@ -92,7 +92,7 @@ def load_sprite_sheet(sheet_name, nx, ny,
                       scalex=-1, scaley=-1, color_key=None):
     full_name = os.path.join('sprites', sheet_name)
     sheet = pygame.image.load(full_name)
-    sheet = sheet.convert_alpha()
+    sheet = sheet.convert()
     sheet_rect = sheet.get_rect()
     sprites = []
     sizex = sheet_rect.width / nx

@@ -72,7 +72,7 @@ def item_store():
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin1_image = transform.scale(coin1_image[0], (25,25))
+    coin1_image = transform.scale(coin1_image[0], (25, 25))
     coin1_rect = coin1_image.get_rect()
     coin2_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     coin2_image = transform.scale(coin2_image[0], (25, 25))

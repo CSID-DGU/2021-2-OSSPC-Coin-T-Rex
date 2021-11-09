@@ -638,13 +638,13 @@ def gameplay_easy():
                             game_over = False
                             game_quit = True
                             type_score(player_dino.score)
-                            if not db.is_limit_data(player_dino.score):
+                            if not db.is_limit_data(player_dino.score, mode="easy"):
                                 db.query_db(
                                     f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
-                                board()
+                                board("easy")
                             else:
-                                board()
+                                board("easy")
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         # game_over = True
@@ -656,13 +656,13 @@ def gameplay_easy():
 
                             if r_btn_save_rect.collidepoint(x, y):
                                 type_score(player_dino.score)
-                                if not db.is_limit_data(player_dino.score):
+                                if not db.is_limit_data(player_dino.score, mode="easy"):
                                     db.query_db(
                                         f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                     db.commit()
-                                    board()
+                                    board("easy")
                                 else:
-                                    board()
+                                    board("easy")
                             if r_btn_exit_rect.collidepoint(x, y):
                                 intro_screen()
                         # type_score(player_dino.score)
@@ -720,6 +720,8 @@ def gameplay_hard():
     shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
     life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
     slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
+    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+
     ###
     paused = False
 
@@ -755,6 +757,7 @@ def gameplay_hard():
     shield_items = pygame.sprite.Group()
     life_items = pygame.sprite.Group()
     slow_items = pygame.sprite.Group()
+    coin_items = pygame.sprite.Group()
 
     Cactus.containers = cacti
     FireCactus.containers = fire_cacti
@@ -763,7 +766,9 @@ def gameplay_hard():
     ShieldItem.containers = shield_items
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
-    Stone.containers = stones  # add stone containers
+    Stone.containers = stones
+    CoinItem.containers = coin_items
+
 
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
@@ -1127,6 +1132,16 @@ def gameplay_hard():
                         player_dino.collision_immune = False
                         player_dino.is_super = False
 
+                for c in coin_items:
+                    c.movement[0] = -1 * game_speed
+                    if pygame.sprite.collide_mask(player_dino, c):
+                        if pygame.mixer.get_init() is not None:
+                            check_point_sound.play()
+                        coin_item_count += 1
+                        c.kill()
+                    elif l.rect.right < 0:
+                        c.kill()
+
                 STONE_INTERVAL = 100
                 CACTUS_INTERVAL = 50
                 # 익룡을 더 자주 등장시키기 위해 12로 수정했습니다. (원래값은 300)
@@ -1142,6 +1157,16 @@ def gameplay_hard():
                     is_pking_time = True
                 else:
                     is_pking_time = False
+
+                if len(coin_items) < 2:
+                    if len(coin_items) == 0:
+                        last_obstacle.empty()
+                        last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
+                else:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
 
                 if is_pking_time:
                     if len(cacti) < 2:
@@ -1248,6 +1273,7 @@ def gameplay_hard():
                 speed_indicator.update(game_speed - 3)
                 heart.update(life)
                 slow_items.update()
+                coin_items.update()
 
                 # 보스몬스터 타임이면,
                 if is_pking_time:
@@ -1281,6 +1307,7 @@ def gameplay_hard():
                     shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
+                    coin_items.draw(screen)
 
                     # pkingtime이면, 보스몬스터를 보여줘라.
                     if is_pking_time:
@@ -1345,13 +1372,15 @@ def gameplay_hard():
                             game_over = False
                             game_quit = True
                             type_score(player_dino.score)
-                            if not db.is_limit_data(player_dino.score):
+                            if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
                                     f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                db.query_db(
+                                    f"update item set shield = {shield_item_count}, life = {life_item_count}, slow = {slow_item_count}, coin = {coin_item_count} where item_id=1;")
                                 db.commit()
-                                board()
+                                board("hard")
                             else:
-                                board()
+                                board("hard")
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         #game_over = False
@@ -1363,13 +1392,15 @@ def gameplay_hard():
 
                             if r_btn_save_rect.collidepoint(x, y):
                                 type_score(player_dino.score)
-                                if not db.is_limit_data(player_dino.score):
+                                if not db.is_limit_data(player_dino.score, mode="hard"):
                                     db.query_db(
                                         f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    db.query_db(
+                                        f"update item set shield = {shield_item_count}, life = {life_item_count}, slow = {slow_item_count}, coin = {coin_item_count} where item_id=1;")
                                     db.commit()
-                                    board()
+                                    board("hard")
                                 else:
-                                    board()
+                                    board("hard")
                             if r_btn_exit_rect.collidepoint(x, y):
                                 intro_screen()
 
@@ -1400,13 +1431,18 @@ def gameplay_hard():
     quit()
 
 
-def board():
+def board(mode=""):
     global resized_screen
     game_quit = False
     scroll_y = 0
     # 10
     max_per_screen = 10
-    results = db.query_db("select username, score from user order by score desc;")
+    if mode == "":
+        easy_mode_results = db.query_db(f"select username, score from easy_mode order by score desc;")
+        hard_mode_results = db.query_db(f"select username, score from hard_mode order by score desc;")
+        results = easy_mode_results if len(easy_mode_results) > len(hard_mode_results) else hard_mode_results
+    else:
+        results = db.query_db(f"select username, score from {mode}_mode order by score desc;")
     screen_board_height = resized_screen.get_height() + (len(results) // max_per_screen) * resized_screen.get_height()
     screen_board = pygame.surface.Surface((
         resized_screen.get_width(),
