@@ -119,6 +119,11 @@ def item_store():
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
+    #아이템
+    shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
+    life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
+    slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
+    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
     while not game_start:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE and not full_screen:
@@ -134,6 +139,11 @@ def item_store():
                 x, y = event.pos
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
+                if buy_btn1_rect.collidepoint(x, y):
+                    db.query_db(
+                        f"update item set shield = {shield_item_count -20 },  coin = {coin_item_count - 20} where item_id=1;")
+                    db.commit()
+
 
         screen.blit(back_store, back_store_rect)
         screen.blit(coin1_image, coin1_rect)

@@ -457,7 +457,6 @@ def gameplay_easy():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
-
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
@@ -474,7 +473,6 @@ def gameplay_easy():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
-
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
@@ -491,12 +489,10 @@ def gameplay_easy():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
-
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
-
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
@@ -516,7 +512,6 @@ def gameplay_easy():
                             s.kill()
 
                 STONE_INTERVAL = 50
-
                 CACTUS_INTERVAL = 50
                 PTERA_INTERVAL = 300
                 CLOUD_INTERVAL = 300
@@ -773,6 +768,7 @@ def gameplay_hard():
     shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 30, 30, -1)
     heart_item_image, heart_item_rect = load_image('heart_bullet.png', 30, 30, -1)
     slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
+    coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 30, 30, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     HI_image =my_font.render('HI', True, black)
     HI_rect = HI_image.get_rect()
@@ -889,12 +885,9 @@ def gameplay_hard():
                         # 3.a키에서 손을 떼면, 미사일이 발사 되지 않습니다.
                         if event.key == pygame.K_a:
                             space_go = False
-                        #
-
                         # 방향키 추가
                         if event.key == pygame.K_LEFT:
                             go_left = False
-
                         if event.key == pygame.K_RIGHT:
                             go_right = False
                         #
@@ -1283,12 +1276,15 @@ def gameplay_hard():
                     screen.blit(shield_item_image[0], (width * 0.01, height * 0.23))
                     screen.blit(heart_item_image, (width * 0.01, height * 0.33))
                     screen.blit(slow_item_image[0], (width * 0.01, height * 0.43))
+                    screen.blit(coin_image[0], (width * 0.01, height * 0.53))
                     shield_item_count_text = font.render(f"X{shield_item_count}", True, black)
                     life_item_count_text = font.render(f"X{life_item_count}", True, black)
                     slow_item_count_text = font.render(f"X{slow_item_count}", True, black)
+                    coin_count_text = font.render(f"X{coin_item_count}", True, black)
                     screen.blit(shield_item_count_text, (width * 0.05, height * 0.23))
                     screen.blit(life_item_count_text, (width * 0.05, height * 0.33))
                     screen.blit(slow_item_count_text, (width * 0.05, height * 0.43))
+                    screen.blit(coin_count_text, (width * 0.05, height * 0.53))
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
@@ -1382,7 +1378,6 @@ def gameplay_hard():
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):
                                 select_mode()
-
                             if r_btn_save_rect.collidepoint(x, y):
                                 type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score, mode="hard"):
