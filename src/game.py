@@ -136,19 +136,19 @@ def option():
 
     large_text = pygame.font.Font('freesansbold.ttf', 60)
     text_surf, text_rect = text_objects("[ OPTION ]", large_text)
-    btn_bgm_on, btn_bgm_on_rect = load_image('btn_bgm_on.png', 60, 60, -1)
-    btn_bgm_off, btn_bgm_off_rect = load_image('btn_bgm_off.png', 60, 60, -1)
-    r_btn_bgm_on, r_btn_bgm_on_rect = load_image(*resize('btn_bgm_on.png', 60, 60, -1))
-    init_btn_image, init_btn_rect = load_image('scorereset.png', 60, 60, -1)
-    r_init_btn_image, r_init_btn_rect = load_image(*resize('scorereset.png', 60, 60, -1))
-    btn_gamerule, btn_gamerule_rect = load_image('btn_gamerule.png', 60, 60, -1)
-    r_btn_gamerule, r_btn_gamerule_rect = load_image(*resize('btn_gamerule.png', 60, 60, -1))
+    btn_bgm_on, btn_bgm_on_rect = load_image('btn_bgm_on.png', 80, 80, -1)
+    btn_bgm_off, btn_bgm_off_rect = load_image('btn_bgm_off.png', 80, 80, -1)
+    r_btn_bgm_on, r_btn_bgm_on_rect = load_image(*resize('btn_bgm_on.png', 80, 80, -1))
+    init_btn_image, init_btn_rect = load_image('scorereset.png', 80, 80, -1)
+    r_init_btn_image, r_init_btn_rect = load_image(*resize('scorereset.png', 80, 80, -1))
+    btn_gamerule, btn_gamerule_rect = load_image('btn_gamerule.png', 80, 80, -1)
+    r_btn_gamerule, r_btn_gamerule_rect = load_image(*resize('btn_gamerule.png', 80, 80, -1))
     btn_home, btn_home_rect = load_image('main_button.png', 70, 62, -1)
     r_btn_home, r_btn_home_rect = load_image(*resize('main_button.png', 70, 62, -1))
     btn_credit, btn_credit_rect = load_image('btn_credit.png', 150, 50, -1)
-    r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', 150, 50, -1))
+    r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', 180, 80, -1))
 
-    text_rect.center = (width * 0.5, height * 0.2)
+    text_rect.center = (width * 0.5, height * 0.15)
     btn_bgm_on_rect.center = (width * 0.25, height * 0.5)
     init_btn_rect.center = (width * 0.5, height * 0.5)
     btn_gamerule_rect.center = (width * 0.75, height * 0.5)
@@ -1678,7 +1678,6 @@ def credit():
                 return False
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
-        screen.fill(white)
         screen.blit(creditimg, creditimg_rect)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
