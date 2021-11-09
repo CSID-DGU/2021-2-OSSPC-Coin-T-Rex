@@ -21,8 +21,8 @@ class InterfDB:
     def commit(self):
         self.db.commit()
 
-    def is_limit_data(self, score, limit=10):
-        num_of_data = self.query_db("select count(score) from user;")[0]['count(score)']
+    def is_limit_data(self, score, limit=10, mode=""):
+        num_of_data = self.query_db(f"select count(score) from {mode}_mode;")[0]['count(score)']
 
         try:
             last_data = self.query_db("select score from user order by score asc;", one=True)['score']
