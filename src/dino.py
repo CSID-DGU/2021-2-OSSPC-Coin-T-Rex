@@ -47,11 +47,17 @@ class Dino:
                                                          6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('black_dino_ducking.png',
                                                          2, 1, 59, sizey, -1)    
-        else: 
+        elif type == '2p_original': 
+            self.images, self.rect = load_sprite_sheet('dino(pvp).png', 
+                                                        6, 1, sizex, sizey, -1)
+            self.images1, self.rect1 = load_sprite_sheet('dino_ducking(pvp).png', 
+                                                        2, 1, 59, sizey, -1)
+        
+        else:
             self.images, self.rect = load_sprite_sheet('dino.png', 
                                                         6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1)
+            self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
+                                                         2, 1, 59, sizey, -1)                                    
 
         self.rect.bottom = int(0.98*height)
         self.rect.left = width/15
@@ -70,6 +76,7 @@ class Dino:
         self.is_super = False
         self.stand_width = self.rect.width
         self.duck_width = self.rect1.width
+        self.player1 = True
 
     def draw(self):
         screen.blit(self.image, self.rect)
