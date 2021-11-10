@@ -74,7 +74,7 @@ def intro_screen():
                             select_mode()
                         # 2player game button
                         if r_btn_2p_rect.collidepoint(x, y):
-                            pass
+                            pvp()
                         # board button
                         if r_btn_board_rect.collidepoint(x, y):
                             board()
@@ -1418,6 +1418,243 @@ def gameplay_hard():
     pygame.quit()
     quit()
 
+def pvp():
+    global resized_screen
+    global high_score
+
+    start_menu = False
+    game_over = False
+    game_quit = False
+    # HERE: REMOVE SOUND!!
+    if bgm_on:
+        pygame.mixer.music.play(-1)  # 배경음악 실행
+    
+    # 
+    player1_dino = Dino(dino_size[0], dino_size[1], type='original')
+    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original')
+
+    # 플레이어1과 플레이어 2의 목숨 수
+    life_1p = 5
+    life_2p = 5
+    heart_1p = HeartIndicator(life_1p)
+    heart_2p = HeartIndicator(life_2p)
+    game_speed = 4
+    new_ground = Ground(-1 * game_speed)
+    speed_indicator = Scoreboard(width * 0.12, height * 0.15)
+    counter = 0
+    #게임 중  pause 상태
+    paused = False
+
+    # 게임 후 버튼
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
+
+    # 방향키 구현
+    go_left_1p = False
+    go_right_1p = False
+    go_left_2p = False
+    go_right_2p = False
+
+    # 1. 미사일 발사.
+    space_go_1p = False
+    m_list_1p = []
+    bk_1p = 0
+
+    space_go_2p = False
+    m_list_2p = []
+    bk_2p = 0
+
+    while not game_quit:
+        while start_menu:
+            pass
+        while not game_over:
+            if pygame.display.get_surface() is None:
+                print("Couldn't load display surface")
+                game_quit = True
+                game_over = True
+            else:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        game_quit = True
+                        game_over = True
+
+                    if event.type == pygame.KEYDOWN:
+                        # 1p dino
+                        if event.key == pygame.K_w:
+                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                            if player1_dino.rect.bottom == int(0.98 * height):
+                                player1_dino.is_jumping = True
+                                player1_dino.movement[1] = -1 * player1_dino.jump_speed
+
+                        if event.key == pygame.K_s:
+                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                            if not (player1_dino.is_jumping and player1_dino.is_dead):
+                                player1_dino.is_ducking = True
+
+                        if event.key == pygame.K_a:
+                            # print("left")
+                            go_left_1p = True
+
+                        if event.key == pygame.K_d:
+                            # print("right")
+                            go_right_1p = True
+                        
+                        if event.key == pygame.K_LSHIFT:
+                            space_go_1p = True
+                            bk_1p = 0
+
+                        # 2p dino        
+                        if event.key == pygame.K_UP:
+                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                            if player2_dino.rect.bottom == int(0.98 * height):
+                                player2_dino.is_jumping = True
+                                player2_dino.movement[1] = -1 * player2_dino.jump_speed
+
+                        if event.key == pygame.K_DOWN:
+                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                            if not (player2_dino.is_jumping and player2_dino.is_dead):
+                                player2_dino.is_ducking = True
+
+                        if event.key == pygame.K_LEFT:
+                            # print("left")
+                            go_left_2p = True
+
+                        if event.key == pygame.K_RIGHT:
+                            # print("right")
+                            go_right_2p = True
+                        
+                        if event.key == pygame.K_ESCAPE:
+                            paused = not paused
+                            paused = pausing()
+
+                    if event.type == pygame.KEYUP:
+                        # 1p dino
+                        if event.key == pygame.K_s:
+                            player1_dino.is_ducking = False
+
+                        if event.key == pygame.K_a:
+                            go_left_1p = False
+
+                        if event.key == pygame.K_d:
+                            go_right_1p = False
+                        
+                        # 2p dino
+                        if event.key == pygame.K_DOWN:
+                            player2_dino.is_ducking = False
+
+                        if event.key == pygame.K_LEFT:
+                            go_left_2p = False
+
+                        if event.key == pygame.K_RIGHT:
+                            go_right_2p = False
+                    
+
+                    if event.type == pygame.VIDEORESIZE:
+                        check_scr_size(event.w, event.h)
+            if not paused:
+
+                if go_left_1p:
+                    if player1_dino.rect.left < 0:
+                        player1_dino.rect.left = 0
+                    else:
+                        player1_dino.rect.left = player1_dino.rect.left - game_speed
+
+                if go_right_1p:
+                    if player1_dino.rect.right > width:
+                        player1_dino.rect.right = width
+                    else:
+                        player1_dino.rect.left = player1_dino.rect.left + game_speed
+                
+                if go_left_2p:
+                    if player2_dino.rect.left < 0:
+                        player2_dino.rect.left = 0
+                    else:
+                        player2_dino.rect.left = player2_dino.rect.left - game_speed
+                
+                if go_right_2p:
+                    if player2_dino.rect.right > width:
+                        player2_dino.rect.right = width
+                    else:
+                        player2_dino.rect.left = player2_dino.rect.left + game_speed
+                
+                player1_dino.update()
+                player2_dino.update()
+
+                new_ground.update()
+                speed_indicator.update(game_speed - 3)
+                heart_1p.update(life_1p)
+                heart_2p.update(life_2p)
+
+                if pygame.display.get_surface() is not None:
+                    screen.fill(background_col)
+                    new_ground.draw()
+                player1_dino.draw()
+                player2_dino.draw()
+                resized_screen.blit(
+                        pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                        resized_screen_center)
+                pygame.display.update()
+                clock.tick(FPS)
+
+                if player1_dino.is_dead or player2_dino.is_dead:
+                    game_over = True
+                    pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
+
+        if game_quit:
+            break
+            
+        while game_over:
+            if pygame.display.get_surface() is None:
+                print("Couldn't load display surface")
+                game_quit = True
+                game_over = False
+            else:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        game_quit = True
+                        game_over = False
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            game_quit = True
+                            game_over = False
+
+                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                            game_over = False
+                            game_quit = True
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        #game_over = False
+                        #game_quit = True
+                        if pygame.mouse.get_pressed() == (1, 0, 0):
+                            x, y = event.pos
+                            if r_btn_restart_rect.collidepoint(x, y):
+                                select_mode()
+
+                            if r_btn_exit_rect.collidepoint(x, y):
+                                intro_screen()
+
+                    if event.type == pygame.VIDEORESIZE:
+                        check_scr_size(event.w, event.h)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                # disp_gameover_buttons(btn_restart, btn_exit)
+
+                resized_screen.blit(
+                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    resized_screen_center)
+                pygame.display.update()
+            if pygame.display.get_surface() is not None:
+                resized_screen.blit(
+                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    resized_screen_center)
+                pygame.display.update()
+            clock.tick(FPS)
+
+    pygame.quit()
+    quit()
+            
 
 def board(mode=""):
     global resized_screen
