@@ -7,7 +7,9 @@ import src.game
 global btn_offset
 global item_price_offset
 global item_btn_offset
-btn_offset = 0.2
+global char_offset
+char_offset = 0.2
+btn_offset = 0.25
 item_price_offset = 0.18
 item_btn_offset = 0.28
 
@@ -315,23 +317,23 @@ def char_store():
     (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
     (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
     #
-    (red_rect.centerx, red_rect.centery) = (width * (0.2 + btn_offset), height * 0.37)
-    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.18 + btn_offset), height * (0.37 + item_price_offset))
-    red_price_rect = red_price.get_rect(center=(width * (0.23 + btn_offset), height * (0.37 + item_price_offset)))
-    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.2 + btn_offset), height * (0.37 + item_btn_offset))
-    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.2 + btn_offset), height * (0.37 + item_btn_offset))
+    (red_rect.centerx, red_rect.centery) = (width * (0.2 + char_offset), height * 0.37)
+    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.18 + char_offset), height * (0.37 + item_price_offset))
+    red_price_rect = red_price.get_rect(center=(width * (0.23 + char_offset), height * (0.37 + item_price_offset)))
+    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
+    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
     #
-    (yellow_rect.centerx, yellow_rect.centery) = (width * (0.2 + 2 * btn_offset), height * 0.37)
-    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * btn_offset), height * (0.37 + item_price_offset))
-    yellow_price_rect = yellow_price.get_rect(center=(width * (0.23 + 2 * btn_offset), height * (0.37 + item_price_offset)))
-    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.2 + 2 * btn_offset), height * (0.37 + item_btn_offset))
-    (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.2 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+    (yellow_rect.centerx, yellow_rect.centery) = (width * (0.2 + 2 * char_offset), height * 0.37)
+    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * char_offset), height * (0.37 + item_price_offset))
+    yellow_price_rect = yellow_price.get_rect(center=(width * (0.23 + 2 * char_offset), height * (0.37 + item_price_offset)))
+    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+    (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     #
-    (tux_rect.centerx, tux_rect.centery) = (width * (0.2 + 3 * btn_offset), height * 0.37)
-    (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * btn_offset), height * (0.37 + item_price_offset))
-    tux_price_rect = tux_price.get_rect(center=(width * (0.23 + 3 * btn_offset), height * (0.37 + item_price_offset)))
-    (buy_btn4_rect.centerx, buy_btn4_rect.centery) = (width * (0.2 + 3 * btn_offset), height * (0.37 + item_btn_offset))
-    (no_money4_rect.centerx, no_money4_rect.centery) = (width * (0.2 + 3 * btn_offset), height * (0.37 + item_btn_offset))
+    (tux_rect.centerx, tux_rect.centery) = (width * (0.2 + 3 * char_offset), height * 0.37)
+    (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * char_offset), height * (0.37 + item_price_offset))
+    tux_price_rect = tux_price.get_rect(center=(width * (0.23 + 3 * char_offset), height * (0.37 + item_price_offset)))
+    (buy_btn4_rect.centerx, buy_btn4_rect.centery) = (width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
+    (no_money4_rect.centerx, no_money4_rect.centery) = (width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
