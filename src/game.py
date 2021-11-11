@@ -1252,7 +1252,6 @@ def gameplay_hard():
                 clouds.update()
                 shield_items.update()
                 life_items.update()
-
                 new_ground.update()
                 scb.update(player_dino.score)
                 highsc.update(high_score)
