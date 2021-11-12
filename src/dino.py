@@ -5,7 +5,7 @@ from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
 
 class Dino:
-    def __init__(self, sizex=-1, sizey=-1,type = None):
+    def __init__(self, sizex=-1, sizey=-1,type = None, loc = -1):
         self.type = type
         if type == 'ORIGINAL':
             self.images, self.rect = load_sprite_sheet('dino.png', 
@@ -59,8 +59,12 @@ class Dino:
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)                                    
 
-        self.rect.bottom = int(0.98*height)
-        self.rect.left = width/15
+        if loc == -1:
+            self.rect.bottom = int(0.98*height)
+            self.rect.left = width/15
+        else:
+            self.rect.bottom = int(0.98*height)
+            self.rect.left = width*(13/15)
         self.image = self.images[0]
         self.index = 0
         self.counter = 0

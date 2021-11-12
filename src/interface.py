@@ -62,10 +62,11 @@ class Heart:
 
 
 class HeartIndicator:
-    def __init__(self, life):
+    def __init__(self, life, loc = -1):
         # self.heart_size = 40
         self.life = life
         self.life_set = []
+        self.loc = loc
 
     def draw(self):
         for life in self.life_set:
@@ -73,8 +74,12 @@ class HeartIndicator:
 
     def update(self, life):
         self.life = life
+        if self.loc == -1:
         # self.life_set = [Heart(self.heart_size, self.heart_size, width * 0.01 + i * self.heart_size) for i in range(self.life)]
-        self.life_set = [Heart(object_size[0], object_size[1], width * 0.01 + i * (object_size[0]-i)) for i in range(self.life)]
+            self.life_set = [Heart(object_size[0], object_size[1], width * 0.01 + i * (object_size[0]-i)) for i in range(self.life)]
+        else:
+            self.life_set = [Heart(object_size[0], object_size[1], width * 0.76 + i * (object_size[0]-i)) for i in range(self.life)]
+        
 
 
 # class Scoreboards:
