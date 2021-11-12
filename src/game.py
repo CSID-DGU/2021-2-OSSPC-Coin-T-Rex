@@ -1430,13 +1430,13 @@ def pvp():
     
     # 
     player1_dino = Dino(dino_size[0], dino_size[1], type='original')
-    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original')
+    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original',loc=1)
 
     # 플레이어1과 플레이어 2의 목숨 수
     life_1p = 5
     life_2p = 5
     heart_1p = HeartIndicator(life_1p)
-    heart_2p = HeartIndicator(life_2p)
+    heart_2p = HeartIndicator(life_2p,loc = 1)
     game_speed = 4
     new_ground = Ground(-1 * game_speed)
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
@@ -1500,7 +1500,7 @@ def pvp():
                             # print("right")
                             go_right_1p = True
                         
-                        if event.key == pygame.K_LSHIFT:
+                        if event.key == pygame.K_LCTRL:
                             space_go_1p = True
                             bk_1p = 0
 
@@ -1523,6 +1523,10 @@ def pvp():
                         if event.key == pygame.K_RIGHT:
                             # print("right")
                             go_right_2p = True
+
+                        if event.key == pygame.K_RCTRL:
+                            space_go_2p = True
+                            bk_2p = 0
                         
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
@@ -1538,6 +1542,9 @@ def pvp():
 
                         if event.key == pygame.K_d:
                             go_right_1p = False
+
+                        if event.key == pygame.K_LCTRL:
+                            space_go_1p = False
                         
                         # 2p dino
                         if event.key == pygame.K_DOWN:
@@ -1548,7 +1555,9 @@ def pvp():
 
                         if event.key == pygame.K_RIGHT:
                             go_right_2p = False
-                    
+
+                        if event.key == pygame.K_RCTRL:
+                            space_go_2p = False
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
@@ -1566,6 +1575,52 @@ def pvp():
                     else:
                         player1_dino.rect.left = player1_dino.rect.left + game_speed
                 
+                if space_go_1p and (int(bk_1p % 15) == 0):
+                    # print(bk)
+                    missile_1p = Obj()
+
+                    # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
+                    if player1_dino.type == 'RED':
+                        missile_1p.put_img("./sprites/black_bullet.png")
+                        missile_1p.change_size(10, 10)
+                    elif player1_dino.type == 'YELLOW':
+                        missile_1p.put_img("./sprites/blue_bullet.png")
+                        missile_1p.change_size(10, 10)
+                    elif player1_dino.type == 'ORANGE':
+                        missile_1p.put_img("./sprites/blue_bullet.png")
+                        missile_1p.change_size(10, 10)
+                    elif player1_dino.type == 'PURPLE':
+                        missile_1p.put_img("./sprites/pink_bullet.png")
+                        missile_1p.change_size(15, 5)
+                    elif player1_dino.type == 'PINK':
+                        missile_1p.put_img("./sprites/heart_bullet.png")
+                        missile_1p.change_size(10, 10)
+                    else:
+                        missile_1p.put_img("./sprites/red_bullet.png")
+                        missile_1p.change_size(10, 10)
+
+                    if not player1_dino.is_ducking:
+                        missile_1p.x = round(player1_dino.rect.centerx)
+                        missile_1p.y = round(player1_dino.rect.top * 1.035)
+
+                    if player1_dino.is_ducking:
+                        missile_1p.x = round(player1_dino.rect.centerx)
+                        missile_1p.y = round(player1_dino.rect.centery * 1.01)
+                    missile_1p.move = 15
+                    m_list_1p.append(missile_1p)
+                bk_1p = bk_1p + 1
+                d_list_1p = []
+
+                for i in range(len(m_list_1p)):
+                    m = m_list_1p[i]
+                    m.x += m.move
+                    if m.x > width:
+                        d_list_1p.append(i)
+
+                d_list_1p.reverse()
+                for d in d_list_1p:
+                    del m_list_1p[d]
+
                 if go_left_2p:
                     if player2_dino.rect.left < 0:
                         player2_dino.rect.left = 0
@@ -1578,6 +1633,52 @@ def pvp():
                     else:
                         player2_dino.rect.left = player2_dino.rect.left + game_speed
                 
+                if space_go_2p and (int(bk_2p % 15) == 0):
+                    # print(bk)
+                    missile_2p = Obj()
+
+                    # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
+                    if player2_dino.type == 'RED':
+                        missile_2p.put_img("./sprites/black_bullet.png")
+                        missile_2p.change_size(10, 10)
+                    elif player2_dino.type == 'YELLOW':
+                        missile_2p.put_img("./sprites/blue_bullet.png")
+                        missile_2p.change_size(10, 10)
+                    elif player2_dino.type == 'ORANGE':
+                        missile_2p.put_img("./sprites/blue_bullet.png")
+                        missile_2p.change_size(10, 10)
+                    elif player2_dino.type == 'PURPLE':
+                        missile_2p.put_img("./sprites/pink_bullet.png")
+                        missile_2p.change_size(15, 5)
+                    elif player2_dino.type == 'PINK':
+                        missile_2p.put_img("./sprites/heart_bullet.png")
+                        missile_2p.change_size(10, 10)
+                    else:
+                        missile_2p.put_img("./sprites/red_bullet.png")
+                        missile_2p.change_size(10, 10)
+
+                    if not player2_dino.is_ducking:
+                        missile_2p.x = round(player2_dino.rect.centerx)
+                        missile_2p.y = round(player2_dino.rect.top * 1.035)
+
+                    if player2_dino.is_ducking:
+                        missile_2p.x = round(player2_dino.rect.centerx)
+                        missile_2p.y = round(player2_dino.rect.centery * 1.01)
+                    missile_2p.move = 15
+                    m_list_2p.append(missile_2p)
+                bk_2p = bk_2p + 1
+                d_list_2p = []
+
+                for i in range(len(m_list_2p)):
+                    m = m_list_2p[i]
+                    m.x -= m.move
+                    if m.x > width:
+                        d_list_2p.append(i)
+
+                d_list_2p.reverse()
+                for d in d_list_2p:
+                    del m_list_2p[d]
+                
                 player1_dino.update()
                 player2_dino.update()
 
@@ -1589,6 +1690,15 @@ def pvp():
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
                     new_ground.draw()
+
+                    heart_1p.draw()
+                    heart_2p.draw()
+                    
+                    for m in m_list_1p:
+                        m.show()
+
+                    for m in m_list_2p:
+                        m.show()
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
