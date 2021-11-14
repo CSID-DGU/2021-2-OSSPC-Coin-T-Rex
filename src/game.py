@@ -378,10 +378,10 @@ def gameplay_easy():
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
-    HI_image = my_font.render('HI', True, black)
-    HI_rect = HI_image.get_rect()
-    HI_rect.top = height * 0.05
-    HI_rect.left = width * 0.73
+    high_image = my_font.render('HI', True, black)
+    high_rect = high_image.get_rect()
+    high_rect.top = height * 0.15
+    high_rect.left = width * 0.73
 
     while not game_quit:
         while start_menu:
@@ -580,7 +580,7 @@ def gameplay_easy():
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
-                        screen.blit(HI_image, HI_rect)
+                        screen.blit(high_image, high_rect)
                     cacti.draw(screen)
                     stones.draw(screen)
                     fire_cacti.draw(screen)
@@ -681,7 +681,7 @@ def gameplay_easy():
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
                     highsc.draw()
-                    screen.blit(HI_image, HI_rect)
+                    screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -709,6 +709,7 @@ def gameplay_hard():
     game_quit = False
     ###
     life = 5
+    pking_life = 5
     shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
     life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
     slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
@@ -770,10 +771,10 @@ def gameplay_hard():
     slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
     coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 30, 30, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
-    HI_image =my_font.render('HI', True, black)
-    HI_rect = HI_image.get_rect()
-    HI_rect.top = height * 0.05
-    HI_rect.left = width * 0.73
+    high_image = my_font.render('HI', True, black)
+    high_rect = high_image.get_rect()
+    high_rect.top = height * 0.15
+    high_rect.left = width * 0.73
 
     # 1. 미사일 발사.
     space_go = False
@@ -792,7 +793,8 @@ def gameplay_hard():
     # 보스몬스터 변수설정
     is_pking_time = False
     is_pking_alive = True
-    pking = PteraKing()
+    pking = PteraKing(hp=pking_life)
+    pking_heart = HeartIndicator(pking.hp, loc=1)
     pm_list = []
     pm_vector = []
     pm_pattern0_count = 0
@@ -1191,7 +1193,13 @@ def gameplay_hard():
 
                             if pking.hp <= 0:
                                 pking.kill()
-                                is_pking_alive = False
+                                new_ground.speed -= 1
+                                game_speed += 1
+                                pking_life *= 1.2
+                                pking_life = int(pking_life)
+                                pking = PteraKing(hp=pking_life)
+                                pking_heart = HeartIndicator(pking.hp, loc=1)
+                                pking_appearance_score *= 2
 
                     #
                     if len(pm_list) == 0:
@@ -1257,6 +1265,7 @@ def gameplay_hard():
                 highsc.update(high_score)
                 speed_indicator.update(game_speed - 3)
                 heart.update(life)
+                pking_heart.update(pking.hp)
                 slow_items.update()
                 coin_items.update()
 
@@ -1275,7 +1284,7 @@ def gameplay_hard():
                     screen.blit(shield_item_image[0], (width * 0.01, height * 0.23))
                     screen.blit(heart_item_image, (width * 0.01, height * 0.33))
                     screen.blit(slow_item_image[0], (width * 0.01, height * 0.43))
-                    screen.blit(coin_image[0], (width * 0.01, height * 0.53))
+                    screen.blit(coin_image[0], (width * 0.60, height * 0.15))
                     shield_item_count_text = font.render(f"X{shield_item_count}", True, black)
                     life_item_count_text = font.render(f"X{life_item_count}", True, black)
                     slow_item_count_text = font.render(f"X{slow_item_count}", True, black)
@@ -1283,11 +1292,12 @@ def gameplay_hard():
                     screen.blit(shield_item_count_text, (width * 0.05, height * 0.23))
                     screen.blit(life_item_count_text, (width * 0.05, height * 0.33))
                     screen.blit(slow_item_count_text, (width * 0.05, height * 0.43))
-                    screen.blit(coin_count_text, (width * 0.05, height * 0.53))
+                    screen.blit(coin_count_text, (width * 0.65, height * 0.15))
                     heart.draw()
+                    pking_heart.draw()
                     if high_score != 0:
                         highsc.draw()
-                        screen.blit(HI_image, HI_rect)
+                        screen.blit(high_image, high_rect)
                     cacti.draw(screen)
                     fire_cacti.draw(screen)
                     stones.draw(screen)
@@ -1331,12 +1341,6 @@ def gameplay_hard():
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if player_dino.score > high_score:
                         high_score = player_dino.score
-
-                if counter % speed_up_limit == speed_up_limit - 1:
-                    new_ground.speed -= 1
-                    game_speed += 1
-
-                counter = (counter + 1)
 
         if game_quit:
             break
@@ -1407,7 +1411,7 @@ def gameplay_hard():
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
                     highsc.draw()
-                    screen.blit(HI_image, HI_rect)
+                    screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -1771,13 +1775,16 @@ def board(mode=""):
     scroll_y = 0
     # 10
     max_per_screen = 10
+    length = 0
+    results = ""
     if mode == "":
         easy_mode_results = db.query_db(f"select username, score from easy_mode order by score desc;")
         hard_mode_results = db.query_db(f"select username, score from hard_mode order by score desc;")
-        results = easy_mode_results if len(easy_mode_results) > len(hard_mode_results) else hard_mode_results
+        length = len(easy_mode_results) if len(easy_mode_results) > len(hard_mode_results) else len(hard_mode_results)
     else:
         results = db.query_db(f"select username, score from {mode}_mode order by score desc;")
-    screen_board_height = resized_screen.get_height() + (len(results) // max_per_screen) * resized_screen.get_height()
+        length = len(results)
+    screen_board_height = resized_screen.get_height() + (length // max_per_screen) * resized_screen.get_height()
     screen_board = pygame.surface.Surface((
         resized_screen.get_width(),
         screen_board_height
@@ -1798,18 +1805,49 @@ def board(mode=""):
             screen_board.fill(background_col)
             screen_board.blit(title_image, title_rect)
             screen_board.blit(btn_back, btn_back_rect)
-            for i, result in enumerate(results):
-                top_i_surface = font.render(f"TOP {i + 1}", True, black)
-                name_inform_surface = font.render("Name", True, black)
-                score_inform_surface = font.render("Score", True, black)
-                score_surface = font.render(str(result['score']), True, black)
-                txt_surface = font.render(result['username'], True, black)
+            if results:
+                for i, result in enumerate(results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
 
-                screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + 0.1 * i)))
-                screen_board.blit(name_inform_surface, (width * 0.4, height * 0.40))
-                screen_board.blit(score_inform_surface, (width * 0.6, height * 0.40))
-                screen_board.blit(txt_surface, (width * 0.4, height * (0.55 + 0.1 * i)))
-                screen_board.blit(score_surface, (width * 0.6, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.4, height * 0.40))
+                    screen_board.blit(score_inform_surface, (width * 0.6, height * 0.40))
+                    screen_board.blit(txt_surface, (width * 0.4, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(score_surface, (width * 0.6, height * (0.55 + 0.1 * i)))
+            else:
+                easy_mode_surface = font.render(f"[Easy Mode]", True, black)
+                hard_mode_surface = font.render(f"[Hard Mode]", True, black)
+                screen_board.blit(easy_mode_surface, (width * 0.2, height * 0.35))
+                screen_board.blit(hard_mode_surface, (width * 0.62, height * 0.35))
+                for i, result in enumerate(easy_mode_results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
+
+                    screen_board.blit(top_i_surface, (width * 0.05, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.2, height * 0.45))
+                    screen_board.blit(score_inform_surface, (width * 0.35, height * 0.45))
+                    screen_board.blit(txt_surface, (width * 0.2, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(score_surface, (width * 0.35, height * (0.55 + 0.1 * i)))
+
+                for i, result in enumerate(hard_mode_results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
+
+                    screen_board.blit(top_i_surface, (width * 0.5, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.62, height * 0.45))
+                    screen_board.blit(score_inform_surface, (width * 0.77, height * 0.45))
+                    screen_board.blit(txt_surface, (width * 0.62, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(score_surface, (width * 0.77, height * (0.55 + 0.1 * i)))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_quit = True
