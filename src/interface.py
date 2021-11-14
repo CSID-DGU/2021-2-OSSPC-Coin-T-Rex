@@ -28,11 +28,11 @@ class Ground:
 class Cloud(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.image, self.rect = load_image('cloud.png', int(90*30/42), 30, -1)
+        self.image, self.rect = load_image('cloud.png', int(90 * 30 / 42), 30, -1)
         self.speed = 1
         self.rect.left = x
         self.rect.top = y
-        self.movement = [-1*self.speed, 0]
+        self.movement = [-1 * self.speed, 0]
 
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -62,7 +62,7 @@ class Heart:
 
 
 class HeartIndicator:
-    def __init__(self, life, loc = -1):
+    def __init__(self, life, loc=-1):
         # self.heart_size = 40
         self.life = life
         self.life_set = []
@@ -75,11 +75,12 @@ class HeartIndicator:
     def update(self, life):
         self.life = life
         if self.loc == -1:
-        # self.life_set = [Heart(self.heart_size, self.heart_size, width * 0.01 + i * self.heart_size) for i in range(self.life)]
-            self.life_set = [Heart(object_size[0], object_size[1], width * 0.01 + i * (object_size[0]-i)) for i in range(self.life)]
+            # self.life_set = [Heart(self.heart_size, self.heart_size, width * 0.01 + i * self.heart_size) for i in range(self.life)]
+            self.life_set = [Heart(object_size[0], object_size[1], width * 0.01 + i * (object_size[0] - i)) for i in
+                             range(self.life)]
         else:
-            self.life_set = [Heart(object_size[0], object_size[1], width * 0.76 + i * (object_size[0]-i)) for i in range(self.life)]
-        
+            self.life_set = [Heart(object_size[0], object_size[1], width * 0.76 + i * (object_size[0] - i)) for i in
+                             range(self.life)]
 
 
 # class Scoreboards:
@@ -119,7 +120,7 @@ class Scoreboard:
         else:
             self.pos_x = x
         if y == -1:
-            self.pos_y = height*0.05
+            self.pos_y = height * 0.15
         else:
             self.pos_y = y
 
@@ -128,14 +129,14 @@ class Scoreboard:
 
     def update(self, score):
         score_digits = extract_digits(score)
-        #self.image.fill(background_col)
-        self.sc = self.my_font.render(f'{score}'.zfill(5),True, black)
+        # self.image.fill(background_col)
+        self.sc = self.my_font.render(f'{score}'.zfill(5), True, black)
         self.sc_rect = self.sc.get_rect()
         self.sc_rect.left = self.pos_x
         self.sc_rect.top = self.pos_y
 
 
-#이미지 배경
+# 이미지 배경
 class ImgBack:
     def __init__(self, speed=-5, name='ground'):
         self.image, self.rect = load_image(f'{name}.png', width, height)
@@ -143,18 +144,20 @@ class ImgBack:
         self.rect.bottom = height
         self.rect1.bottom = height
         self.rect1.left = self.rect.right
-        #화면 맞추기
+        # 화면 맞추기
         self.rect.bottom = height
         self.rect1.bottom = height
         self.rect.top = 0
         self.rect1.top = 0
-        #image1 우측에 붙이기
+        # image1 우측에 붙이기
         self.rect.left = 0
         self.rect1.left = self.rect.right
         self.speed = speed
+
     def draw(self):
         screen.blit(self.image, self.rect)
         screen.blit(self.image1, self.rect1)
+
     def update(self):
         self.rect.left += self.speed
         self.rect1.left += self.speed
@@ -162,4 +165,3 @@ class ImgBack:
             self.rect1.left = self.rect.right
         if self.rect1.right < width:
             self.rect.left = self.rect1.right
-
