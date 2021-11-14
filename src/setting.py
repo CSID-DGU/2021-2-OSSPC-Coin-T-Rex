@@ -154,6 +154,15 @@ def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
 
+def disp_pvp_gameover_buttons(btn_restart, btn_exit):
+    btn_restart_rect = btn_restart.get_rect()
+    btn_exit_rect = btn_exit.get_rect()
+    btn_restart_rect.centerx = width * 0.35
+    btn_exit_rect.centerx = width * 0.65
+    btn_restart_rect.centery = height * 0.6
+    btn_exit_rect.centery = height * 0.6
+    screen.blit(btn_restart, btn_restart_rect)
+    screen.blit(btn_exit, btn_exit_rect)
 
 def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     btn_1p_rect = btn_1p.get_rect()
