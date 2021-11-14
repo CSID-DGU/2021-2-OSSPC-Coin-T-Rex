@@ -1623,10 +1623,7 @@ def pvp():
                     for m_1p in m_list_1p:
                         if (m_1p.x >= player2_dino.rect.left) and (m_1p.x <= player2_dino.rect.right) and (
                                 m_1p.y > player2_dino.rect.top) and (m_1p.y < player2_dino.rect.bottom):
-                            print("공격에 맞음.")
-                            player2_dino.collision_immune = True
                             life_2p -= 1
-                            collision_time = pygame.time.get_ticks()
                             if life_2p == 0:
                                 player2_dino.is_dead = True
                             m_list_1p.remove(m_1p)
@@ -1696,10 +1693,7 @@ def pvp():
                     for m_2p in m_list_2p:
                         if (m_2p.x >= player1_dino.rect.left) and (m_2p.x <= player1_dino.rect.right) and (
                                 m_2p.y > player1_dino.rect.top) and (m_2p.y < player1_dino.rect.bottom):
-                            print("공격에 맞음.")
-                            player1_dino.collision_immune = True
                             life_1p -= 1
-                            collision_time = pygame.time.get_ticks()
                             if life_1p == 0:
                                 player1_dino.is_dead = True
                             m_list_2p.remove(m_2p)
