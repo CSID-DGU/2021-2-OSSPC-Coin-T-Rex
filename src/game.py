@@ -1443,7 +1443,8 @@ def pvp():
     counter = 0
     #게임 중  pause 상태
     paused = False
-
+    # 게임 종료 후 노출 문구
+    game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     # 게임 후 버튼
     r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
     btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
@@ -1456,7 +1457,7 @@ def pvp():
     go_left_2p = False
     go_right_2p = False
 
-    # 1. 미사일 발사.
+    # 미사일 발사.
     space_go_1p = False
     m_list_1p = []
     bk_1p = 0
@@ -1493,11 +1494,9 @@ def pvp():
                                 player1_dino.is_ducking = True
 
                         if event.key == pygame.K_a:
-                            # print("left")
                             go_left_1p = True
 
                         if event.key == pygame.K_d:
-                            # print("right")
                             go_right_1p = True
                         
                         if event.key == pygame.K_LCTRL:
@@ -1617,6 +1616,21 @@ def pvp():
                     if m.x > width:
                         d_list_1p.append(i)
 
+                # 1p의 미사일이 2p를 맞추었을 때
+                if len(m_list_1p) == 0:
+                        pass
+                else:
+                    for m_1p in m_list_1p:
+                        if (m_1p.x >= player2_dino.rect.left) and (m_1p.x <= player2_dino.rect.right) and (
+                                m_1p.y > player2_dino.rect.top) and (m_1p.y < player2_dino.rect.bottom):
+                            print("공격에 맞음.")
+                            player2_dino.collision_immune = True
+                            life_2p -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if life_2p == 0:
+                                player2_dino.is_dead = True
+                            m_list_1p.remove(m_1p)
+
                 d_list_1p.reverse()
                 for d in d_list_1p:
                     del m_list_1p[d]
@@ -1674,10 +1688,27 @@ def pvp():
                     m.x -= m.move
                     if m.x > width:
                         d_list_2p.append(i)
+                
+                # 2p의 미사일이 1p를 맞추었을 때
+                if len(m_list_2p) == 0:
+                        pass
+                else:
+                    for m_2p in m_list_2p:
+                        if (m_2p.x >= player1_dino.rect.left) and (m_2p.x <= player1_dino.rect.right) and (
+                                m_2p.y > player1_dino.rect.top) and (m_2p.y < player1_dino.rect.bottom):
+                            print("공격에 맞음.")
+                            player1_dino.collision_immune = True
+                            life_1p -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if life_1p == 0:
+                                player1_dino.is_dead = True
+                            m_list_2p.remove(m_2p)
+                    
 
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
+                
                 
                 player1_dino.update()
                 player2_dino.update()
@@ -1739,7 +1770,7 @@ def pvp():
                         if pygame.mouse.get_pressed() == (1, 0, 0):
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):
-                                select_mode()
+                                pvp()
 
                             if r_btn_exit_rect.collidepoint(x, y):
                                 intro_screen()
@@ -1748,13 +1779,14 @@ def pvp():
                         check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
-                # disp_gameover_buttons(btn_restart, btn_exit)
+                disp_pvp_gameover_buttons(btn_restart, btn_exit)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
                 pygame.display.update()
             if pygame.display.get_surface() is not None:
+                disp_gameover_msg(game_over_image)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
