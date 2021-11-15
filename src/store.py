@@ -121,8 +121,11 @@ def item_store():
     life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
     slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
     coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+    # 가격
+    s_price = db.query_db("select shield_price from item where item_id =1", one=True)['shield_price']
+    l_price = db.query_db("select life_price from item where item_id =1", one=True)['life_price']
+    t_price = db.query_db("select slow_price from item where item_id =1", one=True)['slow_price']
     # 폰트
-    s_price, l_price, t_price = 1, 1, 1
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     user_font = pygame.font.Font('DungGeunMo.ttf', 16)
     shield_price = my_font.render(f"x {s_price}", True, black)
@@ -301,10 +304,12 @@ def char_store():
     # 뒤로 가기 버튼 이미지
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
-    # 아이템
-
+    # 가격
+    p_price = db.query_db("select price from character where name = 'Purple'", one = True)['price']
+    r_price = db.query_db("select price from character where name = 'Red'", one=True)['price']
+    y_price = db.query_db("select price from character where name = 'Yellow'", one=True)['price']
+    t_price = db.query_db("select price from character where name = 'Tux'", one=True)['price']
     # 폰트
-    p_price, r_price, y_price, t_price = 1, 1, 1, 1
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     purple_price = my_font.render(f"x {p_price}", True, black)
     red_price = my_font.render(f'x {r_price}', True, black)
@@ -316,31 +321,35 @@ def char_store():
     purple_price_rect = purple_price.get_rect(center=(width * 0.23, height * (0.37 + item_price_offset)))
     (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
     (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
+    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
     #
     (red_rect.centerx, red_rect.centery) = (width * (0.2 + char_offset), height * 0.37)
     (coin2_rect.centerx, coin2_rect.centery) = (width * (0.18 + char_offset), height * (0.37 + item_price_offset))
     red_price_rect = red_price.get_rect(center=(width * (0.23 + char_offset), height * (0.37 + item_price_offset)))
     (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
     (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
+    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
     #
     (yellow_rect.centerx, yellow_rect.centery) = (width * (0.2 + 2 * char_offset), height * 0.37)
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * char_offset), height * (0.37 + item_price_offset))
     yellow_price_rect = yellow_price.get_rect(center=(width * (0.23 + 2 * char_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+    (sold_out3_rect.centerx, sold_out3_rect.centery) = (width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     #
     (tux_rect.centerx, tux_rect.centery) = (width * (0.2 + 3 * char_offset), height * 0.37)
     (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * char_offset), height * (0.37 + item_price_offset))
     tux_price_rect = tux_price.get_rect(center=(width * (0.23 + 3 * char_offset), height * (0.37 + item_price_offset)))
     (buy_btn4_rect.centerx, buy_btn4_rect.centery) = (width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
     (no_money4_rect.centerx, no_money4_rect.centery) = (width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
+    (sold_out4_rect.centerx, sold_out4_rect.centery) = (width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
     #
     (user_coin_rect.centerx, user_coin_rect.centery) = (width * (0.65 + btn_offset), height * 0.08)
     user_c_rect = user_coin.get_rect(center=(width * (0.69 + btn_offset), height * 0.08))
-
+    user_coin = user_font.render(f'X {coin_item_count}', True, black)
     while not game_start:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE and not full_screen:
@@ -356,18 +365,36 @@ def char_store():
                 x, y = event.pos
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                # if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
-                #     db.query_db(
-                #         f"update item set shield = {shield_item_count + 1},  coin = {coin_item_count - s_price} where item_id=1;")
-                #     db.commit()
-                # if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
-                #     db.query_db(
-                #         f"update item set life = {life_item_count + 1},  coin = {coin_item_count - l_price} where item_id=1;")
-                #     db.commit()
-                # if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
-                #     db.query_db(
-                #         f"update item set slow = {slow_item_count + 1},  coin = {coin_item_count - t_price} where item_id=1;")
-                #     db.commit()
+                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price:
+                    db.query_db(
+                        f"update character set  is_paid=1  where name = 'Purple';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - p_price} where item_id=1"
+                    )
+                    db.commit()
+                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price:
+                    db.query_db(
+                        f"update character set  is_paid=1  where name = 'Red';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - r_price} where item_id=1"
+                    )
+                    db.commit()
+                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price:
+                    db.query_db(
+                        f"update character set  is_paid=1  where name = 'Yellow';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - y_price} where item_id=1"
+                    )
+                    db.commit()
+                if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price:
+                    db.query_db(
+                        f"update character set  is_paid=1  where name = 'Tux';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - t_price} where item_id=1"
+                    )
+                    db.commit()
+        coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+        user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
         screen.blit(coin1_image, coin1_rect)
@@ -382,19 +409,38 @@ def char_store():
         screen.blit(red_price, red_price_rect)
         screen.blit(yellow_price, yellow_price_rect)
         screen.blit(tux_price, tux_price_rect)
-        if (coin_item_count >= p_price):
+        #구매했는지 내역
+        #구매했으면 1, 구매 안했으면 0
+        is_purple_buy = db.query_db("select is_paid from character where name = 'Purple';", one=True)['is_paid']
+        is_red_buy = db.query_db("select is_paid from character where name = 'Red';", one=True)['is_paid']
+        is_yellow_buy = db.query_db("select is_paid from character where name = 'Yellow';", one=True)['is_paid']
+        is_tux_buy = db.query_db("select is_paid from character where name = 'Tux';", one=True)['is_paid']
+
+        #구매했으면
+        if (is_purple_buy==1):
+            screen.blit(sold_out1_image, sold_out1_rect)
+        elif (coin_item_count >= p_price):
             screen.blit(buy_btn1_image, buy_btn1_rect)
         else:
             screen.blit(no_money1_image, no_money1_rect)
-        if (coin_item_count >= r_price):
+        #
+        if(is_red_buy ==1):
+            screen.blit(sold_out2_image, sold_out2_rect)
+        elif (coin_item_count >= r_price):
             screen.blit(buy_btn2_image, buy_btn2_rect)
         else:
             screen.blit(no_money2_image, no_money2_rect)
-        if (coin_item_count >= y_price):
+        #
+        if(is_yellow_buy==1):
+            screen.blit(sold_out3_image, sold_out3_rect)
+        elif (coin_item_count >= y_price):
             screen.blit(buy_btn3_image, buy_btn3_rect)
         else:
             screen.blit(no_money3_image, no_money3_rect)
-        if (coin_item_count >= t_price):
+        #
+        if(is_tux_buy ==1):
+            screen.blit(sold_out4_image, sold_out4_rect)
+        elif (coin_item_count >= t_price):
             screen.blit(buy_btn4_image, buy_btn4_rect)
         else:
             screen.blit(no_money4_image, no_money4_rect)
@@ -451,10 +497,11 @@ def skin_store():
     # 뒤로 가기 버튼 이미지
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
-    # 아이템
-
-    # 폰트
-    s_price, f_price, w_price = 1, 1, 1
+    # 가격
+    s_price = db.query_db("select price from skin where name = 'Spring'", one=True)['price']
+    f_price = db.query_db("select price from skin where name = 'Fall'", one=True)['price']
+    w_price = db.query_db("select price from skin where name = 'Winter'", one=True)['price']
+    #폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     spring_price = my_font.render(f"x {s_price}", True, black)
     fall_price = my_font.render(f'x {f_price}', True, black)
@@ -465,18 +512,21 @@ def skin_store():
     spring_price_rect = spring_price.get_rect(center=(width * 0.28, height * (0.37 + item_price_offset)))
     (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
     (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
+    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
     #
     (fall_rect.centerx, fall_rect.centery) = (width * (0.25 + btn_offset), height * 0.37)
     (coin2_rect.centerx, coin2_rect.centery) = (width * (0.23 + btn_offset), height * (0.37 + item_price_offset))
     fall_price_rect = fall_price.get_rect(center=(width * (0.28 + btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
     (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
+    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
     #
     (winter_rect.centerx, winter_rect.centery) = (width * (0.25 + 2 * btn_offset), height * 0.37)
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height * (0.37 + item_price_offset))
     winter_price_rect = winter_price.get_rect(center=(width * (0.28 + 2 * btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+    (sold_out3_rect.centerx, sold_out3_rect.centery) = (width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
@@ -500,18 +550,29 @@ def skin_store():
                 x, y = event.pos
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                # if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
-                #     db.query_db(
-                #         f"update item set shield = {shield_item_count + 1},  coin = {coin_item_count - s_price} where item_id=1;")
-                #     db.commit()
-                # if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
-                #     db.query_db(
-                #         f"update item set life = {life_item_count + 1},  coin = {coin_item_count - l_price} where item_id=1;")
-                #     db.commit()
-                # if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
-                #     db.query_db(
-                #         f"update item set slow = {slow_item_count + 1},  coin = {coin_item_count - t_price} where item_id=1;")
-                #     db.commit()
+                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
+                    db.query_db(
+                        f"update skin set  is_paid=1  where name = 'Spring';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - s_price} where item_id=1"
+                    )
+                    db.commit()
+                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
+                    db.query_db(
+                        f"update skin set  is_paid=1  where name = 'Fall';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - f_price} where item_id=1"
+                    )
+                    db.commit()
+                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price:
+                    db.query_db(
+                        f"update skin set  is_paid=1  where name = 'Winter';")
+                    db.query_db(
+                        f"update item set coin = {coin_item_count - w_price} where item_id=1"
+                    )
+                    db.commit()
+        coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+        user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
         screen.blit(coin1_image, coin1_rect)
@@ -523,19 +584,31 @@ def skin_store():
         screen.blit(spring_price, spring_price_rect)
         screen.blit(fall_price, fall_price_rect)
         screen.blit(winter_price, winter_price_rect)
-        if (coin_item_count >= s_price):
+        #구매 내역
+        #구매 했으면 1, 안했으면 0
+        is_spring_buy = db.query_db("select is_paid from skin where name = 'Spring';", one=True)['is_paid']
+        is_fall_buy = db.query_db("select is_paid from skin where name = 'Fall';", one=True)['is_paid']
+        is_winter_buy = db.query_db("select is_paid from skin where name = 'Winter';", one=True)['is_paid']
+        if(is_spring_buy == 1):
+            screen.blit(sold_out1_image, sold_out1_rect)
+        elif (coin_item_count >= s_price):
             screen.blit(buy_btn1_image, buy_btn1_rect)
         else:
             screen.blit(no_money1_image, no_money1_rect)
-        if (coin_item_count >= f_price):
+        #
+        if(is_fall_buy == 1):
+            screen.blit(sold_out2_image, sold_out2_rect)
+        elif (coin_item_count >= f_price):
             screen.blit(buy_btn2_image, buy_btn2_rect)
         else:
             screen.blit(no_money2_image, no_money2_rect)
-        if (coin_item_count >= w_price):
+        #
+        if(is_winter_buy == 1):
+            screen.blit(sold_out3_image, sold_out3_rect)
+        elif (coin_item_count >= w_price):
             screen.blit(buy_btn3_image, buy_btn3_rect)
         else:
             screen.blit(no_money3_image, no_money3_rect)
-        #sold out 버튼 구현 필요
         screen.blit(back_btn_image, back_btn_rect)
         screen.blit(user_coin, user_c_rect)
         screen.blit(user_coin_image, user_coin_rect)
