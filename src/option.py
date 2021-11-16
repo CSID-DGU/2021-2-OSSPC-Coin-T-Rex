@@ -332,13 +332,13 @@ def set():
     tux_rect = tux_image.get_rect()
     un_tux_image, un_tux_rect = load_image('unselect_tux.png', 50, 50, -1)
     #
-    check1, check1_rect = load_image('check.png', 50, 50, -1)
-    check2, check2_rect = load_image('check.png', 50, 50, -1)
-    check3, check3_rect = load_image('check.png', 50, 50, -1)
-    check4, check4_rect = load_image('check.png', 50, 50, -1)
-    check5, check5_rect = load_image('check.png', 50, 50, -1)
-    check6, check6_rect = load_image('check.png', 50, 50, -1)
-    check7, check7_rect = load_image('check.png', 50, 50, -1)
+    check1, check1_rect = load_image('check.png', 60, 60, -1)
+    check2, check2_rect = load_image('check.png', 60, 60, -1)
+    check3, check3_rect = load_image('check.png', 60, 60, -1)
+    check4, check4_rect = load_image('check.png', 60, 60, -1)
+    check5, check5_rect = load_image('check.png', 60, 60, -1)
+    check6, check6_rect = load_image('check.png', 60, 60, -1)
+    check7, check7_rect = load_image('check.png', 60, 60, -1)
 
     #각 skin, character 구매여부
     buy_spring =  db.query_db("select is_paid from skin where name='Spring'", one=True)['is_paid']
@@ -411,19 +411,19 @@ def set():
                         db.commit()
                     if purple_rect.collidepoint(x, y) and buy_purple == 1:
                         db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
+                            f"UPDATE character SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
                         db.commit()
                     if red_rect.collidepoint(x, y) and buy_red == 1:
                         db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
+                            f"UPDATE character SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
                         db.commit()
                     if yellow_rect.collidepoint(x, y) and buy_yellow == 1:
                         db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
+                            f"UPDATE character SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
                         db.commit()
                     if tux_rect.collidepoint(x, y) and buy_tux == 1:
                         db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Tux' THEN 1 ELSE 0 END;")
+                            f"UPDATE character SET is_apply = CASE WHEN name = 'Tux' THEN 1 ELSE 0 END;")
                         db.commit()
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
@@ -481,7 +481,7 @@ def set():
         #
         if buy_red == 1:
             screen.blit(red_image, red_rect)
-            if is_spring == 1:
+            if is_red == 1:
                 screen.blit(check5, check5_rect)
         else:
             screen.blit(un_red_image, un_red_rect)
