@@ -4,16 +4,16 @@ from src.obstacle import *
 from src.item import *
 from src.interface import *
 import src.game as game
+import src.setting as setting
 from src.game import *
 from db.db_interface import InterfDB
 from src.store import store
 db = InterfDB("db/score.db")
 
-
 def option():
     global on_pushtime
     global off_pushtime
-    global bgm_on
+    # global bgm_on
     global high_score
     global resized_screen
 
@@ -73,15 +73,15 @@ def option():
                     if r_btn_home_rect.collidepoint(x, y):
                         game.intro_screen()
 
-                    if r_btn_bgm_on_rect.collidepoint(x, y) and bgm_on:
+                    if r_btn_bgm_on_rect.collidepoint(x, y) and setting.bgm_on:
                         off_pushtime = pygame.time.get_ticks()
                         if off_pushtime - on_pushtime > btnpush_interval:
-                            bgm_on = False
+                            setting.bgm_on = False
 
-                    if r_btn_bgm_on_rect.collidepoint(x, y) and not bgm_on:
+                    if r_btn_bgm_on_rect.collidepoint(x, y) and not setting.bgm_on:
                         on_pushtime = pygame.time.get_ticks()
                         if on_pushtime - off_pushtime > btnpush_interval:
-                            bgm_on = True
+                            setting.bgm_on = True
 
                     if r_init_btn_rect.collidepoint(x, y):
                         db.query_db("delete from user;")
@@ -114,11 +114,11 @@ def option():
         screen.blit(btn_home, btn_home_rect)
         screen.blit(btn_credit, btn_credit_rect)
 
-        if bgm_on:
+        if setting.bgm_on:
             screen.blit(btn_bgm_on, btn_bgm_on_rect)
             r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
             r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
-        if not bgm_on:
+        if not setting.bgm_on:
             screen.blit(btn_bgm_off, btn_bgm_on_rect)
             r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
             r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
@@ -380,9 +380,6 @@ def set():
     (check7_rect.centerx, check7_rect.centery) = (width * (4 * char_offset), height * (char_height))
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
-
-    #배치 완료했고 조건별로 노출시키는 거 구현하기
-    #offset 함수 지정해서 보여주기
     while not game_start:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE and not full_screen:
