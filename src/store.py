@@ -282,7 +282,7 @@ def char_store():
     tux_image = transform.scale(tux_image[0], (60, 60))
     tux_rect = tux_image.get_rect()
     # user의 코인
-    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+    coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     user_coin_image = transform.scale(user_coin_image[0], (20, 20))
     user_coin_rect = user_coin_image.get_rect()
@@ -305,10 +305,10 @@ def char_store():
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # 가격
-    p_price = db.query_db("select price from character where name = 'Purple'", one = True)['price']
-    r_price = db.query_db("select price from character where name = 'Red'", one=True)['price']
-    y_price = db.query_db("select price from character where name = 'Yellow'", one=True)['price']
-    t_price = db.query_db("select price from character where name = 'Tux'", one=True)['price']
+    p_price = db.query_db("SELECT price FROM character WHERE name = 'Purple'", one = True)['price']
+    r_price = db.query_db("SELECT price FROM character WHERE name = 'Red'", one=True)['price']
+    y_price = db.query_db("SELECT price FROM character WHERE name = 'Yellow'", one=True)['price']
+    t_price = db.query_db("SELECT price FROM character WHERE name = 'Tux'", one=True)['price']
     # 폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     purple_price = my_font.render(f"x {p_price}", True, black)
@@ -367,33 +367,33 @@ def char_store():
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price:
                     db.query_db(
-                        f"update character set  is_paid=1  where name = 'Purple';")
+                        f"UPDATE character SET  is_paid=1  WHERE name = 'Purple';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - p_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - p_price} WHERE item_id=1"
                     )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price:
                     db.query_db(
-                        f"update character set  is_paid=1  where name = 'Red';")
+                        f"UPDATE character SET  is_paid=1  WHERE name = 'Red';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - r_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - r_price} WHERE item_id=1"
                     )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price:
                     db.query_db(
-                        f"update character set  is_paid=1  where name = 'Yellow';")
+                        f"UPDATE character SET  is_paid=1  WHERE name = 'Yellow';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - y_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - y_price} WHERE item_id=1"
                     )
                     db.commit()
                 if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price:
                     db.query_db(
-                        f"update character set  is_paid=1  where name = 'Tux';")
+                        f"UPDATE character SET  is_paid=1  WHERE name = 'Tux';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - t_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - t_price} WHERE item_id=1"
                     )
                     db.commit()
-        coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+        coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
@@ -411,10 +411,10 @@ def char_store():
         screen.blit(tux_price, tux_price_rect)
         #구매했는지 내역
         #구매했으면 1, 구매 안했으면 0
-        is_purple_buy = db.query_db("select is_paid from character where name = 'Purple';", one=True)['is_paid']
-        is_red_buy = db.query_db("select is_paid from character where name = 'Red';", one=True)['is_paid']
-        is_yellow_buy = db.query_db("select is_paid from character where name = 'Yellow';", one=True)['is_paid']
-        is_tux_buy = db.query_db("select is_paid from character where name = 'Tux';", one=True)['is_paid']
+        is_purple_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Purple';", one=True)['is_paid']
+        is_red_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Red';", one=True)['is_paid']
+        is_yellow_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Yellow';", one=True)['is_paid']
+        is_tux_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Tux';", one=True)['is_paid']
 
         #구매했으면
         if (is_purple_buy==1):
@@ -478,7 +478,7 @@ def skin_store():
     fall_image, fall_rect = load_image('ex_fall.png', 300, 280, -1)
     winter_image, winter_rect = load_image('ex_winter.png', 300, 280, -1)
     #user의 코인
-    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+    coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     user_coin_image = transform.scale(user_coin_image[0], (20, 20))
     user_coin_rect = user_coin_image.get_rect()
@@ -498,9 +498,9 @@ def skin_store():
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # 가격
-    s_price = db.query_db("select price from skin where name = 'Spring'", one=True)['price']
-    f_price = db.query_db("select price from skin where name = 'Fall'", one=True)['price']
-    w_price = db.query_db("select price from skin where name = 'Winter'", one=True)['price']
+    s_price = db.query_db("SELECT price FROM skin WHERE name = 'Spring'", one=True)['price']
+    f_price = db.query_db("SELECT price FROM skin WHERE name = 'Fall'", one=True)['price']
+    w_price = db.query_db("SELECT price FROM skin WHERE name = 'Winter'", one=True)['price']
     #폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     spring_price = my_font.render(f"x {s_price}", True, black)
@@ -552,26 +552,26 @@ def skin_store():
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
                     db.query_db(
-                        f"update skin set  is_paid=1  where name = 'Spring';")
+                        f"UPDATE skin SET  is_paid=1  WHERE name = 'Spring';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - s_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - s_price} WHERE item_id=1"
                     )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
                     db.query_db(
-                        f"update skin set  is_paid=1  where name = 'Fall';")
+                        f"UPDATE skin SET  is_paid=1  WHERE name = 'Fall';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - f_price} where item_id=1"
+                        f"update item SET coin = {coin_item_count - f_price} WHERE item_id=1"
                     )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price:
                     db.query_db(
-                        f"update skin set  is_paid=1  where name = 'Winter';")
+                        f"UPDATE skin SET  is_paid=1  WHERE name = 'Winter';")
                     db.query_db(
-                        f"update item set coin = {coin_item_count - w_price} where item_id=1"
+                        f"UPDATE item SET coin = {coin_item_count - w_price} WHERE item_id=1"
                     )
                     db.commit()
-        coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+        coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
@@ -586,9 +586,9 @@ def skin_store():
         screen.blit(winter_price, winter_price_rect)
         #구매 내역
         #구매 했으면 1, 안했으면 0
-        is_spring_buy = db.query_db("select is_paid from skin where name = 'Spring';", one=True)['is_paid']
-        is_fall_buy = db.query_db("select is_paid from skin where name = 'Fall';", one=True)['is_paid']
-        is_winter_buy = db.query_db("select is_paid from skin where name = 'Winter';", one=True)['is_paid']
+        is_spring_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Spring';", one=True)['is_paid']
+        is_fall_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Fall';", one=True)['is_paid']
+        is_winter_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Winter';", one=True)['is_paid']
         if(is_spring_buy == 1):
             screen.blit(sold_out1_image, sold_out1_rect)
         elif (coin_item_count >= s_price):
