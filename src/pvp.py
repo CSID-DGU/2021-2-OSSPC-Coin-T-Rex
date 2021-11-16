@@ -3,8 +3,10 @@ from src.dino import *
 from src.obstacle import *
 from src.item import *
 from src.interface import *
+from src.option import *
 from db.db_interface import InterfDB
 from src.store import store
+import src.game
 db = InterfDB("db/score.db")
 
 def pvp():
@@ -119,7 +121,7 @@ def pvp():
                         
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
-                            paused = pausing()
+                            paused = src.game.pausing()
 
                     if event.type == pygame.KEYUP:
                         # 1p dino
@@ -357,7 +359,7 @@ def pvp():
                                 pvp()
 
                             if r_btn_exit_rect.collidepoint(x, y):
-                                intro_screen()
+                                src.game.intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
