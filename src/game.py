@@ -3,6 +3,7 @@ from src.dino import *
 from src.obstacle import *
 from src.item import *
 from src.interface import *
+from src.option import *
 from db.db_interface import InterfDB
 from src.store import store
 db = InterfDB("db/score.db")
@@ -118,200 +119,6 @@ def intro_screen():
         #     game_start = True
         #     select_mode()
 
-    pygame.quit()
-    quit()
-
-
-def option():
-    global on_pushtime
-    global off_pushtime
-    global bgm_on
-    global high_score
-    global resized_screen
-
-    btnpush_interval = 500  # ms
-    pygame.mixer.music.stop()
-    done = False
-    db_init = False
-
-    large_text = pygame.font.Font('freesansbold.ttf', 60)
-    text_surf, text_rect = text_objects("[ OPTION ]", large_text)
-    btn_bgm_on, btn_bgm_on_rect = load_image('btn_bgm_on.png', 80, 80, -1)
-    btn_bgm_off, btn_bgm_off_rect = load_image('btn_bgm_off.png', 80, 80, -1)
-    r_btn_bgm_on, r_btn_bgm_on_rect = load_image(*resize('btn_bgm_on.png', 80, 80, -1))
-    init_btn_image, init_btn_rect = load_image('scorereset.png', 80, 80, -1)
-    r_init_btn_image, r_init_btn_rect = load_image(*resize('scorereset.png', 80, 80, -1))
-    btn_gamerule, btn_gamerule_rect = load_image('btn_gamerule.png', 80, 80, -1)
-    r_btn_gamerule, r_btn_gamerule_rect = load_image(*resize('btn_gamerule.png', 80, 80, -1))
-    btn_home, btn_home_rect = load_image('main_button.png', 70, 62, -1)
-    r_btn_home, r_btn_home_rect = load_image(*resize('main_button.png', 70, 62, -1))
-    btn_credit, btn_credit_rect = load_image('btn_credit.png', 150, 50, -1)
-    r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', 180, 80, -1))
-
-    text_rect.center = (width * 0.5, height * 0.15)
-    btn_bgm_on_rect.center = (width * 0.25, height * 0.5)
-    init_btn_rect.center = (width * 0.5, height * 0.5)
-    btn_gamerule_rect.center = (width * 0.75, height * 0.5)
-    btn_home_rect.center = (width * 0.9, height * 0.15)
-    btn_credit_rect.center = (width * 0.9, height * 0.85)
-
-    while not done:
-        for event in pygame.event.get():
-
-            # CHANGE SIZE START
-            if event.type == pygame.VIDEORESIZE and not full_screen:
-                # r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
-                # btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
-                # r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
-                # btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
-                # r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
-                # btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
-                pass
-                # IMGPOS
-                # BACKGROUND IMG POS
-                # background_rect.bottomleft = (width*0, height)
-
-            # CHANGE SIZE END
-
-            if event.type == pygame.QUIT:
-                done = True
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed() == (1, 0, 0):
-                    x, y = event.pos
-                    if r_btn_home_rect.collidepoint(x, y):
-                        intro_screen()
-
-                    if r_btn_bgm_on_rect.collidepoint(x, y) and bgm_on:
-                        off_pushtime = pygame.time.get_ticks()
-                        if off_pushtime - on_pushtime > btnpush_interval:
-                            bgm_on = False
-
-                    if r_btn_bgm_on_rect.collidepoint(x, y) and not bgm_on:
-                        on_pushtime = pygame.time.get_ticks()
-                        if on_pushtime - off_pushtime > btnpush_interval:
-                            bgm_on = True
-
-                    if r_init_btn_rect.collidepoint(x, y):
-                        db.query_db("delete from user;")
-                        db.commit()
-                        high_score = 0
-                        db_init = True
-
-                    if r_btn_gamerule_rect.collidepoint(x, y):
-                        gamerule()
-
-                    if r_btn_credit_rect.collidepoint(x, y):
-                        credit()
-
-            # if event.type == pygame.VIDEORESIZE:
-            #     check_scr_size(event.w, event.h)
-
-        r_init_btn_rect.centerx = resized_screen.get_width() * 0.5
-        r_init_btn_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
-        r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_home_rect.centerx = resized_screen.get_width() * 0.9
-        r_btn_home_rect.centery = resized_screen.get_height() * 0.15
-        r_btn_credit_rect.centerx = resized_screen.get_width() * 0.9
-        r_btn_credit_rect.centery = resized_screen.get_height() * 0.85
-
-        screen.fill(background_col)
-        screen.blit(text_surf, text_rect)
-        screen.blit(init_btn_image, init_btn_rect)
-        screen.blit(btn_gamerule, btn_gamerule_rect)
-        screen.blit(btn_home, btn_home_rect)
-        screen.blit(btn_credit, btn_credit_rect)
-
-        if bgm_on:
-            screen.blit(btn_bgm_on, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
-            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
-        if not bgm_on:
-            screen.blit(btn_bgm_off, btn_bgm_on_rect)
-            r_btn_bgm_on_rect.centerx = resized_screen.get_width() * 0.25
-            r_btn_bgm_on_rect.centery = resized_screen.get_height() * 0.5
-        if db_init:
-            draw_text("Scoreboard cleared", font, screen, 400, 300, black)
-
-        resized_screen.blit(
-            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                                    resized_screen_center)
-        pygame.display.update()
-
-        clock.tick(FPS)
-    pygame.quit()
-    quit()
-
-
-def select_mode():
-    global resized_screen
-    game_start = False
-    btnpush_interval = 500
-
-    # 배경 이미지
-    background, background_rect = load_image('coin_t_rex2.png', width, height)
-    # 버튼 이미지
-    # easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 160, 80, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 160, 80, -1))
-    # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 160, 80, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 160, 80, -1))
-    #store button
-    btn_store, btn_store_rect=load_image('store.png', 160,80,-1)
-    r_btn_store, r_btn_store_rect=load_image(*resize('store.png', 160, 80, -1))
-    #back button
-    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
-    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
-    # easymode_btn_rect.center = (width * 0.5, height * 0.3)
-    # btn_hardmode_rect.center = (width * 0.5, height * 0.55)
-    # btn_store_rect.center = (width * 0.5, height * 0.7)
-
-    while not game_start:
-        for event in pygame.event.get():
-            if event.type == pygame.VIDEORESIZE and not full_screen:
-                background_rect.bottomleft = (width * 0, height)
-            if event.type == pygame.QUIT:
-                game_start = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed() == (1, 0, 0):
-                    x, y = event.pos
-                    if r_easy_btn_rect.collidepoint(x, y):
-                        gameplay_easy()
-                    if r_btn_hardmode_rect.collidepoint(x, y):
-                        gameplay_hard()
-                    if r_btn_store_rect.collidepoint(x, y):
-                        store()
-                    if r_btn_back_rect.collidepoint(x, y):
-                        intro_screen()
-
-            if event.type == pygame.VIDEORESIZE:
-                check_scr_size(event.w, event.h)
-
-        r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
-        r_easy_btn_rect.centery = resized_screen.get_height() * 0.26
-        r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.26 + button_offset)
-        r_btn_store_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_store_rect.centery = resized_screen.get_height() * (0.26 + 2 * button_offset)
-        r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
-        r_btn_back_rect.centery = resized_screen.get_height() * 0.1
-
-        screen.blit(background, background_rect)
-        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_back)
-        resized_screen.blit(
-            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_center)
-        pygame.display.update()
-
-        clock.tick(FPS)
     pygame.quit()
     quit()
 
@@ -1421,6 +1228,7 @@ def gameplay_hard():
     pygame.quit()
     quit()
 
+
 def pvp():
     global resized_screen
     global high_score
@@ -1914,64 +1722,6 @@ def board(mode=""):
     quit()
 
 
-def gamerule():
-    global resized_screen
-    game_quit = False
-    max_per_screen = 10
-    screen_board_height = resized_screen.get_height()
-    screen_board = pygame.surface.Surface((
-        resized_screen.get_width(),
-        screen_board_height
-    ))
-
-    gamerule_image, gamerule_rect = load_image("gamerule.png", 800, 300, -1)
-    gamerule_rect.centerx = width * 0.5
-    gamerule_rect.centery = height * 0.5
-
-    #back button
-    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
-    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
-
-    while not game_quit:
-        if pygame.display.get_surface() is None:
-            game_quit = True
-        else:
-            screen_board.fill(background_col)
-            screen_board.blit(gamerule_image, gamerule_rect)
-            screen_board.blit(btn_back, btn_back_rect)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    game_quit = True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        game_quit = True
-                        # intro_screen()
-                        option()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if pygame.mouse.get_pressed() == (1, 0, 0):
-                        x, y = event.pos
-                        if r_btn_back_rect.collidepoint(x, y):
-                            option()
-                    #if event.button == 1:
-                        #game_quit = True
-                        # intro_screen()
-                        #option()
-                if event.type == pygame.VIDEORESIZE:
-                    check_scr_size(event.w, event.h)
-            r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
-            r_btn_back_rect.centery = resized_screen.get_height() * 0.1        
-            score_board(btn_back)
-            screen.blit(screen_board, (0, 0))
-            resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                resized_screen_center)
-            pygame.display.update()
-        clock.tick(FPS)
-
-    pygame.quit()
-    quit()
-
-
 def pausing():
     global resized_screen
     game_quit = False
@@ -2048,7 +1798,6 @@ def type_score(score):
     global width, height
     done = False
     active = True
-
     message_pos = (width * 0.25, height * 0.3)
     score_pos = (width * 0.35, height * 0.4)
     input_box_pos = (width * 0.43, height * 0.5)
@@ -2056,7 +1805,6 @@ def type_score(score):
     letter_num_restriction = 3
     input_box = pygame.Rect(input_box_pos[0], input_box_pos[1], 500, 50)
     color = pygame.Color('dodgerblue2')
-
     text = ''
     text2 = font.render("플레이어 이름을 입력해주세요", True, black)
     text3 = font.render(f"CURRENT SCORE: {score}", True, black)
@@ -2095,28 +1843,3 @@ def type_score(score):
         pygame.display.flip()
         clock.tick(FPS)
 
-
-def credit():
-    global resized_screen
-    done = False
-    creditimg, creditimg_rect = load_image('credit.png', width, height, -1)
-
-    while not done:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                return False
-            if event.type == pygame.VIDEORESIZE:
-                check_scr_size(event.w, event.h)
-        screen.blit(creditimg, creditimg_rect)
-        resized_screen.blit(
-            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-            resized_screen_center)
-        pygame.display.update()
-        clock.tick(FPS)
-    pygame.quit()
-    quit()
