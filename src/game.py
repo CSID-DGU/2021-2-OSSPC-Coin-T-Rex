@@ -7,7 +7,6 @@ from src.option import *
 from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
-import src.pvp
 db = InterfDB("db/score.db")
 
 
