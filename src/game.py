@@ -264,6 +264,9 @@ def select_mode():
     #store button
     btn_store, btn_store_rect=load_image('store.png', 160,80,-1)
     r_btn_store, r_btn_store_rect=load_image(*resize('store.png', 160, 80, -1))
+    #set button
+    btn_set, btn_set_rect = load_image('set.png', 160, 80, -1)
+    r_btn_set, r_btn_set_rect = load_image(*resize('set.png', 160, 80, -1))
     #back button
     btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
     r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
@@ -291,6 +294,8 @@ def select_mode():
                         store()
                     if r_btn_back_rect.collidepoint(x, y):
                         intro_screen()
+                    if r_btn_set_rect.collidepoint(x, y):
+                        set()
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
@@ -298,14 +303,16 @@ def select_mode():
         r_easy_btn_rect.centerx = resized_screen.get_width() * 0.5
         r_easy_btn_rect.centery = resized_screen.get_height() * 0.26
         r_btn_hardmode_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.26 + button_offset)
+        r_btn_hardmode_rect.centery = resized_screen.get_height() * (0.26 + select_offset)
         r_btn_store_rect.centerx = resized_screen.get_width() * 0.5
-        r_btn_store_rect.centery = resized_screen.get_height() * (0.26 + 2 * button_offset)
+        r_btn_store_rect.centery = resized_screen.get_height() * (0.26 + 2 * select_offset)
+        r_btn_set_rect.centerx = resized_screen.get_width() * 0.5
+        r_btn_set_rect.centery = resized_screen.get_height() * (0.26 + 3 * select_offset)
         r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
         r_btn_back_rect.centery = resized_screen.get_height() * 0.1
 
         screen.blit(background, background_rect)
-        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_back)
+        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_set,  btn_back)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
@@ -1421,6 +1428,7 @@ def gameplay_hard():
     pygame.quit()
     quit()
 
+
 def pvp():
     global resized_screen
     global high_score
@@ -2048,7 +2056,6 @@ def type_score(score):
     global width, height
     done = False
     active = True
-
     message_pos = (width * 0.25, height * 0.3)
     score_pos = (width * 0.35, height * 0.4)
     input_box_pos = (width * 0.43, height * 0.5)
@@ -2056,7 +2063,6 @@ def type_score(score):
     letter_num_restriction = 3
     input_box = pygame.Rect(input_box_pos[0], input_box_pos[1], 500, 50)
     color = pygame.Color('dodgerblue2')
-
     text = ''
     text2 = font.render("플레이어 이름을 입력해주세요", True, black)
     text3 = font.render(f"CURRENT SCORE: {score}", True, black)
@@ -2117,6 +2123,223 @@ def credit():
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
         pygame.display.update()
+        clock.tick(FPS)
+    pygame.quit()
+    quit()
+
+
+def set():
+    global resized_screen
+    game_start = False
+    btnpush_interval = 500
+    # 배경 이미지
+    background, background_rect = load_image('default_back.png', width, height)
+    #폰트 배치
+    big_font = pygame.font.Font('DungGeunMo.ttf', 40)
+    #뒤로가기
+    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    #폰트
+    char_title = big_font.render('CHARACTER', True, black)
+    skin_title = big_font.render('SKIN', True, black)
+    #
+    spring_image, spring_rect = load_image('ex_spring.png', 230, 210, -1)
+    un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
+    fall_image, fall_rect = load_image('ex_fall.png', 230, 210, -1)
+    un_fall_image, un_fall_rect = load_image('unselect_fall.png', 230, 210, -1)
+    winter_image, winter_rect = load_image('ex_winter.png', 230, 210, -1)
+    un_winter_image, un_winter_rect = load_image('unselect_winter.png', 230, 210, -1)
+    #
+    purple_image, _ = load_sprite_sheet('purple_dino.png', 6, 1, -1, -1, -1)
+    purple_image = transform.scale(purple_image[0], (50, 50))
+    purple_rect = purple_image.get_rect()
+    un_purple_image, un_purple_rect = load_image('unselect_purple.png', 50, 50, -1)
+    red_image, _ = load_sprite_sheet('red_dino.png', 6, 1, -1, -1, -1)
+    red_image = transform.scale(red_image[0], (50, 50))
+    red_rect = red_image.get_rect()
+    un_red_image, un_red_rect = load_image('unselect_red.png', 50, 50, -1)
+    yellow_image, _ = load_sprite_sheet('yellow_dino.png', 6, 1, -1, -1, -1)
+    yellow_image = transform.scale(yellow_image[0], (50, 50))
+    yellow_rect = yellow_image.get_rect()
+    un_yellow_image, un_yellow_rect = load_image('unselect_yellow.png', 50, 50, -1)
+    tux_image, _ = load_sprite_sheet('tux.png', 8, 9, -1, -1, -1)
+    tux_image = transform.scale(tux_image[0], (50, 50))
+    tux_rect = tux_image.get_rect()
+    un_tux_image, un_tux_rect = load_image('unselect_tux.png', 50, 50, -1)
+    #
+    check1, check1_rect = load_image('check.png', 50, 50, -1)
+    check2, check2_rect = load_image('check.png', 50, 50, -1)
+    check3, check3_rect = load_image('check.png', 50, 50, -1)
+    check4, check4_rect = load_image('check.png', 50, 50, -1)
+    check5, check5_rect = load_image('check.png', 50, 50, -1)
+    check6, check6_rect = load_image('check.png', 50, 50, -1)
+    check7, check7_rect = load_image('check.png', 50, 50, -1)
+
+    #각 skin, character 구매여부
+    buy_spring =  db.query_db("select is_paid from skin where name='Spring'", one=True)['is_paid']
+    buy_fall = db.query_db("select is_paid from skin where name='Fall'", one=True)['is_paid']
+    buy_winter = db.query_db("select is_paid from skin where name='Winter'", one=True)['is_paid']
+    buy_purple = db.query_db("select is_paid from character where name='Purple'", one=True)['is_paid']
+    buy_red = db.query_db("select is_paid from character where name='Red'", one=True)['is_paid']
+    buy_yellow = db.query_db("select is_paid from character where name='Yellow'", one=True)['is_paid']
+    buy_tux = db.query_db("select is_paid from character where name='Tux'", one=True)['is_paid']
+    #오프셋 지정
+    skin_height = 0.32
+    char_height = 0.72
+    skin_offset = 0.25
+    char_offset = 0.2
+    # 배치
+    skin_title_rect = skin_title.get_rect(center = (width * 0.5, height * 0.13))
+    (check1_rect.centerx, check1_rect.centery) = (width * (skin_offset), height * (skin_height))
+    (spring_rect.centerx, spring_rect.centery) = (width * (skin_offset), height * (skin_height))
+    (un_spring_rect.centerx, un_spring_rect.centery) = (width * (skin_offset), height * (skin_height))
+    (check2_rect.centerx, check2_rect.centery) = (width * (2 * skin_offset), height * (skin_height))
+    (fall_rect.centerx, fall_rect.centery) = (width * (2 * skin_offset), height * (skin_height))
+    (un_fall_rect.centerx, un_fall_rect.centery) = (width * (2 * skin_offset), height * (skin_height))
+    (check3_rect.centerx, check3_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
+    (winter_rect.centerx, winter_rect.centery) = (width *(3 * skin_offset), height * (skin_height))
+    (un_winter_rect.centerx, un_winter_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
+    #
+    char_title_rect = char_title.get_rect(center=(width * 0.5, height * 0.55))
+    (purple_rect.centerx, purple_rect.centery) = (width * (char_offset), height * (char_height))
+    (un_purple_rect.centerx, un_purple_rect.centery) = (width * (char_offset), height * (char_height))
+    (check4_rect.centerx, check4_rect.centery) = (width * (char_offset), height * (char_height))
+    (red_rect.centerx, red_rect.centery) = (width * (2 * char_offset), height *(char_height))
+    (un_red_rect.centerx, un_red_rect.centery) = (width * (2 * char_offset), height * (char_height))
+    (check5_rect.centerx, check5_rect.centery) = (width * (2 * char_offset), height * (char_height))
+    (yellow_rect.centerx, yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
+    (un_yellow_rect.centerx, un_yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
+    (check6_rect.centerx, check6_rect.centery) = (width * (3 * char_offset), height * (char_height))
+    (tux_rect.centerx, tux_rect.centery) = (width * (4 * char_offset), height *(char_height))
+    (un_tux_rect.centerx, un_tux_rect.centery) = (width * (4 * char_offset), height * (char_height))
+    (check7_rect.centerx, check7_rect.centery) = (width * (4 * char_offset), height * (char_height))
+    r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
+    r_back_btn_rect.centery = resized_screen.get_height() * 0.1
+
+    #배치 완료했고 조건별로 노출시키는 거 구현하기
+    #offset 함수 지정해서 보여주기
+    while not game_start:
+        for event in pygame.event.get():
+            if event.type == pygame.VIDEORESIZE and not full_screen:
+                background_rect.bottomleft = (width * 0, height)
+            if event.type == pygame.QUIT:
+                game_start = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed() == (1, 0, 0):
+                    x, y = event.pos
+                    if r_back_btn_rect.collidepoint(x, y):
+                        select_mode()
+                    if spring_rect.collidepoint(x, y) and buy_spring == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Spring' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if fall_rect.collidepoint(x, y) and buy_fall == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Fall' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if winter_rect.collidepoint(x, y) and buy_winter == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Winter' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if purple_rect.collidepoint(x, y) and buy_purple == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if red_rect.collidepoint(x, y) and buy_red == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if yellow_rect.collidepoint(x, y) and buy_yellow == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
+                        db.commit()
+                    if tux_rect.collidepoint(x, y) and buy_tux == 1:
+                        db.query_db(
+                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Tux' THEN 1 ELSE 0 END;")
+                        db.commit()
+            if event.type == pygame.VIDEORESIZE:
+                check_scr_size(event.w, event.h)
+
+        # 각 skin 및 char 적용 여부
+        is_spring = db.query_db("select is_apply from skin where name='Spring'", one=True)['is_apply']
+        is_fall = db.query_db("select is_apply from skin where name = 'Fall'", one=True)['is_apply']
+        is_winter = db.query_db("select is_apply from skin where name = 'Winter'", one=True)['is_apply']
+        is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
+        is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
+        is_yellow = db.query_db("select is_apply from character where name = 'Yellow'", one=True)['is_apply']
+        is_tux = db.query_db("select is_apply from character where name = 'Tux'", one=True)['is_apply']
+        # (갱신)) 구매여부
+        buy_spring = db.query_db("select is_paid from skin where name='Spring'", one=True)['is_paid']
+        buy_fall = db.query_db("select is_paid from skin where name='Fall'", one=True)['is_paid']
+        buy_winter = db.query_db("select is_paid from skin where name='Winter'", one=True)['is_paid']
+        buy_purple = db.query_db("select is_paid from character where name='Purple'", one=True)['is_paid']
+        buy_red = db.query_db("select is_paid from character where name='Red'", one=True)['is_paid']
+        buy_yellow = db.query_db("select is_paid from character where name='Yellow'", one=True)['is_paid']
+        buy_tux = db.query_db("select is_paid from character where name='Tux'", one=True)['is_paid']
+
+        screen.blit(background, background_rect)
+        screen.blit(char_title, char_title_rect)
+        screen.blit(skin_title, skin_title_rect)
+        screen.blit(back_btn_image, back_btn_rect)
+        #is_apply = 1은 적용 됐다는 뜻, 0은 안됐다는 뜻
+        #is_paied = 1은 샀다는 뜻, 0은 안샀다는 뜻
+        if buy_spring == 1:
+            screen.blit(spring_image, spring_rect)
+            if is_spring == 1:
+                screen.blit(check1, check1_rect)
+        else:
+            screen.blit(un_spring_image, un_spring_rect)
+        #
+        if buy_fall == 1:
+            screen.blit(fall_image, fall_rect)
+            if is_fall == 1:
+                screen.blit(check2, check2_rect)
+        else:
+            screen.blit(un_fall_image, un_fall_rect)
+        #
+        if buy_winter == 1:
+            screen.blit(winter_image, winter_rect)
+            if is_winter == 1:
+                screen.blit(check3, check3_rect)
+        else:
+            screen.blit(un_winter_image, un_winter_rect)
+        #
+        if buy_purple == 1:
+            screen.blit(purple_image, purple_rect)
+            if is_purple == 1:
+                screen.blit(check4, check4_rect)
+        else:
+            screen.blit(un_purple_image, un_purple_rect)
+        #
+        if buy_red == 1:
+            screen.blit(red_image, red_rect)
+            if is_spring == 1:
+                screen.blit(check5, check5_rect)
+        else:
+            screen.blit(un_red_image, un_red_rect)
+        #
+        if buy_yellow == 1:
+            screen.blit(yellow_image, yellow_rect)
+            if is_yellow == 1:
+                screen.blit(check6, check6_rect)
+        else:
+            screen.blit(un_yellow_image, un_yellow_rect)
+        if buy_tux == 1:
+            screen.blit(tux_image, tux_rect)
+            if is_tux == 1:
+                screen.blit(check7, check7_rect)
+        else:
+            screen.blit(un_tux_image, un_tux_rect)
+
+
+        resized_screen.blit(
+            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+            resized_screen_center)
+        pygame.display.update()
+
         clock.tick(FPS)
     pygame.quit()
     quit()

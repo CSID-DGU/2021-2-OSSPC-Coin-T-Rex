@@ -37,6 +37,7 @@ resized_screen_center = (0, 0)
 r_width = resized_screen.get_width()
 r_height = resized_screen.get_height()
 button_offset = 0.2
+select_offset = 0.15
 width_offset = 0.3
 clock = time.Clock()
 on_pushtime = 0
@@ -183,22 +184,26 @@ def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     screen.blit(btn_option, btn_option_rect)
 
 
-def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_back):
+def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_set,  btn_back):
     btn_easy_rect = btn_easy.get_rect()
     btn_hard_rect = btn_hard.get_rect()
     btn_store_rect = btn_store.get_rect()
+    btn_set_rect = btn_set.get_rect()
     btn_back_rect = btn_back.get_rect()
     btn_easy_rect.centerx = width * 0.5
     btn_hard_rect.centerx = width * 0.5
     btn_store_rect.centerx = width * 0.5
+    btn_set_rect.centerx = width * 0.5
     btn_back_rect.centerx = width * 0.1
     btn_easy_rect.centery = height * 0.26
-    btn_hard_rect.centery = height * (0.26 + button_offset)
-    btn_store_rect.centery = height * (0.26 + 2 * button_offset)
+    btn_hard_rect.centery = height * (0.26 + select_offset)
+    btn_store_rect.centery = height * (0.26 + 2 * select_offset)
+    btn_set_rect.centery = height * (0.26 + 3 * select_offset)
     btn_back_rect.centery = height * 0.1
     screen.blit(btn_easy, btn_easy_rect)
     screen.blit(btn_hard, btn_hard_rect)
     screen.blit(btn_store, btn_store_rect)
+    screen.blit(btn_set, btn_set_rect)
     screen.blit(btn_back, btn_back_rect)
 
 
