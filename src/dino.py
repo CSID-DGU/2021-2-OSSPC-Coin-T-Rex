@@ -12,53 +12,31 @@ class Dino:
                                                         6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
-        elif type == 'PINK':
-            self.images, self.rect = load_sprite_sheet('pink_dino.png',
-                                                         6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('pink_dino_ducking.png',
-                                                         2, 1, 59, sizey, -1)
         elif type == 'RED':
             self.images, self.rect = load_sprite_sheet('red_dino.png', 
                                                         6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('red_dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1)    
-        elif type == 'ORANGE':
-            self.images, self.rect = load_sprite_sheet('orange_dino.png', 
-                                                        6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('orange_dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1) 
+                                                        2, 1, 59, sizey, -1)
         elif type == 'YELLOW':
             self.images, self.rect = load_sprite_sheet('yellow_dino.png', 
                                                         6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('yellow_dino_ducking.png', 
                                                         2, 1, 59, sizey, -1)
-        elif type == 'GREEN':
-            self.images, self.rect = load_sprite_sheet('green_dino.png',
-                                                         6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('green_dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1)
         elif type == 'PURPLE':
             self.images, self.rect = load_sprite_sheet('purple_dino.png', 
                                                         6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('purple_dino_ducking.png',
-                                                         2, 1, 59, sizey, -1)  
-        elif type == 'BLACK':
-            self.images, self.rect = load_sprite_sheet('black_dino.png',
-                                                         6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('black_dino_ducking.png',
-                                                         2, 1, 59, sizey, -1)    
-        elif type == '2p_original': 
-            self.images, self.rect = load_sprite_sheet('dino(pvp).png', 
-                                                        6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('dino_ducking(pvp).png', 
-                                                        2, 1, 59, sizey, -1)
-        
+                                                         2, 1, 59, sizey, -1)
+        elif type == 'TUX':
+            self.images, self.rect = load_sprite_sheet('tux_walk.png',
+                                                        6, 1, 60, 60, -1)
+            self.images1, self.rect1 = load_sprite_sheet('tux_ducking.png',
+                                                        2, 1, 60, 60, -1)
         else:
             self.images, self.rect = load_sprite_sheet('dino.png', 
                                                         6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
-                                                         2, 1, 59, sizey, -1)                                    
-
+                                                         2, 1, 59, sizey, -1)
         if loc == -1:
             self.rect.bottom = int(0.98*height)
             self.rect.left = width/15
@@ -66,6 +44,7 @@ class Dino:
             self.rect.bottom = int(0.98*height)
             self.rect.left = width*(13/15)
         self.image = self.images[0]
+        self.type = type
         self.index = 0
         self.counter = 0
         self.score = 0
@@ -94,30 +73,31 @@ class Dino:
     def update(self):
         if self.is_jumping:
             self.movement[1] = self.movement[1] + gravity
-
+        ##
         if self.is_jumping:
             self.index = 0
+        #
         elif self.is_blinking:
-            if self.index == 0:
-                if self.counter % 400 == 399:
-                    self.index = (self.index + 1)%2
-            else:
-                if self.counter % 20 == 19:
-                    self.index = (self.index + 1)%2
+                if self.index == 0:
+                    if self.counter % 400 == 399:
+                        #눈깜빡
+                        self.index = (self.index + 1) % 2
+                else: #눈 깜빡
+                    if self.counter % 20 == 19:
+                        self.index = (self.index + 1) % 2
+        #is ducking이 True면
         elif self.is_ducking:
             if self.counter % 5 == 0:
-                self.index = (self.index + 1)%2
+                self.index = (self.index + 1) % 2
         else:
             if self.counter % 5 == 0:
-                self.index = (self.index + 1)%2 + 2
-
+                self.index = (self.index + 1) % 2 + 2
         if self.is_dead:
             self.index = 4
-
         if self.collision_immune:
             if self.counter % 10 == 0:
                 self.index = 5
-
+        #
         if not self.is_ducking:
             self.image = self.images[self.index]
             self.rect.width = self.stand_width
@@ -127,7 +107,6 @@ class Dino:
                 if self.counter % 5 == 0:
                     self.image = self.images[5]
             self.rect.width = self.duck_width
-
         self.rect = self.rect.move(self.movement)
         self.check_bounds()
         if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking :

@@ -53,10 +53,6 @@ bgm_on = True
 jump_sound = mixer.Sound('sprites/jump.wav')
 die_sound = mixer.Sound('sprites/die.wav')
 check_point_sound = mixer.Sound('sprites/checkPoint.wav')
-
-
-
-
 sound_vol=0.3
 # HERE: REMOVE SOUND!!
 pygame.mixer.music.load('sprites/t-rex_bgm1.mp3')
