@@ -575,10 +575,10 @@ def gameplay_hard():
     ###
     life = 5
     pking_life = 5
-    shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
-    life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
-    slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
-    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+    shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
+    life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
+    slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
+    coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
     paused = False
     # 게임 후 버튼
     r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
@@ -1189,7 +1189,16 @@ def gameplay_hard():
                                 db.query_db(
                                     f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.query_db(
-                                    f"update item set shield = {shield_item_count}, life = {life_item_count}, slow = {slow_item_count}, coin = {coin_item_count} where item_id=1;")
+                                    f" UPDATE item set count = {shield_item_count} where name ='shield';")
+                                db.query_db(
+                                    f"UPDATE item set count = {life_item_count} where name ='life';"
+                                )
+                                db.query_db(
+                                    f"UPDATE item SET count = {slow_item_count} where name ='slow';"
+                                )
+                                db.query_db(
+                                    f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
+                                )
                                 db.commit()
                                 board("hard")
                             else:
@@ -1208,7 +1217,16 @@ def gameplay_hard():
                                     db.query_db(
                                         f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                     db.query_db(
-                                        f"update item set shield = {shield_item_count}, life = {life_item_count}, slow = {slow_item_count}, coin = {coin_item_count} where item_id=1;")
+                                        f" UPDATE item set count = {shield_item_count} where name ='shield';")
+                                    db.query_db(
+                                        f"UPDATE item set count = {life_item_count} where name ='life';"
+                                    )
+                                    db.query_db(
+                                        f"UPDATE item SET count = {slow_item_count} where name ='slow';"
+                                    )
+                                    db.query_db(
+                                        f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
+                                    )
                                     db.commit()
                                     board("hard")
                                 else:

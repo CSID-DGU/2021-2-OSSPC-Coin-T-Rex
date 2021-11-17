@@ -117,14 +117,14 @@ def item_store():
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     #아이템
-    shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
-    life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
-    slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
-    coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+    shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
+    life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
+    slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
+    coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
     # 가격
-    s_price = db.query_db("select shield_price from item where item_id =1", one=True)['shield_price']
-    l_price = db.query_db("select life_price from item where item_id =1", one=True)['life_price']
-    t_price = db.query_db("select slow_price from item where item_id =1", one=True)['slow_price']
+    s_price = db.query_db("SELECT price from item where name = 'shield'", one =True)['price']
+    l_price = db.query_db("SELECT price from item where name = 'life'", one =True)['price']
+    t_price = db.query_db("SELECT price from item where name = 'slow'", one =True)['price']
     # 폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
     user_font = pygame.font.Font('DungGeunMo.ttf', 16)
@@ -187,21 +187,33 @@ def item_store():
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
                     db.query_db(
-                        f"update item set shield = {shield_item_count + 1 },  coin = {coin_item_count - s_price} where item_id=1;")
+                        f"UPDATE item SET count = {shield_item_count + 1} where name = 'shield'"
+                    )
+                    db.query_db(
+                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                    )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x,y) and coin_item_count >= l_price:
                     db.query_db(
-                        f"update item set life = {life_item_count + 1},  coin = {coin_item_count - l_price} where item_id=1;")
+                        f"UPDATE item SET count = {life_item_count + 1} where name = 'life'"
+                    )
+                    db.query_db(
+                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                    )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
                     db.query_db(
-                        f"update item set slow = {slow_item_count + 1},  coin = {coin_item_count - t_price} where item_id=1;")
+                        f"UPDATE item SET count = {slow_item_count + 1} where name = 'slow'"
+                    )
+                    db.query_db(
+                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                    )
                     db.commit()
 
-        shield_item_count = db.query_db("select shield from item where item_id=1;", one=True)['shield']
-        life_item_count = db.query_db("select life from item where item_id=1;", one=True)['life']
-        slow_item_count = db.query_db("select slow from item where item_id=1;", one=True)['slow']
-        coin_item_count = db.query_db("select coin from item where item_id=1;", one=True)['coin']
+        shield_item_count = db.query_db("select count from item where name ='shield';", one=True)['count']
+        life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
+        slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
+        coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
         user_shield = user_font.render(f'X{shield_item_count}', True, black)
         user_life = user_font.render(f'X{life_item_count}', True, black)
         user_time = user_font.render(f'X{slow_item_count}', True, black)
@@ -282,7 +294,7 @@ def char_store():
     tux_image = transform.scale(tux_image[0], (60, 60))
     tux_rect = tux_image.get_rect()
     # user의 코인
-    coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
+    coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     user_coin_image = transform.scale(user_coin_image[0], (20, 20))
     user_coin_rect = user_coin_image.get_rect()
@@ -369,31 +381,31 @@ def char_store():
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Purple';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - p_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - p_price} WHERE name='coin'"
                     )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Red';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - r_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - r_price} WHERE name='coin'"
                     )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Yellow';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - y_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - y_price} WHERE name='coin'"
                     )
                     db.commit()
                 if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Tux';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - t_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - t_price} WHERE name='coin'"
                     )
                     db.commit()
-        coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
+        coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
@@ -478,7 +490,7 @@ def skin_store():
     fall_image, fall_rect = load_image('ex_fall.png', 300, 280, -1)
     winter_image, winter_rect = load_image('ex_winter.png', 300, 280, -1)
     #user의 코인
-    coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
+    coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     user_coin_image = transform.scale(user_coin_image[0], (20, 20))
     user_coin_rect = user_coin_image.get_rect()
@@ -554,24 +566,24 @@ def skin_store():
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Spring';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - s_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - s_price} WHERE name='coin'"
                     )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Fall';")
                     db.query_db(
-                        f"update item SET coin = {coin_item_count - f_price} WHERE item_id=1"
+                        f"update item SET count = {coin_item_count - f_price} WHERE name='coin'"
                     )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Winter';")
                     db.query_db(
-                        f"UPDATE item SET coin = {coin_item_count - w_price} WHERE item_id=1"
+                        f"UPDATE item SET count = {coin_item_count - w_price} WHERE name='coin'"
                     )
                     db.commit()
-        coin_item_count = db.query_db("SELECT coin FROM item WHERE item_id=1;", one=True)['coin']
+        coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
