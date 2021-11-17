@@ -16,12 +16,10 @@ def option():
     # global bgm_on
     global high_score
     global resized_screen
-
     btnpush_interval = 500  # ms
     pygame.mixer.music.stop()
     done = False
     db_init = False
-
     large_text = pygame.font.Font('freesansbold.ttf', 60)
     text_surf, text_rect = text_objects("[ OPTION ]", large_text)
     btn_bgm_on, btn_bgm_on_rect = load_image('btn_bgm_on.png', 80, 80, -1)
@@ -395,33 +393,62 @@ def set():
                     if r_back_btn_rect.collidepoint(x, y):
                         select_mode()
                     if spring_rect.collidepoint(x, y) and buy_spring == 1:
-                        db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Spring' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        #이미 적용이 됐으면
+                        if is_spring == 1:
+                            db.query_db(f"UPDATE skin SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE skin SET is_apply = CASE WHEN name = 'Spring' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if fall_rect.collidepoint(x, y) and buy_fall == 1:
-                        db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Fall' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_fall == 1:
+                            db.query_db(f"UPDATE skin SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE skin SET is_apply = CASE WHEN name = 'Fall' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if winter_rect.collidepoint(x, y) and buy_winter == 1:
-                        db.query_db(
-                            f"UPDATE skin SET is_apply = CASE WHEN name = 'Winter' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_winter == 1:
+                            db.query_db(f"UPDATE skin SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE skin SET is_apply = CASE WHEN name = 'Winter' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if purple_rect.collidepoint(x, y) and buy_purple == 1:
-                        db.query_db(
-                            f"UPDATE character SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_purple == 1:
+                            db.query_db(f"UPDATE character SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE character SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if red_rect.collidepoint(x, y) and buy_red == 1:
-                        db.query_db(
-                            f"UPDATE character SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_red == 1:
+                            db.query_db(f"UPDATE character SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE character SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if yellow_rect.collidepoint(x, y) and buy_yellow == 1:
-                        db.query_db(
-                            f"UPDATE character SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_yellow == 1:
+                            db.query_db(f"UPDATE character SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE character SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
+                            db.commit()
                     if tux_rect.collidepoint(x, y) and buy_tux == 1:
-                        db.query_db(
-                            f"UPDATE character SET is_apply = CASE WHEN name = 'Tux' THEN 1 ELSE 0 END;")
-                        db.commit()
+                        if is_tux == 1:
+                            db.query_db(f"UPDATE character SET is_apply = 0")
+                            db.commit()
+                        else:
+                            db.query_db(
+                                f"UPDATE character SET is_apply = CASE WHEN name = 'Tux' THEN 1 ELSE 0 END;")
+                            db.commit()
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
 
@@ -495,13 +522,12 @@ def set():
                 screen.blit(check7, check7_rect)
         else:
             screen.blit(un_tux_image, un_tux_rect)
-
-
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
+
     pygame.quit()
     quit()
