@@ -1233,6 +1233,18 @@ def gameplay_hard():
                                 else:
                                     board("hard")
                             if r_btn_exit_rect.collidepoint(x, y):
+                                db.query_db(
+                                    f" UPDATE item set count = {shield_item_count} where name ='shield';")
+                                db.query_db(
+                                    f"UPDATE item set count = {life_item_count} where name ='life';"
+                                )
+                                db.query_db(
+                                    f"UPDATE item SET count = {slow_item_count} where name ='slow';"
+                                )
+                                db.query_db(
+                                    f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
+                                )
+                                db.commit()
                                 intro_screen()
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
