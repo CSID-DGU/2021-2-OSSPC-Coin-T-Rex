@@ -224,7 +224,6 @@ def gameplay_easy():
     r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
     btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
     #
-    life = LIFE
     # 캐릭터 적용 여부
     is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
     is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
@@ -247,7 +246,7 @@ def gameplay_easy():
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
     scb = Scoreboard()
     highsc = Scoreboard(width * 0.78)
-    heart = HeartIndicator(life)
+    heart = HeartIndicator(player_dino.life)
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
     speed_text = font.render("SPEED", True, black)
@@ -339,9 +338,9 @@ def gameplay_easy():
                         # 충돌여부 검사 s와 dino의
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -355,9 +354,9 @@ def gameplay_easy():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -370,9 +369,9 @@ def gameplay_easy():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -385,9 +384,9 @@ def gameplay_easy():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, p):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -445,7 +444,7 @@ def gameplay_easy():
                 scb.update(player_dino.score)
                 highsc.update(high_score)
                 speed_indicator.update(game_speed - 3)
-                heart.update(life)
+                heart.update(player_dino.life)
                 slow_items.update()
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
@@ -658,8 +657,8 @@ def gameplay_hard():
     # 보스몬스터 변수설정
     is_boss_time = False
     is_boss_alive = True
-    boss = PteraKing(hp=boss_life)
-    boss_heart = HeartIndicator(boss.hp, loc=1)
+    boss = PteraKing(life=boss_life)
+    boss_heart = HeartIndicator(boss.life, loc=1)
     #
     pm_list = []
     pm_vector = []
@@ -719,10 +718,10 @@ def gameplay_hard():
                                 shield_item_count -= 1
                         # life item
                         if event.key == pygame.K_w:
-                            if life_item_count > 0 and life < 5:
+                            if life_item_count > 0 and player_dino.life < 5:
                                 if pygame.mixer.get_init() is not None:
                                     check_point_sound.play()
-                                life += 1
+                                player_dino.increase_life()
                                 life_item_count -= 1
                         # slow item
                         if event.key == pygame.K_e:
@@ -863,9 +862,9 @@ def gameplay_hard():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -878,9 +877,9 @@ def gameplay_hard():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -893,9 +892,9 @@ def gameplay_hard():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -925,9 +924,9 @@ def gameplay_hard():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, p):
                             player_dino.collision_immune = True
-                            life -= 1
+                            player_dino.decrease_life()
                             collision_time = pygame.time.get_ticks()
-                            if life == 0:
+                            if player_dino.is_life_zero():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
@@ -949,7 +948,6 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                # print(boss.hp)
                 if is_boss_alive and (player_dino.score > boss_appearance_score):
                     is_boss_time = True
                 else:
@@ -1006,16 +1004,16 @@ def gameplay_hard():
                             boom.change_size(200, 100)
                             boom.x = boss.rect.centerx - round(boss.rect.width)
                             boom.y = boss.rect.centery - round(boss.rect.height / 2)
-                            boss.hp -= 1
+                            boss.decrease_life()
                             m_list.remove(m)
-                            if boss.hp <= 0:
+                            if boss.life <= 0:
                                 boss.kill()
                                 new_ground.speed -= SPEED_RATE
                                 game_speed += SPEED_RATE
                                 boss_life *= BOSS_LIFE_INCREASE_RATE
                                 boss_life = int(boss_life)
-                                boss = PteraKing(hp=boss_life)
-                                boss_heart = HeartIndicator(boss.hp, loc=1)
+                                boss = PteraKing(life=boss_life)
+                                boss_heart = HeartIndicator(boss.life, loc=1)
                                 boss_appearance_score *= BOSS_APPEARANCE_SCORE_RATE
 
                     if len(pm_list) == 0:
@@ -1025,13 +1023,18 @@ def gameplay_hard():
                         for pm in pm_list:
                             if (pm.x >= player_dino.rect.left) and (pm.x <= player_dino.rect.right) and (
                                     pm.y > player_dino.rect.top) and (pm.y < player_dino.rect.bottom):
-                                print("공격에 맞음.")
-                                # if pygame.sprite.collide_mask(player_dino, pm):
-                                player_dino.collision_immune = True
-                                life -= 1
-                                collision_time = pygame.time.get_ticks()
-                                if life == 0:
-                                    player_dino.is_dead = True
+                                if not player_dino.collision_immune:
+                                    player_dino.collision_immune = True
+                                    player_dino.decrease_life()
+                                    collision_time = pygame.time.get_ticks()
+                                    if player_dino.is_life_zero():
+                                        player_dino.is_dead = True
+                                    if pygame.mixer.get_init() is not None:
+                                        die_sound.play()
+                                elif not player_dino.is_super:
+                                    immune_time = pygame.time.get_ticks()
+                                    if immune_time - collision_time > collision_immune_time:
+                                        player_dino.collision_immune = False
                                 pm_list.remove(pm)
                 else:
                     # 장애물1
@@ -1083,8 +1086,8 @@ def gameplay_hard():
                 scb.update(player_dino.score)
                 highsc.update(high_score)
                 speed_indicator.update(game_speed - 3)
-                heart.update(life)
-                boss_heart.update(boss.hp)
+                heart.update(player_dino.life)
+                boss_heart.update(boss.life)
                 slow_items.update()
                 coin_items.update()
                 # 보스몬스터 타임이면,

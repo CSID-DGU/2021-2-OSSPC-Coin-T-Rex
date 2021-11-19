@@ -3,6 +3,7 @@ from pygame import mixer
 from src.setting import check_point_sound
 from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
+from src.game_value import LIFE
 
 
 class Dino:
@@ -61,6 +62,7 @@ class Dino:
         self.stand_width = self.rect.width
         self.duck_width = self.rect1.width
         self.player1 = True
+        self.life = LIFE
 
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -116,3 +118,12 @@ class Dino:
                 if mixer.get_init() is not None:
                     check_point_sound.play()
         self.counter = (self.counter + 1)
+
+    def increase_life(self):
+        self.life += 1
+
+    def decrease_life(self):
+        self.life -= 1
+
+    def is_life_zero(self):
+        return True if self.life == 0 else False
