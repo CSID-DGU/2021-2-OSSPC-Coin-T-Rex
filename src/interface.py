@@ -44,9 +44,9 @@ class Cloud(pygame.sprite.Sprite):
 
 
 class Heart:
-    def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1):
-        self.images, self.rect = load_sprite_sheet("hpbar.png", 2, 1, sizex, sizey, -1)
-        self.image = self.images[1]
+    def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1, heart_color=0):
+        self.images, self.rect = load_sprite_sheet("heart_for_character.png", 2, 1, sizex, sizey, -1)
+        self.image = self.images[heart_color]
         if x == -1:
             self.rect.left = width * 0.01
         else:
@@ -63,24 +63,28 @@ class Heart:
 
 class HeartIndicator:
     def __init__(self, life, loc=-1):
-        # self.heart_size = 40
         self.life = life
-        self.life_set = []
-        self.loc = loc
+        if loc == -1:
+            self.position_1 = 0.01
+            self.position_2 = 0.06
+            self.heart_color = 0
+        else:
+            self.position_1 = 0.85
+            self.position_2 = 0.90
+            self.heart_color = 1
 
     def draw(self):
-        for life in self.life_set:
-            life.draw()
+        self.life_set.draw()
+        self.draw_heart_count()
 
     def update(self, life):
         self.life = life
-        if self.loc == -1:
-            # self.life_set = [Heart(self.heart_size, self.heart_size, width * 0.01 + i * self.heart_size) for i in range(self.life)]
-            self.life_set = [Heart(object_size[0], object_size[1], width * 0.01 + i * (object_size[0] - i)) for i in
-                             range(self.life)]
-        else:
-            self.life_set = [Heart(object_size[0], object_size[1], width * 0.76 + i * (object_size[0] - i)) for i in
-                             range(self.life)]
+        self.life_set = Heart(object_size[0], object_size[1], width * self.position_1, heart_color=self.heart_color)
+        self.draw_heart_count()
+
+    def draw_heart_count(self):
+        life_count_text = font.render(f"X{self.life}", True, black)
+        screen.blit(life_count_text, (width * self.position_2, height * 0.02))
 
 
 # class Scoreboards:
