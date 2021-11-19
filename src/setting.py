@@ -53,7 +53,7 @@ bgm_on = True
 jump_sound = mixer.Sound('sprites/jump.wav')
 die_sound = mixer.Sound('sprites/die.wav')
 check_point_sound = mixer.Sound('sprites/checkPoint.wav')
-sound_vol=0.3
+sound_vol = 0.3
 # HERE: REMOVE SOUND!!
 pygame.mixer.music.load('sprites/t-rex_bgm1.mp3')
 pygame.mixer.music.set_volume(sound_vol)
@@ -99,7 +99,7 @@ def load_sprite_sheet(sheet_name, nx, ny,
     for i in range(0, ny):
         for j in range(0, nx):
             rect = Rect((j * sizex, i * sizey, sizex, sizey))
-            #Rect((left, top), (width, height)) -> Rect
+            # Rect((left, top), (width, height)) -> Rect
             img = Surface(rect.size)
             img = img.convert()
             img.blit(sheet, (0, 0), rect)
@@ -120,7 +120,7 @@ def disp_gameover_msg(gameover_img):
     gameover_rect.centery = height * 0.35
     screen.blit(gameover_img, gameover_rect)
 
-    
+
 def disp_store_buttons(btn_restart, btn_save, btn_exit, btn_back):
     btn_restart_rect = btn_restart.get_rect()
     btn_save_rect = btn_save.get_rect()
@@ -139,6 +139,7 @@ def disp_store_buttons(btn_restart, btn_save, btn_exit, btn_back):
     screen.blit(btn_exit, btn_exit_rect)
     screen.blit(btn_back, btn_back_rect)
 
+
 def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     btn_restart_rect = btn_restart.get_rect()
     btn_save_rect = btn_save.get_rect()
@@ -153,6 +154,7 @@ def disp_gameover_buttons(btn_restart, btn_save, btn_exit):
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
 
+
 def disp_pvp_gameover_buttons(btn_restart, btn_exit):
     btn_restart_rect = btn_restart.get_rect()
     btn_exit_rect = btn_exit.get_rect()
@@ -162,6 +164,7 @@ def disp_pvp_gameover_buttons(btn_restart, btn_exit):
     btn_exit_rect.centery = height * 0.6
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_exit, btn_exit_rect)
+
 
 def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     btn_1p_rect = btn_1p.get_rect()
@@ -182,7 +185,7 @@ def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
     screen.blit(btn_option, btn_option_rect)
 
 
-def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_set,  btn_back):
+def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_set, btn_back):
     btn_easy_rect = btn_easy.get_rect()
     btn_hard_rect = btn_hard.get_rect()
     btn_store_rect = btn_store.get_rect()
@@ -247,6 +250,7 @@ def resize(name, w, h, color):
 def text_size(size):
     font = pygame.font.Font('DungGeunMo.ttf', size)
     return font
+
 
 def score_board(btn_back):
     btn_back_rect = btn_back.get_rect()

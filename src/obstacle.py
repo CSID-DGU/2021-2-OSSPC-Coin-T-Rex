@@ -25,7 +25,8 @@ class Cactus(pygame.sprite.Sprite):
             self.kill()
 
 
-class FireCactus(pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+class FireCactus(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png',
@@ -91,7 +92,8 @@ class PinkTree(pygame.sprite.Sprite):
             self.kill()
 
 
-class CutTree(pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+class CutTree(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('spring2.png',
@@ -249,7 +251,7 @@ class WinterTree(pygame.sprite.Sprite):
 
 # pteraking 클래스
 class PteraKing(pygame.sprite.Sprite):
-    def __init__(self, speed=0, sizex=-1, sizey=-1, hp=10):
+    def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
         print("Boss 등장")
         pygame.sprite.Sprite.__init__(self)
         self.images, self.rect = load_sprite_sheet('pteraking.png',
@@ -297,11 +299,14 @@ class PteraKing(pygame.sprite.Sprite):
         self.go_up = False  # self.goup => self.go_up
         self.topmost = height * 0.3
         # 
-        self.hp = hp
+        self.life = life
 
     def draw(self):
         screen.blit(self.image, self.rect)
         # 총알 그리기
+
+    def decrease_life(self):
+        self.life -= 1
 
     def pattern0(self):
         self.pattern1_lastmove = False
