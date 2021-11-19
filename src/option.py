@@ -8,7 +8,9 @@ import src.setting as setting
 from src.game import *
 from db.db_interface import InterfDB
 from src.store import store
+
 db = InterfDB("db/score.db")
+
 
 def option():
     global on_pushtime
@@ -125,7 +127,7 @@ def option():
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                                    resized_screen_center)
+            resized_screen_center)
         pygame.display.update()
 
         clock.tick(FPS)
@@ -147,13 +149,13 @@ def select_mode():
     # hardmode button
     btn_hardmode, btn_hardmode_rect = load_image('hard.png', 160, 80, -1)
     r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 160, 80, -1))
-    #store button
-    btn_store, btn_store_rect=load_image('store.png', 160,80,-1)
-    r_btn_store, r_btn_store_rect=load_image(*resize('store.png', 160, 80, -1))
-    #set button
+    # store button
+    btn_store, btn_store_rect = load_image('store.png', 160, 80, -1)
+    r_btn_store, r_btn_store_rect = load_image(*resize('store.png', 160, 80, -1))
+    # set button
     btn_set, btn_set_rect = load_image('set.png', 160, 80, -1)
     r_btn_set, r_btn_set_rect = load_image(*resize('set.png', 160, 80, -1))
-    #back button
+    # back button
     btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
     r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
     # easymode_btn_rect.center = (width * 0.5, height * 0.3)
@@ -198,7 +200,7 @@ def select_mode():
         r_btn_back_rect.centery = resized_screen.get_height() * 0.1
 
         screen.blit(background, background_rect)
-        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_set,  btn_back)
+        disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_set, btn_back)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
             resized_screen_center)
@@ -223,7 +225,7 @@ def gamerule():
     gamerule_rect.centerx = width * 0.5
     gamerule_rect.centery = height * 0.5
 
-    #back button
+    # back button
     btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
     r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
 
@@ -247,10 +249,10 @@ def gamerule():
                         x, y = event.pos
                         if r_btn_back_rect.collidepoint(x, y):
                             option()
-                    #if event.button == 1:
-                        #game_quit = True
-                        # intro_screen()
-                        #option()
+                    # if event.button == 1:
+                    # game_quit = True
+                    # intro_screen()
+                    # option()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
             r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
@@ -265,6 +267,7 @@ def gamerule():
 
     pygame.quit()
     quit()
+
 
 def credit():
     global resized_screen
@@ -291,18 +294,19 @@ def credit():
     pygame.quit()
     quit()
 
+
 def set():
     global resized_screen
     game_start = False
     btnpush_interval = 500
     # 배경 이미지
     background, background_rect = load_image('default_back.png', width, height)
-    #폰트 배치
+    # 폰트 배치
     big_font = pygame.font.Font('DungGeunMo.ttf', 40)
-    #뒤로가기
+    # 뒤로가기
     back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
-    #폰트
+    # 폰트
     char_title = big_font.render('CHARACTER', True, black)
     skin_title = big_font.render('SKIN', True, black)
     #
@@ -338,21 +342,21 @@ def set():
     check6, check6_rect = load_image('check.png', 60, 60, -1)
     check7, check7_rect = load_image('check.png', 60, 60, -1)
 
-    #각 skin, character 구매여부
-    buy_spring =  db.query_db("select is_paid from skin where name='Spring'", one=True)['is_paid']
+    # 각 skin, character 구매여부
+    buy_spring = db.query_db("select is_paid from skin where name='Spring'", one=True)['is_paid']
     buy_fall = db.query_db("select is_paid from skin where name='Fall'", one=True)['is_paid']
     buy_winter = db.query_db("select is_paid from skin where name='Winter'", one=True)['is_paid']
     buy_purple = db.query_db("select is_paid from character where name='Purple'", one=True)['is_paid']
     buy_red = db.query_db("select is_paid from character where name='Red'", one=True)['is_paid']
     buy_yellow = db.query_db("select is_paid from character where name='Yellow'", one=True)['is_paid']
     buy_tux = db.query_db("select is_paid from character where name='Tux'", one=True)['is_paid']
-    #오프셋 지정
+    # 오프셋 지정
     skin_height = 0.32
     char_height = 0.72
     skin_offset = 0.25
     char_offset = 0.2
     # 배치
-    skin_title_rect = skin_title.get_rect(center = (width * 0.5, height * 0.13))
+    skin_title_rect = skin_title.get_rect(center=(width * 0.5, height * 0.13))
     (check1_rect.centerx, check1_rect.centery) = (width * (skin_offset), height * (skin_height))
     (spring_rect.centerx, spring_rect.centery) = (width * (skin_offset), height * (skin_height))
     (un_spring_rect.centerx, un_spring_rect.centery) = (width * (skin_offset), height * (skin_height))
@@ -360,20 +364,20 @@ def set():
     (fall_rect.centerx, fall_rect.centery) = (width * (2 * skin_offset), height * (skin_height))
     (un_fall_rect.centerx, un_fall_rect.centery) = (width * (2 * skin_offset), height * (skin_height))
     (check3_rect.centerx, check3_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
-    (winter_rect.centerx, winter_rect.centery) = (width *(3 * skin_offset), height * (skin_height))
+    (winter_rect.centerx, winter_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
     (un_winter_rect.centerx, un_winter_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
     #
     char_title_rect = char_title.get_rect(center=(width * 0.5, height * 0.55))
     (purple_rect.centerx, purple_rect.centery) = (width * (char_offset), height * (char_height))
     (un_purple_rect.centerx, un_purple_rect.centery) = (width * (char_offset), height * (char_height))
     (check4_rect.centerx, check4_rect.centery) = (width * (char_offset), height * (char_height))
-    (red_rect.centerx, red_rect.centery) = (width * (2 * char_offset), height *(char_height))
+    (red_rect.centerx, red_rect.centery) = (width * (2 * char_offset), height * (char_height))
     (un_red_rect.centerx, un_red_rect.centery) = (width * (2 * char_offset), height * (char_height))
     (check5_rect.centerx, check5_rect.centery) = (width * (2 * char_offset), height * (char_height))
     (yellow_rect.centerx, yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
     (un_yellow_rect.centerx, un_yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
     (check6_rect.centerx, check6_rect.centery) = (width * (3 * char_offset), height * (char_height))
-    (tux_rect.centerx, tux_rect.centery) = (width * (4 * char_offset), height *(char_height))
+    (tux_rect.centerx, tux_rect.centery) = (width * (4 * char_offset), height * (char_height))
     (un_tux_rect.centerx, un_tux_rect.centery) = (width * (4 * char_offset), height * (char_height))
     (check7_rect.centerx, check7_rect.centery) = (width * (4 * char_offset), height * (char_height))
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
@@ -393,7 +397,7 @@ def set():
                     if r_back_btn_rect.collidepoint(x, y):
                         select_mode()
                     if spring_rect.collidepoint(x, y) and buy_spring == 1:
-                        #이미 적용이 됐으면
+                        # 이미 적용이 됐으면
                         if is_spring == 1:
                             db.query_db(f"UPDATE skin SET is_apply = 0")
                             db.commit()
@@ -473,8 +477,8 @@ def set():
         screen.blit(char_title, char_title_rect)
         screen.blit(skin_title, skin_title_rect)
         screen.blit(back_btn_image, back_btn_rect)
-        #is_apply = 1은 적용 됐다는 뜻, 0은 안됐다는 뜻
-        #is_paied = 1은 샀다는 뜻, 0은 안샀다는 뜻
+        # is_apply = 1은 적용 됐다는 뜻, 0은 안됐다는 뜻
+        # is_paied = 1은 샀다는 뜻, 0은 안샀다는 뜻
         if buy_spring == 1:
             screen.blit(spring_image, spring_rect)
             if is_spring == 1:

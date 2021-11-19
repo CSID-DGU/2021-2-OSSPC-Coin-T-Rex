@@ -7,7 +7,9 @@ from src.option import *
 from db.db_interface import InterfDB
 from src.store import store
 import src.game
+
 db = InterfDB("db/score.db")
+
 
 def pvp():
     global resized_screen
@@ -19,21 +21,21 @@ def pvp():
     # HERE: REMOVE SOUND!!
     if bgm_on:
         pygame.mixer.music.play(-1)  # 배경음악 실행
-    
+
     # 
     player1_dino = Dino(dino_size[0], dino_size[1], type='original')
-    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original',loc=1)
+    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original', loc=1)
 
     # 플레이어1과 플레이어 2의 목숨 수
     life_1p = 5
     life_2p = 5
     heart_1p = HeartIndicator(life_1p)
-    heart_2p = HeartIndicator(life_2p,loc = 1)
+    heart_2p = HeartIndicator(life_2p, loc=1)
     game_speed = 4
     new_ground = Ground(-1 * game_speed)
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
-    #게임 중  pause 상태
+    # 게임 중  pause 상태
     paused = False
     # 게임 종료 후 노출 문구
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
@@ -90,7 +92,7 @@ def pvp():
 
                         if event.key == pygame.K_d:
                             go_right_1p = True
-                        
+
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = True
                             bk_1p = 0
@@ -118,7 +120,7 @@ def pvp():
                         if event.key == pygame.K_RCTRL:
                             space_go_2p = True
                             bk_2p = 0
-                        
+
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
                             paused = src.game.pausing()
@@ -136,7 +138,7 @@ def pvp():
 
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = False
-                        
+
                         # 2p dino
                         if event.key == pygame.K_DOWN:
                             player2_dino.is_ducking = False
@@ -165,7 +167,7 @@ def pvp():
                         player1_dino.rect.right = width
                     else:
                         player1_dino.rect.left = player1_dino.rect.left + game_speed
-                
+
                 if space_go_1p and (int(bk_1p % 15) == 0):
                     # print(bk)
                     missile_1p = Obj()
@@ -210,7 +212,7 @@ def pvp():
 
                 # 1p의 미사일이 2p를 맞추었을 때
                 if len(m_list_1p) == 0:
-                        pass
+                    pass
                 else:
                     for m_1p in m_list_1p:
                         if (m_1p.x >= player2_dino.rect.left) and (m_1p.x <= player2_dino.rect.right) and (
@@ -229,13 +231,13 @@ def pvp():
                         player2_dino.rect.left = 0
                     else:
                         player2_dino.rect.left = player2_dino.rect.left - game_speed
-                
+
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
                         player2_dino.rect.left = player2_dino.rect.left + game_speed
-                
+
                 if space_go_2p and (int(bk_2p % 15) == 0):
                     # print(bk)
                     missile_2p = Obj()
@@ -277,10 +279,10 @@ def pvp():
                     m.x -= m.move
                     if m.x > width:
                         d_list_2p.append(i)
-                
+
                 # 2p의 미사일이 1p를 맞추었을 때
                 if len(m_list_2p) == 0:
-                        pass
+                    pass
                 else:
                     for m_2p in m_list_2p:
                         if (m_2p.x >= player1_dino.rect.left) and (m_2p.x <= player1_dino.rect.right) and (
@@ -289,13 +291,11 @@ def pvp():
                             if life_1p == 0:
                                 player1_dino.is_dead = True
                             m_list_2p.remove(m_2p)
-                    
 
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
-                
-                
+
                 player1_dino.update()
                 player2_dino.update()
 
@@ -310,7 +310,7 @@ def pvp():
 
                     heart_1p.draw()
                     heart_2p.draw()
-                    
+
                     for m in m_list_1p:
                         m.show()
 
@@ -319,8 +319,8 @@ def pvp():
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
-                        pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                        resized_screen_center)
+                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    resized_screen_center)
                 pygame.display.update()
                 clock.tick(FPS)
 
@@ -330,7 +330,7 @@ def pvp():
 
         if game_quit:
             break
-            
+
         while game_over:
             if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
@@ -351,8 +351,8 @@ def pvp():
                             game_quit = True
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        #game_over = False
-                        #game_quit = True
+                        # game_over = False
+                        # game_quit = True
                         if pygame.mouse.get_pressed() == (1, 0, 0):
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):

@@ -4,45 +4,46 @@ from src.setting import check_point_sound
 from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
 
+
 class Dino:
-    def __init__(self, sizex=-1, sizey=-1,type = None, loc = -1):
+    def __init__(self, sizex=-1, sizey=-1, type=None, loc=-1):
         self.type = type
         if type == 'ORIGINAL':
-            self.images, self.rect = load_sprite_sheet('dino.png', 
-                                                        6, 1, sizex, sizey, -1)
+            self.images, self.rect = load_sprite_sheet('dino.png',
+                                                       6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
         elif type == 'RED':
-            self.images, self.rect = load_sprite_sheet('red_dino.png', 
-                                                        6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('red_dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1)
+            self.images, self.rect = load_sprite_sheet('red_dino.png',
+                                                       6, 1, sizex, sizey, -1)
+            self.images1, self.rect1 = load_sprite_sheet('red_dino_ducking.png',
+                                                         2, 1, 59, sizey, -1)
         elif type == 'YELLOW':
-            self.images, self.rect = load_sprite_sheet('yellow_dino.png', 
-                                                        6, 1, sizex, sizey, -1)
-            self.images1, self.rect1 = load_sprite_sheet('yellow_dino_ducking.png', 
-                                                        2, 1, 59, sizey, -1)
+            self.images, self.rect = load_sprite_sheet('yellow_dino.png',
+                                                       6, 1, sizex, sizey, -1)
+            self.images1, self.rect1 = load_sprite_sheet('yellow_dino_ducking.png',
+                                                         2, 1, 59, sizey, -1)
         elif type == 'PURPLE':
-            self.images, self.rect = load_sprite_sheet('purple_dino.png', 
-                                                        6, 1, sizex, sizey, -1)
+            self.images, self.rect = load_sprite_sheet('purple_dino.png',
+                                                       6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('purple_dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
         elif type == 'TUX':
             self.images, self.rect = load_sprite_sheet('tux_walk.png',
-                                                        6, 1, 60, 60, -1)
+                                                       6, 1, 60, 60, -1)
             self.images1, self.rect1 = load_sprite_sheet('tux_ducking.png',
-                                                        2, 1, 60, 60, -1)
+                                                         2, 1, 60, 60, -1)
         else:
-            self.images, self.rect = load_sprite_sheet('dino.png', 
-                                                        6, 1, sizex, sizey, -1)
+            self.images, self.rect = load_sprite_sheet('dino.png',
+                                                       6, 1, sizex, sizey, -1)
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
         if loc == -1:
-            self.rect.bottom = int(0.98*height)
-            self.rect.left = width/15
+            self.rect.bottom = int(0.98 * height)
+            self.rect.left = width / 15
         else:
-            self.rect.bottom = int(0.98*height)
-            self.rect.left = width*(13/15)
+            self.rect.bottom = int(0.98 * height)
+            self.rect.left = width * (13 / 15)
         self.image = self.images[0]
         self.type = type
         self.index = 0
@@ -64,10 +65,10 @@ class Dino:
     def draw(self):
         screen.blit(self.image, self.rect)
 
-    #충돌판단
+    # 충돌판단
     def check_bounds(self):
-        if self.rect.bottom > int(0.98*height):
-            self.rect.bottom = int(0.98*height)
+        if self.rect.bottom > int(0.98 * height):
+            self.rect.bottom = int(0.98 * height)
             self.is_jumping = False
 
     def update(self):
@@ -78,14 +79,14 @@ class Dino:
             self.index = 0
         #
         elif self.is_blinking:
-                if self.index == 0:
-                    if self.counter % 400 == 399:
-                        #눈깜빡
-                        self.index = (self.index + 1) % 2
-                else: #눈 깜빡
-                    if self.counter % 20 == 19:
-                        self.index = (self.index + 1) % 2
-        #is ducking이 True면
+            if self.index == 0:
+                if self.counter % 400 == 399:
+                    # 눈깜빡
+                    self.index = (self.index + 1) % 2
+            else:  # 눈 깜빡
+                if self.counter % 20 == 19:
+                    self.index = (self.index + 1) % 2
+        # is ducking이 True면
         elif self.is_ducking:
             if self.counter % 5 == 0:
                 self.index = (self.index + 1) % 2
@@ -109,7 +110,7 @@ class Dino:
             self.rect.width = self.duck_width
         self.rect = self.rect.move(self.movement)
         self.check_bounds()
-        if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking :
+        if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking:
             self.score += 1
             if self.score % 100 == 0 and self.score != 0:
                 if mixer.get_init() is not None:

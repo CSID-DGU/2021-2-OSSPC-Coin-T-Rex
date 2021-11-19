@@ -9,7 +9,9 @@ from src.game_value import *
 from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
+
 db = InterfDB("db/score.db")
+
 
 # 시작 화면
 def intro_screen():
@@ -18,9 +20,9 @@ def intro_screen():
     global temp_dino
     global type_idx
     global dino_type
-    dino_type = ['ORIGINAL', 'PURPLE','RED','YELLOW','TUX']
+    dino_type = ['ORIGINAL', 'PURPLE', 'RED', 'YELLOW', 'TUX']
     global skin_type
-    skin_type = ['ORIGINAL','Spring','Fall','Winter']
+    skin_type = ['ORIGINAL', 'Spring', 'Fall', 'Winter']
     global type_idx2
     click_count = 0
     #
@@ -46,7 +48,7 @@ def intro_screen():
         else:
             for event in pygame.event.get():
                 if event.type == pygame.VIDEORESIZE and not full_screen:
-                    #민주 -> 필요없어보여서 주석처리
+                    # 민주 -> 필요없어보여서 주석처리
                     # r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('btn_start.png', 150, 50, -1))
                     # btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
                     # r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
@@ -67,8 +69,8 @@ def intro_screen():
                         x, y = event.pos
                         # 1player game button
                         if r_btn_1p_rect.collidepoint(x, y):
-                            #temp_dino.is_jumping = True
-                            #temp_dino.is_blinking = False
+                            # temp_dino.is_jumping = True
+                            # temp_dino.is_blinking = False
                             temp_dino.movement[1] = -1 * temp_dino.jump_speed
                             game_start = True
                             select_mode()
@@ -85,18 +87,18 @@ def intro_screen():
         if pygame.display.get_surface() is not None:
             r_btn_1p_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_2p_rect.centerx = resized_screen.get_width() * 0.8
-            r_btn_board_rect.centerx =  resized_screen.get_width() * 0.8
+            r_btn_board_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_1p_rect.centery = resized_screen.get_height() * 0.25
             r_btn_2p_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
             r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
-            r_btn_option_rect.centery = resized_screen.get_height() * (0.25+ 2.25 * button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.25 + 2.25 * button_offset)
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option)
             # temp_dino.draw()
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                                        resized_screen_center)
+                resized_screen_center)
             pygame.display.update()
         clock.tick(FPS)
         # if temp_dino.is_jumping == False and temp_dino.is_blinking == False:
@@ -106,20 +108,21 @@ def intro_screen():
     quit()
 
 
-#캐릭터의 타입을 인덱스로 반환
+# 캐릭터의 타입을 인덱스로 반환
 def char_switch(is_purple, is_red, is_yellow, is_tux):
     if is_purple == 1:
         return 1
-    elif is_red ==1:
+    elif is_red == 1:
         return 2
     elif is_yellow == 1:
         return 3
     elif is_tux == 1:
         return 4
-    else :
+    else:
         return 0
 
-#스킨의 타입을 인덱스로 반환
+
+# 스킨의 타입을 인덱스로 반환
 def skin_switch(is_spring, is_fall, is_winter):
     if is_spring == 1:
         return 1
@@ -130,26 +133,27 @@ def skin_switch(is_spring, is_fall, is_winter):
     else:
         return 0
 
-#스킨별 컨테이너 반환
+
+# 스킨별 컨테이너 반환
 def obst_container(type_idx):
-    #장애물 osbt1 obst2 obst3
+    # 장애물 osbt1 obst2 obst3
     global obst1
     global obst2
     global obst3
     obst1 = pygame.sprite.Group()
     obst2 = pygame.sprite.Group()
     obst3 = pygame.sprite.Group()
-    #봄이면
+    # 봄이면
     if type_idx == 1:
         PinkTree.containers = obst1
         CutTree.containers = obst2
         FruitTree.containers = obst3
-    #가을이면
+    # 가을이면
     elif type_idx == 2:
         Pumpkin.containers = obst1
         FallTree.containers = obst2
         FallBush.containers = obst3
-    #겨울이면
+    # 겨울이면
     elif type_idx == 3:
         Snowman.containers = obst1
         WinterBush.containers = obst2
@@ -161,18 +165,18 @@ def obst_container(type_idx):
 
 
 def obst(type_idx, obst_num, game_speed):
-    #봄이면
-    if type_idx ==1:
-        #첫번째 장애물
+    # 봄이면
+    if type_idx == 1:
+        # 첫번째 장애물
         if obst_num == 1:
             return PinkTree(game_speed, object_size[0], object_size[1])
-        #두번째 장애물
+        # 두번째 장애물
         elif obst_num == 2:
             return CutTree(game_speed, object_size[0], object_size[1])
-        #세번째 장애물
+        # 세번째 장애물
         else:
             return FruitTree(game_speed, object_size[0], object_size[1])
-    #가을이면
+    # 가을이면
     elif type_idx == 2:
         if obst_num == 1:
             return Pumpkin(game_speed, object_size[0], object_size[1])
@@ -180,7 +184,7 @@ def obst(type_idx, obst_num, game_speed):
             return FallTree(game_speed, object_size[0], object_size[1])
         else:
             return FallBush(game_speed, object_size[0], object_size[1])
-    #겨울이면
+    # 겨울이면
     elif type_idx == 3:
         if obst_num == 1:
             return Snowman(game_speed, object_size[0], object_size[1])
@@ -188,7 +192,7 @@ def obst(type_idx, obst_num, game_speed):
             return WinterBush(game_speed, object_size[0], object_size[1])
         else:
             return WinterTree(game_speed, object_size[0], object_size[1])
-    #기본이면
+    # 기본이면
     else:
         if obst_num == 1:
             return Cactus(game_speed, object_size[0], object_size[1])
@@ -206,7 +210,7 @@ def gameplay_easy():
     if result is not None:
         high_score = result['score']
     if setting.bgm_on:
-        pygame.mixer.music.play(-1) # 배경음악 실행
+        pygame.mixer.music.play(-1)  # 배경음악 실행
     game_speed = 4
     start_menu = False
     game_over = False
@@ -226,18 +230,18 @@ def gameplay_easy():
     is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
     is_yellow = db.query_db("select is_apply from character where name = 'Yellow'", one=True)['is_apply']
     is_tux = db.query_db("select is_apply from character where name = 'Tux'", one=True)['is_apply']
-    #스킨 적용 여부
+    # 스킨 적용 여부
     is_spring = db.query_db("select is_apply from skin where name='Spring'", one=True)['is_apply']
     is_fall = db.query_db("select is_apply from skin where name = 'Fall'", one=True)['is_apply']
     is_winter = db.query_db("select is_apply from skin where name = 'Winter'", one=True)['is_apply']
-    #skin 및 캐릭터 지정
+    # skin 및 캐릭터 지정
     type_idx = char_switch(is_purple, is_red, is_yellow, is_tux)
-    type_idx2 = skin_switch(is_spring,is_fall, is_winter)
+    type_idx2 = skin_switch(is_spring, is_fall, is_winter)
     # 캐릭터 생성
     player_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
-    #배경 적용 여부
-    if type_idx2 == 0 :
-        #기본이면
+    # 배경 적용 여부
+    if type_idx2 == 0:
+        # 기본이면
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
@@ -293,7 +297,7 @@ def gameplay_easy():
                         game_over = True
                     #
                     if event.type == pygame.KEYDOWN:
-                        #dino
+                        # dino
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player_dino.rect.bottom == int(0.98 * height):
@@ -330,9 +334,9 @@ def gameplay_easy():
             if not paused:
                 for o in obst1:
                     o.movement[0] = -1 * game_speed
-                    #dino의 collision_immune이 False면
+                    # dino의 collision_immune이 False면
                     if not player_dino.collision_immune:
-                        #충돌여부 검사 s와 dino의
+                        # 충돌여부 검사 s와 dino의
                         if pygame.sprite.collide_mask(player_dino, o):
                             player_dino.collision_immune = True
                             life -= 1
@@ -341,7 +345,7 @@ def gameplay_easy():
                                 player_dino.is_dead = True
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
-                    #collision_immune이 True인데 dino is_super가 아니면
+                    # collision_immune이 True인데 dino is_super가 아니면
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
@@ -395,14 +399,14 @@ def gameplay_easy():
                 if len(obst1) < 2:
                     # 하나도 안들어있으면
                     if len(obst1) == 0:
-                        #last_obstacle 비우고
+                        # last_obstacle 비우고
                         last_obstacle.empty()
-                        #장애물 1 넣는다. (사이즈는 object_size로 지정)
+                        # 장애물 1 넣는다. (사이즈는 object_size로 지정)
                         last_obstacle.add(obst(type_idx2, 1, game_speed))
                     else:
-                        #장애물1이 한개 들어있으면
+                        # 장애물1이 한개 들어있으면
                         for l in last_obstacle:
-                            #refreshLine 후에 오고, rand.randrange(인터벌 == magicnum이면 비우고 다시 하나 넣기
+                            # refreshLine 후에 오고, rand.randrange(인터벌 == magicnum이면 비우고 다시 하나 넣기
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(OBST1_INTERVAL) == MAGIC_NUM:
                                 last_obstacle.empty()
                                 last_obstacle.add(obst(type_idx2, 1, game_speed))
@@ -423,7 +427,7 @@ def gameplay_easy():
                         if l.rect.right < OBJECT_REFRESH_LINE:
                             last_obstacle.empty()
                             last_obstacle.add(Ptera(game_speed, ptera_size[0], ptera_size[1]))
-                #봄, 가을, 겨울에는 구름 아이콘이 나타나지 않게 한다.
+                # 봄, 가을, 겨울에는 구름 아이콘이 나타나지 않게 한다.
                 if type_idx2 == 0:
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
@@ -515,7 +519,7 @@ def gameplay_easy():
                             if r_btn_restart_rect.collidepoint(x, y):
                                 select_mode()
                             if r_btn_save_rect.collidepoint(x, y):
-                                #dino 자체에 score 필요
+                                # dino 자체에 score 필요
                                 type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score, mode="easy"):
                                     db.query_db(
@@ -590,14 +594,14 @@ def gameplay_hard():
     is_spring = db.query_db("select is_apply from skin where name='Spring'", one=True)['is_apply']
     is_fall = db.query_db("select is_apply from skin where name = 'Fall'", one=True)['is_apply']
     is_winter = db.query_db("select is_apply from skin where name = 'Winter'", one=True)['is_apply']
-    #skin 및 캐릭터 지정
+    # skin 및 캐릭터 지정
     type_idx = char_switch(is_purple, is_red, is_yellow, is_tux)
     type_idx2 = skin_switch(is_spring, is_fall, is_winter)
-    #캐릭터 생성
+    # 캐릭터 생성
     player_dino = Dino(dino_size[0], dino_size[1], type=dino_type[type_idx])
-    #배경
+    # 배경
     if type_idx2 == 0:
-        #기본이면
+        # 기본이면
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
@@ -853,7 +857,7 @@ def gameplay_hard():
                 pd_list.reverse()
                 for d in pd_list:
                     del pm_list[d]
-                #장애물1
+                # 장애물1
                 for o in obst1:
                     o.movement[0] = -1 * game_speed
                     if not player_dino.collision_immune:
@@ -1173,7 +1177,7 @@ def gameplay_hard():
                                 db.query_db(
                                     f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.query_db(
-                                    f" UPDATE item set count = {shield_item_count} where name ='shield';")
+                                    f"UPDATE item set count = {shield_item_count} where name ='shield';")
                                 db.query_db(
                                     f"UPDATE item set count = {life_item_count} where name ='life';"
                                 )
@@ -1189,8 +1193,8 @@ def gameplay_hard():
                                 board("hard")
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        #game_over = False
-                        #game_quit = True
+                        # game_over = False
+                        # game_quit = True
                         if pygame.mouse.get_pressed() == (1, 0, 0):
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):
@@ -1279,7 +1283,7 @@ def board(mode=""):
     title_rect.centerx = width * 0.5
     title_rect.centery = height * 0.2
 
-    #back button
+    # back button
     btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
     r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
 
@@ -1348,18 +1352,18 @@ def board(mode=""):
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
                         if r_btn_back_rect.collidepoint(x, y):
-                            intro_screen()  
+                            intro_screen()
                     if event.button == 4:
                         scroll_y = min(scroll_y + 15, 0)
                     if event.button == 5:
                         scroll_y = max(scroll_y - 15, -(len(results) // max_per_screen) * scr_size[1])
-                    #if event.button == 1:
-                        #game_quit = True
-                        #intro_screen()
+                    # if event.button == 1:
+                    # game_quit = True
+                    # intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
             r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
-            r_btn_back_rect.centery = resized_screen.get_height() * 0.1        
+            r_btn_back_rect.centery = resized_screen.get_height() * 0.1
             score_board(btn_back)
             screen.blit(btn_back, btn_back_rect)
             screen.blit(screen_board, (0, scroll_y))

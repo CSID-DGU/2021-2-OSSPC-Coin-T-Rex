@@ -25,7 +25,8 @@ class Cactus(pygame.sprite.Sprite):
             self.kill()
 
 
-class FireCactus(pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+class FireCactus(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png',
@@ -91,7 +92,8 @@ class PinkTree(pygame.sprite.Sprite):
             self.kill()
 
 
-class CutTree(pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+class CutTree(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('spring2.png',
