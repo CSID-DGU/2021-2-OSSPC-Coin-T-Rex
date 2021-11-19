@@ -91,7 +91,7 @@ def item_store():
     coin3_rect = coin3_image.get_rect()
     # 아이템 이미지
     shield_image, _ = load_sprite_sheet('item.png', 2, 1, -1, -1, -1)
-    life_image, life_rect = load_image('heart_bullet.png', 70, 70, -1)
+    life_image, life_rect = load_image('love-shield.png', 70, 70, -1)
     time_image, _ = load_sprite_sheet('slow_pic.png', 2, 1, -1, -1, -1)
     shield_image = transform.scale(shield_image[0], (80, 80))
     shield_rect = shield_image.get_rect()
@@ -101,7 +101,7 @@ def item_store():
     user_shield_image, _ = load_sprite_sheet('item.png', 2, 1, -1, -1, -1)
     user_shield_image = transform.scale(user_shield_image[0], (20, 20))
     user_shield_rect = user_shield_image.get_rect()
-    user_life_image, user_life_rect = load_image('heart_bullet.png', 20, 20, -1)
+    user_life_image, user_life_rect = load_image('love-shield.png', 20, 20, -1)
     user_time_image, _ = load_sprite_sheet('slow_pic.png', 2, 1, -1, -1, -1)
     user_time_image = transform.scale(user_time_image[0], (20, 20))
     user_time_rect = user_time_image.get_rect()

@@ -296,8 +296,8 @@ def pvp():
                 for d in d_list_2p:
                     del m_list_2p[d]
 
-                player1_dino.update()
-                player2_dino.update()
+                player1_dino.update('pvp')
+                player2_dino.update('pvp')
 
                 new_ground.update()
                 speed_indicator.update(game_speed - 3)
