@@ -164,6 +164,7 @@ def obst_container(type_idx):
         Stone.containers = obst3
 
 
+# 스킨별 장애물 반환
 def obst(type_idx, obst_num, game_speed):
     # 봄이면
     if type_idx == 1:
@@ -636,7 +637,7 @@ def gameplay_hard():
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 30, 30, -1)
-    heart_item_image, heart_item_rect = load_image('heart_bullet.png', 30, 30, -1)
+    heart_item_image, heart_item_rect = load_image('love-shield.png', 30, 30, -1)
     slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
     coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 30, 30, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)

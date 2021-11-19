@@ -73,7 +73,7 @@ class Dino:
             self.rect.bottom = int(0.98 * height)
             self.is_jumping = False
 
-    def update(self):
+    def update(self, mode=''):
         if self.is_jumping:
             self.movement[1] = self.movement[1] + gravity
         ##
@@ -112,11 +112,13 @@ class Dino:
             self.rect.width = self.duck_width
         self.rect = self.rect.move(self.movement)
         self.check_bounds()
+
         if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking:
             self.score += 1
-            if self.score % 100 == 0 and self.score != 0:
-                if mixer.get_init() is not None:
-                    check_point_sound.play()
+            if mode != 'pvp':
+                if self.score % 100 == 0 and self.score != 0:
+                    if mixer.get_init() is not None:
+                        check_point_sound.play()
         self.counter = (self.counter + 1)
 
     def increase_life(self):
