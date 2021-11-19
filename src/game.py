@@ -5,6 +5,7 @@ from src.item import *
 from src.interface import *
 from src.option import *
 import src.setting as setting
+from src.game_value import *
 from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
@@ -219,7 +220,7 @@ def gameplay_easy():
     r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
     btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
     #
-    life = 5
+    life = LIFE
     # 캐릭터 적용 여부
     is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
     is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
@@ -391,14 +392,6 @@ def gameplay_easy():
                         if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
-                OBST1_INTERVAL = 50
-                OBST2_INTERVAL = 50
-                OBST3_INTERVAL = 100
-                PTERA_INTERVAL = 300
-                CLOUD_INTERVAL = 300
-                OBJECT_REFRESH_LINE = width * 0.8
-                MAGIC_NUM = 10
-
                 if len(obst1) < 2:
                     # 하나도 안들어있으면
                     if len(obst1) == 0:
@@ -482,8 +475,8 @@ def gameplay_easy():
                     if player_dino.score > high_score:
                         high_score = player_dino.score
                 if counter % speed_up_limit == speed_up_limit - 1:
-                    new_ground.speed -= 1
-                    game_speed += 1
+                    new_ground.speed -= SPEED_RATE
+                    game_speed += SPEED_RATE
                 counter = (counter + 1)
         if game_quit:
             break
@@ -569,13 +562,13 @@ def gameplay_hard():
     # HERE: REMOVE SOUND!!
     if setting.bgm_on:
         pygame.mixer.music.play(-1)  # 배경음악 실행
-    game_speed = 4
+    game_speed = GAME_SPEED
     start_menu = False
     game_over = False
     game_quit = False
     ###
-    life = 5
-    pking_life = 5
+    life = LIFE
+    boss_life = BOSS_LIFE
     shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
@@ -659,16 +652,16 @@ def gameplay_hard():
     go_left = False
     go_right = False
     # 보스몬스터 변수설정
-    is_pking_time = False
-    is_pking_alive = True
-    pking = PteraKing(hp=pking_life)
-    pking_heart = HeartIndicator(pking.hp, loc=1)
+    is_boss_time = False
+    is_boss_alive = True
+    boss = PteraKing(hp=boss_life)
+    boss_heart = HeartIndicator(boss.hp, loc=1)
     #
     pm_list = []
     pm_vector = []
     pm_pattern0_count = 0
     pm_pattern1_count = 0
-    pking_appearance_score = 100
+    boss_appearance_score = 100
     jumpingx2 = False
     while not game_quit:
         while start_menu:
@@ -732,8 +725,8 @@ def gameplay_hard():
                             if slow_item_count > 0 and game_speed > 4:
                                 if pygame.mixer.get_init() is not None:
                                     check_point_sound.play()
-                                game_speed -= 1
-                                new_ground.speed += 1
+                                game_speed -= SPEED_RATE
+                                new_ground.speed += SPEED_RATE
                                 slow_item_count -= 1
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN:
@@ -820,12 +813,12 @@ def gameplay_hard():
                         player_dino.is_jumping = True
                         player_dino.movement[1] = -1 * player_dino.super_jump_speed
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
-                if is_pking_time and (pking.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
+                if is_boss_time and (boss.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
                     pm = Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15, 15)
-                    pm.x = round(pking.rect.centerx)
-                    pm.y = round(pking.rect.centery)
+                    pm.x = round(boss.rect.centerx)
+                    pm.y = round(boss.rect.centery)
                     pm.x_move = random.randint(0, 15)
                     pm.y_move = random.randint(1, 3)
                     pm_list.append(pm)
@@ -841,13 +834,13 @@ def gameplay_hard():
                 for d in pd_list:
                     del pm_list[d]
                 # 보스 몬스터 패턴1(좌우로 왔다갔다 하는 패턴): 보스 익룡이 쏘는 미사일.
-                if is_pking_time and (pking.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
+                if is_boss_time and (boss.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
                     # print(pm_list)
                     pm = Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15, 15)
-                    pm.x = round(pking.rect.centerx)
-                    pm.y = round(pking.rect.centery)
+                    pm.x = round(boss.rect.centerx)
+                    pm.y = round(boss.rect.centery)
                     pm.move = 3
                     pm_list.append(pm)
                 pm_pattern1_count += 1
@@ -952,21 +945,11 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                OBST1_INTERVAL = 50
-                OBST2_INTERVAL = 50
-                OBST3_INTERVAL = 100
-                CACTUS_INTERVAL = 50
-                # 익룡을 더 자주 등장시키기 위해 12로 수정했습니다. (원래값은 300)
-                PTERA_INTERVAL = 12
-                CLOUD_INTERVAL = 300
-                OBJECT_REFRESH_LINE = width * 0.8
-                MAGIC_NUM = 10
-
-                # print(pking.hp)
-                if is_pking_alive and (player_dino.score > pking_appearance_score):
-                    is_pking_time = True
+                # print(boss.hp)
+                if is_boss_alive and (player_dino.score > boss_appearance_score):
+                    is_boss_time = True
                 else:
-                    is_pking_time = False
+                    is_boss_time = False
 
                 if len(coin_items) < 2:
                     if len(coin_items) == 0:
@@ -977,7 +960,7 @@ def gameplay_hard():
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
                             last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
-                if is_pking_time:
+                if is_boss_time:
                     if len(obst1) < 2:
                         # 하나도 안들어있으면
                         if len(obst1) == 0:
@@ -1011,25 +994,25 @@ def gameplay_hard():
                     if len(m_list) == 0:
                         pass
                     else:
-                        if (m.x >= pking.rect.left) and (m.x <= pking.rect.right) and (m.y > pking.rect.top) and (
-                                m.y < pking.rect.bottom):
+                        if (m.x >= boss.rect.left) and (m.x <= boss.rect.right) and (m.y > boss.rect.top) and (
+                                m.y < boss.rect.bottom):
                             is_down = True
                             boom = Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200, 100)
-                            boom.x = pking.rect.centerx - round(pking.rect.width)
-                            boom.y = pking.rect.centery - round(pking.rect.height / 2)
-                            pking.hp -= 1
+                            boom.x = boss.rect.centerx - round(boss.rect.width)
+                            boom.y = boss.rect.centery - round(boss.rect.height / 2)
+                            boss.hp -= 1
                             m_list.remove(m)
-                            if pking.hp <= 0:
-                                pking.kill()
-                                new_ground.speed -= 1
-                                game_speed += 1
-                                pking_life *= 1.2
-                                pking_life = int(pking_life)
-                                pking = PteraKing(hp=pking_life)
-                                pking_heart = HeartIndicator(pking.hp, loc=1)
-                                pking_appearance_score *= 2
+                            if boss.hp <= 0:
+                                boss.kill()
+                                new_ground.speed -= SPEED_RATE
+                                game_speed += SPEED_RATE
+                                boss_life *= BOSS_LIFE_INCREASE_RATE
+                                boss_life = int(boss_life)
+                                boss = PteraKing(hp=boss_life)
+                                boss_heart = HeartIndicator(boss.hp, loc=1)
+                                boss_appearance_score *= BOSS_APPEARANCE_SCORE_RATE
 
                     if len(pm_list) == 0:
                         pass
@@ -1097,12 +1080,12 @@ def gameplay_hard():
                 highsc.update(high_score)
                 speed_indicator.update(game_speed - 3)
                 heart.update(life)
-                pking_heart.update(pking.hp)
+                boss_heart.update(boss.hp)
                 slow_items.update()
                 coin_items.update()
                 # 보스몬스터 타임이면,
-                if is_pking_time:
-                    pking.update()
+                if is_boss_time:
+                    boss.update()
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
                     new_ground.draw()
@@ -1123,7 +1106,7 @@ def gameplay_hard():
                     screen.blit(slow_item_count_text, (width * 0.05, height * 0.43))
                     screen.blit(coin_count_text, (width * 0.65, height * 0.15))
                     heart.draw()
-                    pking_heart.draw()
+                    boss_heart.draw()
                     if high_score != 0:
                         highsc.draw()
                         screen.blit(high_image, high_rect)
@@ -1135,10 +1118,10 @@ def gameplay_hard():
                     life_items.draw(screen)
                     slow_items.draw(screen)
                     coin_items.draw(screen)
-                    # pkingtime이면, 보스몬스터를 보여줘라.
-                    if is_pking_time:
-                        # print(pking.pattern_idx)
-                        pking.draw()
+                    # bosstime이면, 보스몬스터를 보여줘라.
+                    if is_boss_time:
+                        # print(boss.pattern_idx)
+                        boss.draw()
                         # 보스 익룡이 쏘는 미사일을 보여준다.
                         for pm in pm_list:
                             pm.show()
@@ -1269,6 +1252,7 @@ def gameplay_hard():
             clock.tick(FPS)
     pygame.quit()
     quit()
+
 
 def board(mode=""):
     global resized_screen
