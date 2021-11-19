@@ -819,7 +819,7 @@ def gameplay_hard():
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
                 if is_boss_time and (boss.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
                     pm = Obj()
-                    pm.put_img("./sprites/pking bullet.png")
+                    pm.put_img("./sprites/orange_bullet.png")
                     pm.change_size(15, 15)
                     pm.x = round(boss.rect.centerx)
                     pm.y = round(boss.rect.centery)
@@ -841,7 +841,7 @@ def gameplay_hard():
                 if is_boss_time and (boss.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
                     # print(pm_list)
                     pm = Obj()
-                    pm.put_img("./sprites/pking bullet.png")
+                    pm.put_img("./sprites/orange_bullet.png")
                     pm.change_size(15, 15)
                     pm.x = round(boss.rect.centerx)
                     pm.y = round(boss.rect.centery)
