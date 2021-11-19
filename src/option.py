@@ -84,7 +84,8 @@ def option():
                             setting.bgm_on = True
 
                     if r_init_btn_rect.collidepoint(x, y):
-                        db.query_db("delete from user;")
+                        db.query_db("delete from hard_mode;")
+                        db.query_db("delete from easy_mode")
                         db.commit()
                         high_score = 0
                         db_init = True
