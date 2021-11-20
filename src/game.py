@@ -9,7 +9,7 @@ from src.game_value import *
 from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
-
+from time import sleep
 db = InterfDB("db/score.db")
 
 
@@ -245,6 +245,8 @@ def gameplay_easy():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     scb = Scoreboard( y = height * 0.03)
     highsc = Scoreboard(width * 0.77, height * 0.03)
     heart = HeartIndicator(player_dino.life)
@@ -532,22 +534,21 @@ def gameplay_easy():
                                 intro_screen()
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
-
+                sleep(0.08)
+                screen.blit(alpha_back, alpha_back_rect)
+                if pygame.display.get_surface() is not None:
+                    if high_score != 0:
+                        highsc.update(high_score)
+                        highsc.draw()
+                        screen.blit(high_image, high_rect)
+                    resized_screen.blit(
+                        pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                        resized_screen_center)
                 disp_gameover_buttons(btn_restart, btn_save, btn_exit)
-                resized_screen.blit(
-                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_center)
-                pygame.display.update()
-
-            if pygame.display.get_surface() is not None:
                 disp_gameover_msg(game_over_image)
-                if high_score != 0:
-                    highsc.draw()
-                    screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -604,6 +605,8 @@ def gameplay_hard():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
     scb = Scoreboard()
     highsc = Scoreboard(width * 0.78)
@@ -1261,6 +1264,8 @@ def gameplay_hard():
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                sleep(0.08)
+                screen.blit(alpha_back, alpha_back_rect)
                 disp_gameover_buttons(btn_restart, btn_save, btn_exit)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
