@@ -1291,7 +1291,7 @@ def board(mode=""):
     game_quit = False
     scroll_y = 0
     # 10
-    max_per_screen = 10
+    max_per_screen = 5
     length = 0
     results = ""
     if mode == "":
@@ -1375,7 +1375,7 @@ def board(mode=""):
                     if event.key == pygame.K_UP:
                         scroll_y = min(scroll_y + 15, 0)
                     if event.key == pygame.K_DOWN:
-                        scroll_y = max(scroll_y - 15, -(len(results) // max_per_screen) * scr_size[1])
+                        scroll_y = max(scroll_y - 15, -(length // max_per_screen) * scr_size[1])
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
@@ -1384,7 +1384,7 @@ def board(mode=""):
                     if event.button == 4:
                         scroll_y = min(scroll_y + 15, 0)
                     if event.button == 5:
-                        scroll_y = max(scroll_y - 15, -(len(results) // max_per_screen) * scr_size[1])
+                        scroll_y = max(scroll_y - 15, -(length // max_per_screen) * scr_size[1])
                     # if event.button == 1:
                     # game_quit = True
                     # intro_screen()
