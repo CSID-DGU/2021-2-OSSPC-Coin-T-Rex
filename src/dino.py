@@ -31,9 +31,9 @@ class Dino:
                                                          2, 1, 59, sizey, -1)
         elif type == 'TUX':
             self.images, self.rect = load_sprite_sheet('tux_walk.png',
-                                                       6, 1, 60, 60, -1)
+                                                       6, 1, 60, 58, -1)
             self.images1, self.rect1 = load_sprite_sheet('tux_ducking.png',
-                                                         2, 1, 60, 60, -1)
+                                                         2, 1, 60, 58, -1)
         else:
             self.images, self.rect = load_sprite_sheet('dino.png',
                                                        6, 1, sizex, sizey, -1)

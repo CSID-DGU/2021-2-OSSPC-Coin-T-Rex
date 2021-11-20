@@ -84,7 +84,17 @@ class HeartIndicator:
 
     def draw_heart_count(self):
         life_count_text = font.render(f"x {self.life}", True, black)
-        screen.blit(life_count_text, (width * self.position_2, height * 0.02))
+        two_left_life_text = font.render(f"x {self.life}", True, deep_red)
+        one_left_life_text = font.render(f"x {self.life}", True, dark_red)
+        no_left_life_text = font.render(f"x {self.life}", True, red)
+        if self.life == 2:
+            screen.blit(two_left_life_text, (width * self.position_2, height * 0.02))
+        elif self.life == 1:
+            screen.blit(one_left_life_text, (width * self.position_2, height * 0.02))
+        elif self.life == 0 :
+            screen.blit(no_left_life_text, (width * self.position_2, height * 0.02))
+        else:
+            screen.blit(life_count_text, (width * self.position_2, height * 0.02))
 
 
 # class Scoreboards:
