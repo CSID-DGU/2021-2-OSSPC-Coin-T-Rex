@@ -143,6 +143,8 @@ def select_mode():
 
     # 배경 이미지
     background, background_rect = load_image('coin_t_rex2.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 버튼 이미지
     # easy mode button
     easymode_btn_image, easymode_btn_rect = load_image('easy.png', 160, 80, -1)
@@ -201,6 +203,7 @@ def select_mode():
         r_btn_back_rect.centery = resized_screen.get_height() * 0.1
 
         screen.blit(background, background_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         disp_select_buttons(easymode_btn_image, btn_hardmode, btn_store, btn_set, btn_back)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -302,6 +305,8 @@ def set():
     btnpush_interval = 500
     # 배경 이미지
     background, background_rect = load_image('default_back.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 폰트 배치
     big_font = pygame.font.Font('DungGeunMo.ttf', 40)
     # 뒤로가기
@@ -475,6 +480,7 @@ def set():
         buy_tux = db.query_db("select is_paid from character where name='Tux'", one=True)['is_paid']
 
         screen.blit(background, background_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         screen.blit(char_title, char_title_rect)
         screen.blit(skin_title, skin_title_rect)
         screen.blit(back_btn_image, back_btn_rect)

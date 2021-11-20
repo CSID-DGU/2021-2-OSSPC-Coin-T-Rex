@@ -10,6 +10,7 @@ from pygame import time
 from pygame import transform
 from pygame.locals import RESIZABLE, RLEACCEL
 
+
 mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
 display.set_caption("Coin-T-REX by_TwoSeokTwoJoo")
@@ -17,10 +18,7 @@ gamer_name = ''
 scr_size = (width, height) = (800, 400)
 FPS = 60
 gravity = 0.65
-font = pygame.font.Font('DungGeunMo.ttf', 32)
-full_screen = False
-monitor_size = (monitor_width, monitor_height) = (display.Info().current_w,
-                                                  display.Info().current_h)
+
 background_col = (235, 235, 235)
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -30,6 +28,13 @@ blue = (0, 0, 225)
 bright_red = (255, 0, 0)
 bright_green = (0, 255, 0)
 bright_orange = (255, 215, 0)
+dark_red = (153, 0, 0)
+
+font = pygame.font.Font('DungGeunMo.ttf', 32)
+small_font = pygame.font.Font('DungGeunMo.ttf', 25)
+full_screen = False
+monitor_size = (monitor_width, monitor_height) = (display.Info().current_w,
+                                                  display.Info().current_h)
 high_score = 0
 resized_screen = display.set_mode((scr_size), RESIZABLE)
 screen = resized_screen.copy()
@@ -72,6 +77,19 @@ def text_objects(text, font):
     text_surface = font.render(text, True, (black))
     return text_surface, text_surface.get_rect()
 
+
+# 투명한 이미지 불러오기
+def alpha_image(name, sizex=-1, sizey=-1,color_key=None):
+    full_name = os.path.join('sprites', name)
+    img = pygame.image.load(full_name)
+    if color_key is not None:
+        if color_key == -1:
+            color_key = img.get_at((0, 0))
+        img.set_colorkey(color_key, RLEACCEL)
+    if sizex != -1 or sizey != -1:
+        img = transform.scale(img, (sizex, sizey))
+    img.convert_alpha()
+    return (img, img.get_rect())
 
 # 게임 내 image를 넣을 때 쓰는 함수
 def load_image(name, sizex=-1, sizey=-1, color_key=None):

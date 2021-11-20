@@ -53,7 +53,7 @@ class Heart:
             self.rect.left = x
 
         if y == -1:
-            self.rect.top = height * 0.01
+            self.rect.top = height * 0.02
         else:
             self.rect.top = y
 
@@ -66,7 +66,7 @@ class HeartIndicator:
         self.life = life
         if loc == -1:
             self.position_1 = 0.01
-            self.position_2 = 0.06
+            self.position_2 = 0.065
             self.heart_color = 0
         else:
             self.position_1 = 0.85
@@ -83,7 +83,7 @@ class HeartIndicator:
         self.draw_heart_count()
 
     def draw_heart_count(self):
-        life_count_text = font.render(f"X{self.life}", True, black)
+        life_count_text = font.render(f"x {self.life}", True, black)
         screen.blit(life_count_text, (width * self.position_2, height * 0.02))
 
 

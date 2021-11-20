@@ -21,6 +21,8 @@ def store():
 
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 버튼 이미지
     char_btn_image, char_btn_rect = load_image('character.png', 150, 80, -1)
     r_char_btn_image, r_char_btn_rect = load_image(*resize('character.png', 150, 80, -1))
@@ -63,6 +65,7 @@ def store():
         r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
         r_back_btn_rect.centery = resized_screen.get_height() * 0.1
         screen.blit(back_store, back_store_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         disp_store_buttons(char_btn_image, skin_btn_image, item_btn_image, back_btn_image)
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -79,6 +82,8 @@ def item_store():
     game_start = False
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     coin1_image = transform.scale(coin1_image[0], (25, 25))
@@ -224,6 +229,7 @@ def item_store():
         user_coin = user_font.render(f'X{coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         screen.blit(coin1_image, coin1_rect)
         screen.blit(coin2_image, coin2_rect)
         screen.blit(coin3_image, coin3_rect)
@@ -271,6 +277,8 @@ def char_store():
     game_start = False
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     coin1_image = transform.scale(coin1_image[0], (25, 25))
@@ -420,6 +428,7 @@ def char_store():
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         screen.blit(coin1_image, coin1_rect)
         screen.blit(coin2_image, coin2_rect)
         screen.blit(coin3_image, coin3_rect)
@@ -486,6 +495,8 @@ def skin_store():
     game_start = False
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
     coin1_image = transform.scale(coin1_image[0], (25, 25))
@@ -601,6 +612,7 @@ def skin_store():
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
         screen.blit(back_store, back_store_rect)
+        screen.blit(alpha_back, alpha_back_rect)
         screen.blit(coin1_image, coin1_rect)
         screen.blit(coin2_image, coin2_rect)
         screen.blit(coin3_image, coin3_rect)
