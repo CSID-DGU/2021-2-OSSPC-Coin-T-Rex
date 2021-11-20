@@ -3,6 +3,7 @@ from src.setting import load_sprite_sheet
 from src.setting import pygame
 from src.setting import screen
 from src.setting import width, height
+from pygame.locals import RESIZABLE, RLEACCEL
 
 
 class CoinItem(pygame.sprite.Sprite):
@@ -128,11 +129,10 @@ class Obj(pygame.sprite.Sprite):  # class obj(pygame.sprite.Sprite) => class Obj
         self.rect = None
 
     def put_img(self, address):
-
         if address[-3:] == "png":
-            self.img = pygame.image.load(address).convert_alpha()
-            self.rect = self.img.get_rect
-
+            self.img = pygame.image.load(address).convert()
+            color_key = self.img.get_at((0,0))
+            self.img.set_colorkey(color_key,RLEACCEL)
         else:
             self.img = pygame.image.load(address)
         self.sx, self.sy = self.img.get_size()

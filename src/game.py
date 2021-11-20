@@ -9,7 +9,7 @@ from src.game_value import *
 from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
-
+from time import sleep
 db = InterfDB("db/score.db")
 
 
@@ -245,10 +245,12 @@ def gameplay_easy():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
-    scb = Scoreboard()
-    highsc = Scoreboard(width * 0.78)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
+    scb = Scoreboard( y = height * 0.03)
+    highsc = Scoreboard(width * 0.77, height * 0.03)
     heart = HeartIndicator(player_dino.life)
-    speed_indicator = Scoreboard(width * 0.12, height * 0.15)
+    speed_indicator = Scoreboard(width * 0.135, height * 0.15)
     counter = 0
     speed_text = font.render("SPEED", True, black)
     # #장애물 osbt1 obst2 obst3
@@ -280,8 +282,8 @@ def gameplay_easy():
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     high_image = my_font.render('HI', True, black)
     high_rect = high_image.get_rect()
-    high_rect.top = height * 0.15
-    high_rect.left = width * 0.73
+    high_rect.top = height * 0.03
+    high_rect.left = width * 0.71
     while not game_quit:
         while start_menu:
             pass
@@ -532,22 +534,21 @@ def gameplay_easy():
                                 intro_screen()
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
-
+                sleep(0.08)
+                screen.blit(alpha_back, alpha_back_rect)
+                if pygame.display.get_surface() is not None:
+                    if high_score != 0:
+                        highsc.update(high_score)
+                        highsc.draw()
+                        screen.blit(high_image, high_rect)
+                    resized_screen.blit(
+                        pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                        resized_screen_center)
                 disp_gameover_buttons(btn_restart, btn_save, btn_exit)
-                resized_screen.blit(
-                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_center)
-                pygame.display.update()
-
-            if pygame.display.get_surface() is not None:
                 disp_gameover_msg(game_over_image)
-                if high_score != 0:
-                    highsc.draw()
-                    screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -584,7 +585,6 @@ def gameplay_hard():
     r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 80, -1))
     btn_save, btn_save_rect = load_image('btn_save.png', 150, 80, -1)
     r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
     # 캐릭터 적용 여부
     is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
     is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
@@ -605,12 +605,18 @@ def gameplay_hard():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
+    alpha_back_rect.left = -20
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
     scb = Scoreboard()
     highsc = Scoreboard(width * 0.78)
     heart = HeartIndicator(life)
-    speed_indicator = Scoreboard(width * 0.12, height * 0.15)
+    speed_indicator = Scoreboard(width * 0.135, height * 0.15)
     counter = 0
     speed_text = font.render("SPEED", True, black)
+    #아이템 컨테이너
+    item_back, item_back_rect = alpha_image('item_back.png', 380, 50, -1)
+    (item_back_rect.centerx, item_back_rect.top) = (width * 0.48, 0)
     # #장애물 1,2,3
     # cacti = pygame.sprite.Group()
     # fire_cacti = pygame.sprite.Group()
@@ -636,10 +642,10 @@ def gameplay_hard():
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
-    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 30, 30, -1)
-    heart_item_image, heart_item_rect = load_image('love-shield.png', 30, 30, -1)
-    slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 30, 30, -1)
-    coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 30, 30, -1)
+    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 23, 23, -1)
+    heart_item_image, heart_item_rect = load_image('love-shield.png', 23, 23, -1)
+    slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 23, 23, -1)
+    coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 23, 23, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     high_image = my_font.render('HI', True, black)
     high_rect = high_image.get_rect()
@@ -778,19 +784,22 @@ def gameplay_hard():
                     # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
                     if player_dino.type == 'RED':
                         mm.put_img("./sprites/black_bullet.png")
-                        mm.change_size(10, 10)
+                        mm.change_size(12, 12)
                     elif player_dino.type == 'YELLOW':
                         mm.put_img("./sprites/blue_bullet.png")
-                        mm.change_size(10, 10)
-                    elif player_dino.type == 'ORANGE':
-                        mm.put_img("./sprites/blue_bullet.png")
-                        mm.change_size(10, 10)
+                        mm.change_size(12, 12)
+                    # elif player_dino.type == 'ORANGE':
+                    #     mm.put_img("./sprites/blue_bullet.png")
+                    #     mm.change_size(10, 10)
                     elif player_dino.type == 'PURPLE':
                         mm.put_img("./sprites/pink_bullet.png")
-                        mm.change_size(15, 5)
-                    elif player_dino.type == 'PINK':
-                        mm.put_img("./sprites/heart_bullet.png")
-                        mm.change_size(10, 10)
+                        mm.change_size(12, 12)
+                    elif player_dino.type =='TUX':
+                        mm.put_img('./sprites/fish_bullet.png')
+                        mm.change_size(25,25)
+                    # elif player_dino.type == 'PINK':
+                    #     mm.put_img("./sprites/heart_bullet.png")
+                    #     mm.change_size(10, 10)
                     else:
                         mm.put_img("./sprites/red_bullet.png")
                         mm.change_size(10, 10)
@@ -820,7 +829,7 @@ def gameplay_hard():
                 if is_boss_time and (boss.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
                     pm = Obj()
                     pm.put_img("./sprites/orange_bullet.png")
-                    pm.change_size(15, 15)
+                    pm.change_size(12, 12)
                     pm.x = round(boss.rect.centerx)
                     pm.y = round(boss.rect.centery)
                     pm.x_move = random.randint(0, 15)
@@ -842,7 +851,7 @@ def gameplay_hard():
                     # print(pm_list)
                     pm = Obj()
                     pm.put_img("./sprites/orange_bullet.png")
-                    pm.change_size(15, 15)
+                    pm.change_size(12, 12)
                     pm.x = round(boss.rect.centerx)
                     pm.y = round(boss.rect.centery)
                     pm.move = 3
@@ -1100,19 +1109,32 @@ def gameplay_hard():
                     clouds.draw(screen)
                     scb.draw()
                     speed_indicator.draw()
+                    screen.blit(item_back, item_back_rect)
                     screen.blit(speed_text, (width * 0.01, height * 0.15))
-                    screen.blit(shield_item_image[0], (width * 0.01, height * 0.23))
-                    screen.blit(heart_item_image, (width * 0.01, height * 0.33))
-                    screen.blit(slow_item_image[0], (width * 0.01, height * 0.43))
-                    screen.blit(coin_image[0], (width * 0.60, height * 0.15))
-                    shield_item_count_text = font.render(f"X{shield_item_count}", True, black)
-                    life_item_count_text = font.render(f"X{life_item_count}", True, black)
-                    slow_item_count_text = font.render(f"X{slow_item_count}", True, black)
-                    coin_count_text = font.render(f"X{coin_item_count}", True, black)
-                    screen.blit(shield_item_count_text, (width * 0.05, height * 0.23))
-                    screen.blit(life_item_count_text, (width * 0.05, height * 0.33))
-                    screen.blit(slow_item_count_text, (width * 0.05, height * 0.43))
-                    screen.blit(coin_count_text, (width * 0.65, height * 0.15))
+                    screen.blit(coin_image[0], (width * 0.29, height * 0.02))
+                    screen.blit(shield_item_image[0], (width * 0.4, height * 0.02))
+                    screen.blit(heart_item_image, (width * 0.50, height * 0.02))
+                    screen.blit(slow_item_image[0], (width * 0.60, height * 0.02))
+                    shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
+                    soldout_shiled_text = small_font.render(f"x{shield_item_count}", True, red)
+                    life_item_count_text = small_font.render(f"x{life_item_count}", True, black)
+                    soldout_life_text = small_font.render(f"x{life_item_count}", True, red)
+                    slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
+                    soldout_slow_text = small_font.render(f"x{slow_item_count}", True, red)
+                    coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
+                    screen.blit(coin_count_text, (width * 0.33, height * 0.02))
+                    if shield_item_count == 0:
+                        screen.blit(soldout_shiled_text, (width * 0.44, height * 0.02))
+                    else:
+                        screen.blit(shield_item_count_text, (width * 0.44, height * 0.02))
+                    if life_item_count == 0:
+                        screen.blit(soldout_life_text, (width * 0.54, height * 0.02))
+                    else:
+                        screen.blit(life_item_count_text, (width * 0.54, height * 0.02))
+                    if slow_item_count == 0:
+                        screen.blit(soldout_slow_text, (width * 0.64, height * 0.02))
+                    else:
+                        screen.blit(slow_item_count_text, (width * 0.64, height * 0.02))
                     heart.draw()
                     boss_heart.draw()
                     if high_score != 0:
@@ -1242,6 +1264,8 @@ def gameplay_hard():
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                sleep(0.08)
+                screen.blit(alpha_back, alpha_back_rect)
                 disp_gameover_buttons(btn_restart, btn_save, btn_exit)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
