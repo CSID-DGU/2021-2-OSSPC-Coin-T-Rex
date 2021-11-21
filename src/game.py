@@ -679,7 +679,6 @@ def gameplay_hard():
         global rest_time
         rest_time += 1
         temp = rest_time
-        print(rest_time)
     boss_appear()
     #boss_appearance_score = 100
     jumpingx2 = False
