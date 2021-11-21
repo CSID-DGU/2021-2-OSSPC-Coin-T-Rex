@@ -10,8 +10,9 @@ from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
 from time import sleep
+import threading
+import time
 db = InterfDB("db/score.db")
-
 
 # 시작 화면
 def intro_screen():
@@ -557,7 +558,6 @@ def gameplay_easy():
     pygame.quit()
     quit()
 
-
 def gameplay_hard():
     global resized_screen
     global high_score
@@ -671,7 +671,17 @@ def gameplay_hard():
     pm_vector = []
     pm_pattern0_count = 0
     pm_pattern1_count = 0
-    boss_appearance_score = 100
+    global rest_time
+    def boss_appear():
+        if game_over:
+            return
+        threading.Timer(ONE_SECOND,boss_appear).start()
+        global rest_time
+        rest_time += 1
+        temp = rest_time
+        print(rest_time)
+    boss_appear()
+    #boss_appearance_score = 100
     jumpingx2 = False
     while not game_quit:
         while start_menu:
@@ -958,7 +968,7 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                if is_boss_alive and (player_dino.score > boss_appearance_score):
+                if is_boss_alive and (rest_time >= BOSS_APPERANCE_TIME):
                     is_boss_time = True
                 else:
                     is_boss_time = False
@@ -1018,13 +1028,14 @@ def gameplay_hard():
                             m_list.remove(m)
                             if boss.life <= 0:
                                 boss.kill()
+                                rest_time = 0
                                 new_ground.speed -= SPEED_RATE
                                 game_speed += SPEED_RATE
                                 boss_life *= BOSS_LIFE_INCREASE_RATE
                                 boss_life = int(boss_life)
                                 boss = PteraKing(life=boss_life)
                                 boss_heart = HeartIndicator(boss.life, loc=1)
-                                boss_appearance_score *= BOSS_APPEARANCE_SCORE_RATE
+                                #boss_appearance_score *= BOSS_APPEARANCE_SCORE_RATE
 
                     if len(pm_list) == 0:
                         pass
@@ -1190,14 +1201,16 @@ def gameplay_hard():
                     if event.type == pygame.QUIT:
                         game_quit = True
                         game_over = False
+                        rest_time = 1
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             game_quit = True
                             game_over = False
-
+                            rest_time = 1    
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
                             game_quit = True
+                            rest_time = 1
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
@@ -1222,6 +1235,7 @@ def gameplay_hard():
                         # game_over = False
                         # game_quit = True
                         if pygame.mouse.get_pressed() == (1, 0, 0):
+                            rest_time = 1
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):
                                 select_mode()
