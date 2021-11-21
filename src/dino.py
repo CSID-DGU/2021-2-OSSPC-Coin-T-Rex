@@ -34,6 +34,11 @@ class Dino:
                                                        6, 1, 60, 58, -1)
             self.images1, self.rect1 = load_sprite_sheet('tux_ducking.png',
                                                          2, 1, 60, 58, -1)
+        elif type == '2p_original':
+            self.images, self.rect = load_sprite_sheet('dino(pvp).png',
+                                                       6, 1, sizex, sizey, -1)
+            self.images1, self.rect1 = load_sprite_sheet('dino_ducking(pvp).png',
+                                                         2, 1, 59, sizey, -1)
         else:
             self.images, self.rect = load_sprite_sheet('dino.png',
                                                        6, 1, sizex, sizey, -1)

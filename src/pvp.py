@@ -163,8 +163,8 @@ def pvp():
                         player1_dino.rect.left = player1_dino.rect.left - game_speed
 
                 if go_right_1p:
-                    if player1_dino.rect.right > width:
-                        player1_dino.rect.right = width
+                    if player1_dino.rect.right > width/2:
+                        player1_dino.rect.right = width/2
                     else:
                         player1_dino.rect.left = player1_dino.rect.left + game_speed
 
@@ -227,8 +227,8 @@ def pvp():
                     del m_list_1p[d]
 
                 if go_left_2p:
-                    if player2_dino.rect.left < 0:
-                        player2_dino.rect.left = 0
+                    if player2_dino.rect.left < width/2:
+                        player2_dino.rect.left = width/2
                     else:
                         player2_dino.rect.left = player2_dino.rect.left - game_speed
 
