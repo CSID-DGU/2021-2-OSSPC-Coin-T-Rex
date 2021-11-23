@@ -311,6 +311,7 @@ def pvp():
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
+                    pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
                     new_ground.draw()
 
                     heart_1p.draw()
