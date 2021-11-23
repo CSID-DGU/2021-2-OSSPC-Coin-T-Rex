@@ -6,6 +6,7 @@ from src.interface import *
 from src.option import *
 from db.db_interface import InterfDB
 from src.store import store
+import src.setting as setting
 import src.game
 
 db = InterfDB("db/score.db")
@@ -19,7 +20,7 @@ def pvp():
     game_over = False
     game_quit = False
     # HERE: REMOVE SOUND!!
-    if bgm_on:
+    if setting.bgm_on:
         pygame.mixer.music.play(-1)  # 배경음악 실행
 
     # 
@@ -80,6 +81,8 @@ def pvp():
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player1_dino.rect.bottom == int(0.98 * height):
                                 player1_dino.is_jumping = True
+                                if pygame.mixer.get_init() is not None:
+                                    jump_sound.play()
                                 player1_dino.movement[1] = -1 * player1_dino.jump_speed
 
                         if event.key == pygame.K_s:
@@ -102,6 +105,8 @@ def pvp():
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
                             if player2_dino.rect.bottom == int(0.98 * height):
                                 player2_dino.is_jumping = True
+                                if pygame.mixer.get_init() is not None:
+                                    jump_sound.play()
                                 player2_dino.movement[1] = -1 * player2_dino.jump_speed
 
                         if event.key == pygame.K_DOWN:
