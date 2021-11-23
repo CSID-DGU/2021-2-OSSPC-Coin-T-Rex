@@ -558,6 +558,7 @@ def gameplay_easy():
     pygame.quit()
     quit()
 
+
 def gameplay_hard():
     global resized_screen
     global high_score
@@ -574,6 +575,10 @@ def gameplay_hard():
     ###
     life = LIFE
     boss_life = BOSS_LIFE
+    boss_bonus_score = BOSS_BONUS_SCORE
+    stage = 1
+    bonus_start_time = 0
+    bonus_blit = None
     shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
@@ -936,8 +941,10 @@ def gameplay_hard():
                             boom.change_size(200, 100)
                             boom.x = p.rect.centerx - round(p.rect.width) * 2.5
                             boom.y = p.rect.centery - round(p.rect.height) * 1.5
-                            player_dino.score += 30
+                            player_dino.add_score(OBSTACLE_BONUS_SCORE)
                             p.kill()
+                            bonus_blit = show_bonus_score(p, OBSTACLE_BONUS_SCORE)
+                            bonus_start_time = pygame.time.get_ticks()
                             # 여기만 바꿈
                             m_list.remove(m)
                     if not player_dino.collision_immune:
@@ -967,7 +974,7 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                if is_boss_alive and (rest_time >= BOSS_APPERANCE_TIME):
+                if is_boss_alive and (rest_time >= BOSS_APPEARANCE_TIME):
                     is_boss_time = True
                 else:
                     is_boss_time = False
@@ -1027,6 +1034,11 @@ def gameplay_hard():
                             m_list.remove(m)
                             if boss.life <= 0:
                                 boss.kill()
+                                bonus_start_time = pygame.time.get_ticks()
+                                bonus_blit = show_bonus_score(boss, boss_bonus_score)
+                                player_dino.add_score(boss_bonus_score)
+                                boss_bonus_score = BOSS_BONUS_SCORE + (SCORE_BY_STAGE * stage)
+                                stage += 1
                                 rest_time = 0
                                 new_ground.speed -= SPEED_RATE
                                 game_speed += SPEED_RATE
@@ -1125,6 +1137,8 @@ def gameplay_hard():
                     screen.blit(shield_item_image[0], (width * 0.4, height * 0.02))
                     screen.blit(heart_item_image, (width * 0.50, height * 0.02))
                     screen.blit(slow_item_image[0], (width * 0.60, height * 0.02))
+                    if bonus_blit is not None:
+                        screen.blit(*bonus_blit)
                     shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
                     soldout_shiled_text = small_font.render(f"x{shield_item_count}", True, red)
                     life_item_count_text = small_font.render(f"x{life_item_count}", True, black)
@@ -1187,6 +1201,10 @@ def gameplay_hard():
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if player_dino.score > high_score:
                         high_score = player_dino.score
+                counter += 1
+                bonus_end_time = pygame.time.get_ticks()
+                if bonus_end_time - bonus_start_time > BONUS_APPEARANCE_TIME:
+                    bonus_blit = None
         if game_quit:
             break
 
@@ -1537,3 +1555,12 @@ def type_score(score):
 
         pygame.display.flip()
         clock.tick(FPS)
+
+
+def show_bonus_score(monster, bonus_score):
+    # x = monster.rect.centerx + round(monster.rect.width)
+    # y = monster.rect.centery + round(monster.rect.height / 2)
+    x = width * 0.89
+    y = height * 0.23
+    bonus_score_text = small_font.render(f"+{bonus_score}", True, black)
+    return bonus_score_text, (x, y)
