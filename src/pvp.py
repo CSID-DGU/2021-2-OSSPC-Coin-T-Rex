@@ -1,4 +1,3 @@
-from numpy import mod
 from pygame.image import load
 from src.dino import *
 from src.obstacle import *
