@@ -122,7 +122,7 @@ def pvp():
                             # print("right")
                             go_right_2p = True
 
-                        if event.key == pygame.K_RCTRL:
+                        if event.key == pygame.K_p:
                             space_go_2p = True
                             bk_2p = 0
 
@@ -154,7 +154,7 @@ def pvp():
                         if event.key == pygame.K_RIGHT:
                             go_right_2p = False
 
-                        if event.key == pygame.K_RCTRL:
+                        if event.key == pygame.K_p:
                             space_go_2p = False
 
                     if event.type == pygame.VIDEORESIZE:
