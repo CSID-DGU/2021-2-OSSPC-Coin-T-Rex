@@ -225,7 +225,7 @@ def gamerule():
         screen_board_height
     ))
 
-    gamerule_image, gamerule_rect = load_image("gamerule.png", 800, 300, -1)
+    gamerule_image, gamerule_rect = load_image("gamerule.png", width, height, -1)
     gamerule_rect.centerx = width * 0.5
     gamerule_rect.centery = height * 0.5
 
