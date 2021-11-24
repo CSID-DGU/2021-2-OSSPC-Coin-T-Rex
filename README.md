@@ -6,7 +6,7 @@
 
 # 2021-2-OSSProj-TwoSeokTwoJoo-3
 ## Coin-T-Rex
-![image](https://user-images.githubusercontent.com/81295661/143248176-4335b71b-77c3-4b16-975a-142c90534a23.png)
+![image](https://user-images.githubusercontent.com/81295661/143252889-64a8e726-b94f-4beb-ba43-256ed6d59d4e.png)
 
 <br>
 
