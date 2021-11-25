@@ -372,13 +372,13 @@ def pvp():
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
+                disp_pvp_winner_loser(player1_dino)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
                 pygame.display.update()
             if pygame.display.get_surface() is not None:
-                disp_gameover_msg(game_over_image)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)

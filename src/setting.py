@@ -33,6 +33,7 @@ dark_red = (102, 0, 0)
 deep_red = (51, 0, 0)
 
 
+large_font = pygame.font.Font('DungGeunMo.ttf', 55)
 font = pygame.font.Font('DungGeunMo.ttf', 32)
 small_font = pygame.font.Font('DungGeunMo.ttf', 25)
 full_screen = False
@@ -185,6 +186,20 @@ def disp_pvp_gameover_buttons(btn_restart, btn_exit):
     btn_exit_rect.centery = height * 0.6
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_exit, btn_exit_rect)
+
+
+def disp_pvp_winner_loser(player1):
+    win = large_font.render("WIN", True, black)
+    lose = large_font.render("LOSE", True, black)
+    if not player1.is_dead:
+        win_width = width * 0.17
+        lose_width = width * 0.70
+    else:
+        win_width = width * 0.70
+        lose_width = width * 0.17
+
+    screen.blit(win, (win_width, height * 0.2))
+    screen.blit(lose, (lose_width, height * 0.2))
 
 
 def disp_intro_buttons(btn_1p, btn_2p, btn_board, btn_option):
