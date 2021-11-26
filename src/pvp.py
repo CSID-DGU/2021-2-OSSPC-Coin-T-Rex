@@ -53,6 +53,9 @@ def pvp():
     heart_2p = HeartIndicator(life_2p, loc=1)
     PVP_GAME_SPEED = 4
     new_ground = Ground(-1 * PVP_GAME_SPEED)
+    new_ground = ImgBack(-1 * PVP_GAME_SPEED, "pvp_back")
+    alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
+    alpha_back_rect.left = -20
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
     # 게임 중  pause 상태
@@ -325,15 +328,16 @@ def pvp():
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
 
-                new_ground.update()
+                # new_ground.update()
                 speed_indicator.update(PVP_GAME_SPEED - 3)
                 heart_1p.update(life_1p)
                 heart_2p.update(life_2p)
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
-                    pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
                     new_ground.draw()
+                    screen.blit(alpha_back, alpha_back_rect)
+                    pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
 
                     heart_1p.draw()
                     heart_2p.draw()
