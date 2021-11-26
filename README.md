@@ -47,6 +47,7 @@ python run.py
   - __Pumpkin__ : Copyright © 2018 TheGoatIsBetter under license CC-BY-SA 4.0 All Rights Reserved
   - __Tree__ : https://opengameart.org/content/lpc-modified-art <br>  https://opengameart.org/content/lpc-plant-repack <br> https://opengameart.org/content/lpc-all-seasons-apple-tree
 - __Character__ : https://opengameart.org/content/tux-kyrodian-legends-style
+- __PVP Skin__ : Copyright/Attribution Notice: Original is by Hyptosis, under a CC0 license.
 
 <br>
 
