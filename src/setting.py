@@ -31,6 +31,7 @@ bright_orange = (255, 215, 0)
 red = (153, 0, 0)
 dark_red = (102, 0, 0)
 deep_red = (51, 0, 0)
+dark_blue = (10, 112, 138)
 
 
 large_font = pygame.font.Font('DungGeunMo.ttf', 55)

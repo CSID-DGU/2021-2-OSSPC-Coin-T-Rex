@@ -3,6 +3,7 @@ from src.setting import load_sprite_sheet
 from src.setting import pygame
 from src.setting import screen
 from src.setting import width, height
+from src.game_value import *
 from pygame.locals import RESIZABLE, RLEACCEL
 
 
@@ -10,7 +11,7 @@ class CoinItem(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('coin.png', 1, 7, sizex, sizey, -1)
-        self.item_height = [height * 0.82, height * 0.75, height * 0.60]
+        self.item_height = [height * ITEM_HEIGHT, height * ITEM_HEIGHT2, height * ITEM_HEIGHT3]
         self.rect.centery = self.item_height[random.randrange(0, 3)]
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -38,7 +39,7 @@ class ShieldItem(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('item.png',
                                                    2, 1, sizex, sizey, -1)
-        self.item_height = [height * 0.82, height * 0.75, height * 0.60]
+        self.item_height = [height * ITEM_HEIGHT, height * ITEM_HEIGHT2, height * ITEM_HEIGHT3]
         self.rect.centery = self.item_height[random.randrange(0, 3)]
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -66,7 +67,7 @@ class LifeItem(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet("heart.png",
                                                    2, 1, sizex, sizey, -1)
-        self.heart_height = [height * 0.82, height * 0.75, height * 0.60]
+        self.heart_height = [height * ITEM_HEIGHT, height * ITEM_HEIGHT2, height * ITEM_HEIGHT3]
         self.rect.centery = self.heart_height[random.randrange(3)]
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -94,7 +95,7 @@ class SlowItem(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet("slow_pic.png",
                                                    2, 1, sizex, sizey, -1)
-        self.slow_height = [height * 0.82, height * 0.75, height * 0.60]
+        self.slow_height = [height * ITEM_HEIGHT, height * ITEM_HEIGHT2, height * ITEM_HEIGHT3]
         self.rect.centery = self.slow_height[random.randrange(3)]
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
