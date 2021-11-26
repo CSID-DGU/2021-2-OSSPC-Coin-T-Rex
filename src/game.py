@@ -12,7 +12,7 @@ from src.pvp import *
 from time import sleep
 import threading
 import time
-db = InterfDB("db/score.db")
+db = InterfDB("db/data.db")
 
 # 시작 화면
 def intro_screen():

@@ -2,7 +2,7 @@ from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
 
-db = InterfDB("db/score.db")
+db = InterfDB("db/data.db")
 import src.game
 
 global btn_offset

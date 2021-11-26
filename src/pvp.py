@@ -9,7 +9,7 @@ from src.store import store
 import src.setting as setting
 import src.game
 
-db = InterfDB("db/score.db")
+db = InterfDB("db/data.db")
 
 
 def pvp():

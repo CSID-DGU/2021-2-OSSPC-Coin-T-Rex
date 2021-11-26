@@ -9,7 +9,7 @@ from src.game import *
 from db.db_interface import InterfDB
 from src.store import store
 
-db = InterfDB("db/score.db")
+db = InterfDB("db/data.db")
 
 
 def option():
