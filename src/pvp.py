@@ -8,6 +8,7 @@ from db.db_interface import InterfDB
 from src.store import store
 import src.setting as setting
 import src.game
+from src.game_value import *
 
 db = InterfDB("db/data.db")
 
@@ -15,6 +16,24 @@ db = InterfDB("db/data.db")
 def pvp():
     global resized_screen
     global high_score
+    global cacti
+    global fire_cacti
+    global pteras
+    global clouds
+    global stones
+    global last_obstacle
+    cacti = pygame.sprite.Group()
+    fire_cacti = pygame.sprite.Group()
+    pteras = pygame.sprite.Group()
+    clouds = pygame.sprite.Group()
+    stones = pygame.sprite.Group()
+    last_obstacle = pygame.sprite.Group()
+
+    Stone.containers = stones
+    Cactus.containers = cacti
+    FireCactus.containers = fire_cacti
+    Ptera.containers = pteras
+    Cloud.containers = clouds
 
     start_menu = False
     game_over = False
@@ -32,8 +51,11 @@ def pvp():
     life_2p = 5
     heart_1p = HeartIndicator(life_1p)
     heart_2p = HeartIndicator(life_2p, loc=1)
-    game_speed = 4
-    new_ground = Ground(-1 * game_speed)
+    PVP_GAME_SPEED = 4
+    new_ground = Ground(-1 * PVP_GAME_SPEED)
+    new_ground = ImgBack(-1 * PVP_GAME_SPEED, "pvp_back")
+    alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
+    alpha_back_rect.left = -20
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
     # 게임 중  pause 상태
@@ -161,17 +183,19 @@ def pvp():
                         check_scr_size(event.w, event.h)
             if not paused:
 
+
+
                 if go_left_1p:
                     if player1_dino.rect.left < 0:
                         player1_dino.rect.left = 0
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left - game_speed
+                        player1_dino.rect.left = player1_dino.rect.left - PVP_GAME_SPEED
 
                 if go_right_1p:
-                    if player1_dino.rect.right > width/2:
-                        player1_dino.rect.right = width/2
+                    if player1_dino.rect.right > width / 2:
+                        player1_dino.rect.right = width / 2
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left + game_speed
+                        player1_dino.rect.left = player1_dino.rect.left + PVP_GAME_SPEED
 
                 if space_go_1p and (int(bk_1p % 15) == 0):
                     # print(bk)
@@ -235,13 +259,13 @@ def pvp():
                     if player2_dino.rect.left < width/2:
                         player2_dino.rect.left = width/2
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left - game_speed
+                        player2_dino.rect.left = player2_dino.rect.left - PVP_GAME_SPEED
 
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left + game_speed
+                        player2_dino.rect.left = player2_dino.rect.left + PVP_GAME_SPEED
 
                 if space_go_2p and (int(bk_2p % 15) == 0):
                     # print(bk)
@@ -304,15 +328,16 @@ def pvp():
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
 
-                new_ground.update()
-                speed_indicator.update(game_speed - 3)
+                # new_ground.update()
+                speed_indicator.update(PVP_GAME_SPEED - 3)
                 heart_1p.update(life_1p)
                 heart_2p.update(life_2p)
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
-                    pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
                     new_ground.draw()
+                    screen.blit(alpha_back, alpha_back_rect)
+                    pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
 
                     heart_1p.draw()
                     heart_2p.draw()
@@ -324,6 +349,8 @@ def pvp():
                         m.show()
                 player1_dino.draw()
                 player2_dino.draw()
+                display_obstacle(player1_dino, counter, "left")
+                display_obstacle(player2_dino, counter, "right")
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -332,7 +359,10 @@ def pvp():
 
                 if player1_dino.is_dead or player2_dino.is_dead:
                     game_over = True
-                    pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
+                    pygame.mixer.music.stop()
+
+            counter += 1
+
 
         if game_quit:
             break
@@ -387,3 +417,101 @@ def pvp():
 
     pygame.quit()
     quit()
+
+
+def display_obstacle(dino, counter, moving):
+    global cacti
+    global fire_cacti
+    global pteras
+    global clouds
+    global stones
+    global last_obstacle
+
+    for s in stones:
+        if not dino.collision_immune:
+            if pygame.sprite.collide_mask(dino, s):
+                dino.collision_immune = True
+                collision_time = pygame.time.get_ticks()
+                if pygame.mixer.get_init() is not None:
+                    die_sound.play()
+
+    for c in cacti:
+        if not dino.collision_immune:
+            if pygame.sprite.collide_mask(dino, c):
+                dino.collision_immune = True
+                collision_time = pygame.time.get_ticks()
+                if pygame.mixer.get_init() is not None:
+                    die_sound.play()
+
+        # elif not dino.is_super:
+        #     immune_time = pygame.time.get_ticks()
+        #     if immune_time - collision_time > collision_immune_time:
+        #         dino.collision_immune = False
+
+    for f in fire_cacti:
+        if not dino.collision_immune:
+            if pygame.sprite.collide_mask(dino, f):
+                dino.collision_immune = True
+                collision_time = pygame.time.get_ticks()
+                if pygame.mixer.get_init() is not None:
+                    die_sound.play()
+
+        # elif not dino.is_super:
+        #     immune_time = pygame.time.get_ticks()
+        #     if immune_time - collision_time > collision_immune_time:
+        #         dino.collision_immune = False
+
+    for p in pteras:
+        if not dino.collision_immune:
+            if pygame.sprite.collide_mask(dino, p):
+                dino.collision_immune = True
+                dino.decrease_life()
+                collision_time = pygame.time.get_ticks()
+                if dino.is_life_zero():
+                    dino.is_dead = True
+                if pygame.mixer.get_init() is not None:
+                    die_sound.play()
+        # elif not dino.is_super:
+        #     immune_time = pygame.time.get_ticks()
+        #     if immune_time - collision_time > collision_immune_time:
+        #         dino.collision_immune = False
+
+    if len(cacti) < 1:
+        if len(cacti) == 0:
+            last_obstacle.empty()
+            last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+        else:
+            for l in last_obstacle:
+                if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+                    last_obstacle.empty()
+                    last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+
+    # if len(fire_cacti) < 2:
+    #     for l in last_obstacle:
+    #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
+    #             last_obstacle.empty()
+    #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+    if len(stones) < 1:
+        for l in last_obstacle:
+            if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
+                last_obstacle.empty()
+                last_obstacle.add(Stone(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+
+    if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
+        print("???")
+        # for l in last_obstacle:
+        #     print("!!!")
+        #     if l.rect.right < OBJECT_REFRESH_LINE:
+        last_obstacle.empty()
+        last_obstacle.add(Ptera(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
+
+    cacti.update()
+    fire_cacti.update()
+    stones.update()
+    pteras.update()
+
+    cacti.draw(screen)
+    stones.draw(screen)
+    fire_cacti.draw(screen)
+    pteras.draw(screen)

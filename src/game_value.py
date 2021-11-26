@@ -7,9 +7,11 @@ CACTUS_INTERVAL = 50
 # 익룡을 더 자주 등장시키기 위해 12로 수정했습니다. (원래값은 300)
 PTERA_INTERVAL = 12
 CLOUD_INTERVAL = 300
+STONE_INTERVAL = 300
 OBJECT_REFRESH_LINE = width * 0.8
 MAGIC_NUM = 10
 GAME_SPEED = 4
+PVP_GAME_SPEED = 2
 SPEED_RATE = 1
 
 LIFE = 5
@@ -23,3 +25,18 @@ BOSS_BONUS_SCORE = 500
 SCORE_BY_STAGE = 100
 ONE_SECOND = 1
 rest_time = 0
+
+#store.py
+ALPHA_MOVE = 20
+COIN_SIZE = 25
+USER_ITEM_SIZE = 20
+ITEM_SIZE = 80
+CHAR_SIZE = 60
+STORE_BTN_X = 100
+STORE_BTN_Y = 50
+SKIN_X = 300
+SKIN_Y = 280
+char_offset = 0.2
+btn_offset = 0.25
+item_price_offset = 0.18
+item_btn_offset = 0.28
