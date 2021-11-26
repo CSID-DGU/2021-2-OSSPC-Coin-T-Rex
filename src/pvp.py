@@ -357,6 +357,10 @@ def pvp():
                 pygame.display.update()
                 clock.tick(FPS)
 
+                if player1_dino.is_dead or player2_dino.is_dead:
+                    game_over = True
+                    pygame.mixer.music.stop()
+
             counter += 1
 
 
@@ -472,7 +476,7 @@ def display_obstacle(dino, counter, moving):
         #     if immune_time - collision_time > collision_immune_time:
         #         dino.collision_immune = False
 
-    if len(cacti) < 2:
+    if len(cacti) < 1:
         if len(cacti) == 0:
             last_obstacle.empty()
             last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
@@ -488,7 +492,7 @@ def display_obstacle(dino, counter, moving):
     #             last_obstacle.empty()
     #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
 
-    if len(stones) < 2:
+    if len(stones) < 1:
         for l in last_obstacle:
             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
                 last_obstacle.empty()
