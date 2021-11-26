@@ -6,37 +6,54 @@
 
 # 2021-2-OSSProj-TwoSeokTwoJoo-3
 ## Coin-T-Rex
-<img width="599" alt="시작화면" src="https://user-images.githubusercontent.com/70673826/121240479-57b4fb80-c8d5-11eb-8ed2-fba2ba055709.PNG">
+![image](https://user-images.githubusercontent.com/81295661/143252889-64a8e726-b94f-4beb-ba43-256ed6d59d4e.png)
 
-#### Chrome의 이스터에그 게임인 T-rex Rush에 다양한 모션과 공격 기능을 추가하여 즐거움을 더한 게임
+<br>
 
-## 주요 변경 사항
+__🦕Chrome 이스터에그 게임 T-rex Rush에 다양한 모션, 공격기능, PVP 모드, 상점 기능을 추가하여 흥미를 더한 게임__
+
+<br>
+
+## Major Change
 - Intro Screen 디자인 변경 및 GUI 버그 수정
-- 창크기 조절 개선
-- 공룡의 움직임 추가 : 좌우이동, 2단점프
-- 불꽃발사 추가
-- 보스 몬스터 추가
-- 목숨 시스템을 hp bar로 변경
+- PVP 모드 추가
+- 상점 기능 추가
+- 다양한 캐릭터 및 스킨 추가
+- 목숨 시스템을 count로 변경
 
-## 프로그램 실행 시
-To run this game:
-- Make sure you have Python installed alongwith pygame (http://www.pygame.org/) library
-- Run run.py
+<br>
+
+## TO RUN THIS GAME
+```
+pip install pygame
+python run.py
+```
+<br>
 
 ## Developed by:
-CSID-DGU - "Milk Dragon"
-- dyl0115
-- sungyeon111
-- YuhaShin
+### CSID-DGU - "Two Seok Two Joo"
 
-Credits:
-- Sprites : https://chromedino.com/assets/offline-sprite-2x-black.png or WE MADE
-- Logo : https://textcraft.net/
-- Speech Bubble : http://pixelspeechbubble.com/
-- Sounds : https://github.com/vicboma1/T-Rex-Game/tree/master/Unity/Sounds
+ 🦖 [SEOKHWAN](https://github.com/hwan0303)      🦖 [SEOKJU](https://github.com/somefood)    🦖 [MINJU](https://github.com/JoungMinJu)
 
-References:
+<br>
+
+## Credits:
+- __Sprites__ : https://chromedino.com/assets/offline-sprite-2x-black.png or '2021-1-MilkDragon' made
+- __Logo__ : https://textcraft.net/
+- __Speech Bubble__ : http://pixelspeechbubble.com/
+- __Sounds__ : https://github.com/vicboma1/T-Rex-Game/tree/master/Unity/Sounds
+- __Obstacle__ :
+  - __Snowman__ : Snowman by Michael J Pierce @ IsometricRobot.com
+  - __Pumpkin__ : Copyright © 2018 TheGoatIsBetter under license CC-BY-SA 4.0 All Rights Reserved
+  - __Tree__ : https://opengameart.org/content/lpc-modified-art <br>  https://opengameart.org/content/lpc-plant-repack <br> https://opengameart.org/content/lpc-all-seasons-apple-tree
+- __Character__ : https://opengameart.org/content/tux-kyrodian-legends-style
+
+<br>
+
+## References:
 - http://www.pygame.org/docs
 - https://github.com/wayou/t-rex-runner
 - https://github.com/shivamshekhar/Chrome-T-Rex-Rush
+- https://opengameart.org/content/tux-kyrodian-legends-style
 - https://github.com/CSID-DGU/2020-2-OSSP-CP-OldKokiri-6
+- https://github.com/CSID-DGU/2021-1-OSSPC-MilkDragon-6
