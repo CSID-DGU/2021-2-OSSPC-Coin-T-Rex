@@ -25,3 +25,18 @@ BOSS_BONUS_SCORE = 500
 SCORE_BY_STAGE = 100
 ONE_SECOND = 1
 rest_time = 0
+
+#store.py
+ALPHA_MOVE = 20
+COIN_SIZE = 25
+USER_ITEM_SIZE = 20
+ITEM_SIZE = 80
+CHAR_SIZE = 60
+STORE_BTN_X = 100
+STORE_BTN_Y = 50
+SKIN_X = 300
+SKIN_Y = 280
+char_offset = 0.2
+btn_offset = 0.25
+item_price_offset = 0.18
+item_btn_offset = 0.28
