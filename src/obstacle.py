@@ -467,28 +467,28 @@ class Cactus_pvp(PvP, pygame.sprite.Sprite):
 
         super().update()
 
-class Stone_pvp(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
-        pygame.sprite.Sprite.__init__(self, self.containers)
-        super().__init__(speed, moving)
-        self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
-        self.rect.top = height * 0.9
-        self.rect.bottom = int(0.98 * height)
-        self.rect.left = width + self.rect.width
+# class Stone_pvp(PvP, pygame.sprite.Sprite):
+#     def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+#         pygame.sprite.Sprite.__init__(self, self.containers)
+#         super().__init__(speed, moving)
+#         self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
+#         self.rect.top = height * 0.9
+#         self.rect.bottom = int(0.98 * height)
+#         self.rect.left = width + self.rect.width
 
-        self.image = self.images[0]
-        super().get_movement()
+#         self.image = self.images[0]
+#         super().get_movement()
 
-    def draw(self):
-        screen.blit(self.image, self.rect)
+#     def draw(self):
+#         screen.blit(self.image, self.rect)
 
-    def update(self):
-        self.rect = self.rect.move(self.movement)
+#     def update(self):
+#         self.rect = self.rect.move(self.movement)
 
-        super().update()
+#         super().update()
 
 class Ptera_pvp(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=""):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)

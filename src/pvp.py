@@ -29,7 +29,7 @@ def pvp():
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
 
-    Stone_pvp.containers = stones
+    # Stone_pvp.containers = stones
     Cactus_pvp.containers = cacti
     FireCactus.containers = fire_cacti
     Ptera_pvp.containers = pteras
@@ -189,12 +189,12 @@ def pvp():
                         player1_dino.rect.left = player1_dino.rect.left - PVP_GAME_SPEED
 
                 if go_right_1p:
-                    if player1_dino.rect.right > width / 2:
-                        player1_dino.rect.right = width / 2
+                    if player1_dino.rect.right > width * 0.5:
+                        player1_dino.rect.right = width * 0.5
                     else:
                         player1_dino.rect.left = player1_dino.rect.left + PVP_GAME_SPEED
 
-                if space_go_1p and (int(bk_1p % 15) == 0):
+                if space_go_1p and (int(bk_1p % MISSILE) == 0):
                     # print(bk)
                     missile_1p = Obj()
 
@@ -225,8 +225,12 @@ def pvp():
                     if player1_dino.is_ducking:
                         missile_1p.x = round(player1_dino.rect.centerx)
                         missile_1p.y = round(player1_dino.rect.centery * 1.01)
-                    missile_1p.move = 15
-                    m_list_1p.append(missile_1p)
+                    missile_1p.move = MISSILE_SPEED
+                    if len(m_list_1p) >= ONETIME_MISSILE:
+                        pass
+                    else:
+                        m_list_1p.append(missile_1p)
+                    
                 bk_1p = bk_1p + 1
                 d_list_1p = []
 
@@ -253,8 +257,8 @@ def pvp():
                     del m_list_1p[d]
 
                 if go_left_2p:
-                    if player2_dino.rect.left < width/2:
-                        player2_dino.rect.left = width/2
+                    if player2_dino.rect.left < width * 0.5:
+                        player2_dino.rect.left = width * 0.5
                     else:
                         player2_dino.rect.left = player2_dino.rect.left - PVP_GAME_SPEED
 
@@ -264,7 +268,7 @@ def pvp():
                     else:
                         player2_dino.rect.left = player2_dino.rect.left + PVP_GAME_SPEED
 
-                if space_go_2p and (int(bk_2p % 15) == 0):
+                if space_go_2p and (int(bk_2p % MISSILE) == 0):
                     # print(bk)
                     missile_2p = Obj()
 
@@ -285,7 +289,7 @@ def pvp():
                         missile_2p.put_img("./sprites/heart_bullet.png")
                         missile_2p.change_size(10, 10)
                     else:
-                        missile_2p.put_img("./sprites/red_bullet.png")
+                        missile_2p.put_img("./sprites/orange_bullet.png")
                         missile_2p.change_size(10, 10)
 
                     if not player2_dino.is_ducking:
@@ -295,8 +299,11 @@ def pvp():
                     if player2_dino.is_ducking:
                         missile_2p.x = round(player2_dino.rect.centerx)
                         missile_2p.y = round(player2_dino.rect.centery * 1.01)
-                    missile_2p.move = 15
-                    m_list_2p.append(missile_2p)
+                    missile_2p.move = MISSILE_SPEED
+                    if len(m_list_2p) >= ONETIME_MISSILE:
+                        pass
+                    else:
+                        m_list_2p.append(missile_2p)
                 bk_2p = bk_2p + 1
                 d_list_2p = []
 
@@ -488,11 +495,11 @@ def display_obstacle(dino, counter, moving):
     #             last_obstacle.empty()
     #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
 
-    if len(stones) < 1:
-        for l in last_obstacle:
-            if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
-                last_obstacle.empty()
-                last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+    # if len(stones) < 1:
+    #     for l in last_obstacle:
+    #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
+    #             last_obstacle.empty()
+    #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
         print("???")
