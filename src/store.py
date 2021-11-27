@@ -1,18 +1,16 @@
 from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
-
-db = InterfDB("db/score.db")
+from src.game_value import *
+db = InterfDB("db/data.db")
 import src.game
 
 global btn_offset
 global item_price_offset
 global item_btn_offset
 global char_offset
-char_offset = 0.2
-btn_offset = 0.25
-item_price_offset = 0.18
-item_btn_offset = 0.28
+global user_font
+user_font = pygame.font.Font('DungGeunMo.ttf', 16)
 
 
 def store():
@@ -21,8 +19,8 @@ def store():
 
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
-    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
-    alpha_back_rect.left = -20
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
     # 버튼 이미지
     char_btn_image, char_btn_rect = load_image('character.png', 150, 80, -1)
     r_char_btn_image, r_char_btn_rect = load_image(*resize('character.png', 150, 80, -1))
@@ -82,47 +80,47 @@ def item_store():
     game_start = False
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
-    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
-    alpha_back_rect.left = -20
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin1_image = transform.scale(coin1_image[0], (25, 25))
+    coin1_image = transform.scale(coin1_image[0], (COIN_SIZE, COIN_SIZE))
     coin1_rect = coin1_image.get_rect()
     coin2_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin2_image = transform.scale(coin2_image[0], (25, 25))
+    coin2_image = transform.scale(coin2_image[0], (COIN_SIZE, COIN_SIZE))
     coin2_rect = coin2_image.get_rect()
     coin3_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin3_image = transform.scale(coin3_image[0], (25, 25))
+    coin3_image = transform.scale(coin3_image[0], (COIN_SIZE, COIN_SIZE))
     coin3_rect = coin3_image.get_rect()
     # 아이템 이미지
     shield_image, _ = load_sprite_sheet('item.png', 2, 1, -1, -1, -1)
-    life_image, life_rect = load_image('love-shield.png', 70, 70, -1)
+    life_image, life_rect = load_image('love-shield.png', ITEM_SIZE, ITEM_SIZE, -1)
     time_image, _ = load_sprite_sheet('slow_pic.png', 2, 1, -1, -1, -1)
-    shield_image = transform.scale(shield_image[0], (80, 80))
+    shield_image = transform.scale(shield_image[0], (ITEM_SIZE, ITEM_SIZE))
     shield_rect = shield_image.get_rect()
-    time_image = transform.scale(time_image[0], (80, 80))
+    time_image = transform.scale(time_image[0], (ITEM_SIZE, ITEM_SIZE))
     time_rect = time_image.get_rect()
     # user가 가지고 있는 아이템 노출을 위한 이미지
     user_shield_image, _ = load_sprite_sheet('item.png', 2, 1, -1, -1, -1)
-    user_shield_image = transform.scale(user_shield_image[0], (20, 20))
+    user_shield_image = transform.scale(user_shield_image[0], (USER_ITEM_SIZE, USER_ITEM_SIZE))
     user_shield_rect = user_shield_image.get_rect()
-    user_life_image, user_life_rect = load_image('love-shield.png', 20, 20, -1)
+    user_life_image, user_life_rect = load_image('love-shield.png', USER_ITEM_SIZE, USER_ITEM_SIZE, -1)
     user_time_image, _ = load_sprite_sheet('slow_pic.png', 2, 1, -1, -1, -1)
-    user_time_image = transform.scale(user_time_image[0], (20, 20))
+    user_time_image = transform.scale(user_time_image[0], (USER_ITEM_SIZE, USER_ITEM_SIZE))
     user_time_rect = user_time_image.get_rect()
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    user_coin_image = transform.scale(user_coin_image[0], (20, 20))
+    user_coin_image = transform.scale(user_coin_image[0], (USER_ITEM_SIZE, USER_ITEM_SIZE))
     user_coin_rect = user_coin_image.get_rect()
     # item store 버튼 이미지
-    buy_btn1_image, buy_btn1_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn2_image, buy_btn2_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn3_image, buy_btn3_rect = load_image('buy.png', 100, 50, -1)
-    no_money1_image, no_money1_rect = load_image('X.png', 100, 50, -1)
-    no_money2_image, no_money2_rect = load_image('X.png', 100, 50, -1)
-    no_money3_image, no_money3_rect = load_image('X.png', 100, 50, -1)
+    buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 아이템
     shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
@@ -134,7 +132,7 @@ def item_store():
     t_price = db.query_db("SELECT price from item where name = 'slow'", one=True)['price']
     # 폰트
     my_font = pygame.font.Font('DungGeunMo.ttf', 18)
-    user_font = pygame.font.Font('DungGeunMo.ttf', 16)
+    # user_font = pygame.font.Font('DungGeunMo.ttf', 16)
     shield_price = my_font.render(f"x {s_price}", True, black)
     life_price = my_font.render(f'x {l_price}', True, black)
     time_price = my_font.render(f'x {t_price}', True, black)
@@ -160,9 +158,9 @@ def item_store():
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height * (0.37 + item_price_offset))
     time_price_rect = time_price.get_rect(center=(width * (0.28 + 2 * btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
-    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+                                                    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (
-    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+                                                    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
@@ -277,57 +275,57 @@ def char_store():
     game_start = False
     # 배경 이미지
     back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
-    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
-    alpha_back_rect.left = -20
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin1_image = transform.scale(coin1_image[0], (25, 25))
+    coin1_image = transform.scale(coin1_image[0], (COIN_SIZE, COIN_SIZE))
     coin1_rect = coin1_image.get_rect()
     coin2_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin2_image = transform.scale(coin2_image[0], (25, 25))
+    coin2_image = transform.scale(coin2_image[0], (COIN_SIZE, COIN_SIZE))
     coin2_rect = coin2_image.get_rect()
     coin3_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin3_image = transform.scale(coin3_image[0], (25, 25))
+    coin3_image = transform.scale(coin3_image[0], (COIN_SIZE, COIN_SIZE))
     coin3_rect = coin3_image.get_rect()
     coin4_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin4_image = transform.scale(coin4_image[0], (25, 25))
+    coin4_image = transform.scale(coin4_image[0], (COIN_SIZE, COIN_SIZE))
     coin4_rect = coin4_image.get_rect()
     # 아이템 이미지
     purple_image, _ = load_sprite_sheet('purple_dino.png', 6, 1, -1, -1, -1)
-    purple_image = transform.scale(purple_image[0], (60, 60))
+    purple_image = transform.scale(purple_image[0], (CHAR_SIZE, CHAR_SIZE))
     purple_rect = purple_image.get_rect()
     red_image, _ = load_sprite_sheet('red_dino.png', 6, 1, -1, -1, -1)
-    red_image = transform.scale(red_image[0], (60, 60))
+    red_image = transform.scale(red_image[0], (CHAR_SIZE, CHAR_SIZE))
     red_rect = red_image.get_rect()
     yellow_image, _ = load_sprite_sheet('yellow_dino.png', 6, 1, -1, -1, -1)
-    yellow_image = transform.scale(yellow_image[0], (60, 60))
+    yellow_image = transform.scale(yellow_image[0], (CHAR_SIZE, CHAR_SIZE))
     yellow_rect = yellow_image.get_rect()
     tux_image, _ = load_sprite_sheet('tux.png', 8, 9, -1, -1, -1)
-    tux_image = transform.scale(tux_image[0], (60, 60))
+    tux_image = transform.scale(tux_image[0], (CHAR_SIZE, CHAR_SIZE))
     tux_rect = tux_image.get_rect()
     # user의 코인
     coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    user_coin_image = transform.scale(user_coin_image[0], (20, 20))
+    user_coin_image = transform.scale(user_coin_image[0], (USER_ITEM_SIZE, USER_ITEM_SIZE))
     user_coin_rect = user_coin_image.get_rect()
-    user_font = pygame.font.Font('DungGeunMo.ttf', 16)
+
     user_coin = user_font.render(f'X {coin_item_count}', True, black)
     # skin store 버튼 이미지
-    buy_btn1_image, buy_btn1_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn2_image, buy_btn2_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn3_image, buy_btn3_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn4_image, buy_btn4_rect = load_image('buy.png', 100, 50, -1)
-    no_money1_image, no_money1_rect = load_image('X.png', 100, 50, -1)
-    no_money2_image, no_money2_rect = load_image('X.png', 100, 50, -1)
-    no_money3_image, no_money3_rect = load_image('X.png', 100, 50, -1)
-    no_money4_image, no_money4_rect = load_image('X.png', 100, 50, -1)
-    sold_out1_image, sold_out1_rect = load_image('sold_out.png', 100, 50, -1)
-    sold_out2_image, sold_out2_rect = load_image('sold_out.png', 100, 50, -1)
-    sold_out3_image, sold_out3_rect = load_image('sold_out.png', 100, 50, -1)
-    sold_out4_image, sold_out4_rect = load_image('sold_out.png', 100, 50, -1)
+    buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn4_image, buy_btn4_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money4_image, no_money4_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out1_image, sold_out1_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out2_image, sold_out2_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out3_image, sold_out3_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out4_image, sold_out4_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 가격
     p_price = db.query_db("SELECT price FROM character WHERE name = 'Purple'", one=True)['price']
     r_price = db.query_db("SELECT price FROM character WHERE name = 'Red'", one=True)['price']
@@ -357,13 +355,13 @@ def char_store():
     (yellow_rect.centerx, yellow_rect.centery) = (width * (0.2 + 2 * char_offset), height * 0.37)
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * char_offset), height * (0.37 + item_price_offset))
     yellow_price_rect = yellow_price.get_rect(
-        center=(width * (0.23 + 2 * char_offset), height * (0.37 + item_price_offset)))
+                                        center=(width * (0.23 + 2 * char_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
-    width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (
-    width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     (sold_out3_rect.centerx, sold_out3_rect.centery) = (
-    width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
     #
     (tux_rect.centerx, tux_rect.centery) = (width * (0.2 + 3 * char_offset), height * 0.37)
     (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * char_offset), height * (0.37 + item_price_offset))
@@ -499,38 +497,38 @@ def skin_store():
     alpha_back_rect.left = -20
     # 코인 이미지
     coin1_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin1_image = transform.scale(coin1_image[0], (25, 25))
+    coin1_image = transform.scale(coin1_image[0], (COIN_SIZE, COIN_SIZE))
     coin1_rect = coin1_image.get_rect()
     coin2_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin2_image = transform.scale(coin2_image[0], (25, 25))
+    coin2_image = transform.scale(coin2_image[0], (COIN_SIZE, COIN_SIZE))
     coin2_rect = coin2_image.get_rect()
     coin3_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    coin3_image = transform.scale(coin3_image[0], (25, 25))
+    coin3_image = transform.scale(coin3_image[0], (COIN_SIZE, COIN_SIZE))
     coin3_rect = coin3_image.get_rect()
     # 아이템 이미지
-    spring_image, spring_rect = load_image('ex_spring.png', 300, 280, -1)
-    fall_image, fall_rect = load_image('ex_fall.png', 300, 280, -1)
-    winter_image, winter_rect = load_image('ex_winter.png', 300, 280, -1)
+    spring_image, spring_rect = load_image('ex_spring.png', SKIN_X, SKIN_Y, -1)
+    fall_image, fall_rect = load_image('ex_fall.png', SKIN_X, SKIN_Y, -1)
+    winter_image, winter_rect = load_image('ex_winter.png', SKIN_X, SKIN_Y, -1)
     # user의 코인
     coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
     user_coin_image, _ = load_sprite_sheet('coin.png', 1, 7, -1, -1, -1)
-    user_coin_image = transform.scale(user_coin_image[0], (20, 20))
+    user_coin_image = transform.scale(user_coin_image[0], (USER_ITEM_SIZE, USER_ITEM_SIZE))
     user_coin_rect = user_coin_image.get_rect()
-    user_font = pygame.font.Font('DungGeunMo.ttf', 16)
+    # user_font = pygame.font.Font('DungGeunMo.ttf', 16)
     user_coin = user_font.render(f'X {coin_item_count}', True, black)
     # skin store 버튼 이미지
-    buy_btn1_image, buy_btn1_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn2_image, buy_btn2_rect = load_image('buy.png', 100, 50, -1)
-    buy_btn3_image, buy_btn3_rect = load_image('buy.png', 100, 50, -1)
-    no_money1_image, no_money1_rect = load_image('X.png', 100, 50, -1)
-    no_money2_image, no_money2_rect = load_image('X.png', 100, 50, -1)
-    no_money3_image, no_money3_rect = load_image('X.png', 100, 50, -1)
-    sold_out1_image, sold_out1_rect = load_image('sold_out.png', 100, 50, -1)
-    sold_out2_image, sold_out2_rect = load_image('sold_out.png', 100, 50, -1)
-    sold_out3_image, sold_out3_rect = load_image('sold_out.png', 100, 50, -1)
+    buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out1_image, sold_out1_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out2_image, sold_out2_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    sold_out3_image, sold_out3_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 가격
     s_price = db.query_db("SELECT price FROM skin WHERE name = 'Spring'", one=True)['price']
     f_price = db.query_db("SELECT price FROM skin WHERE name = 'Fall'", one=True)['price']

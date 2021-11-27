@@ -12,7 +12,7 @@ from src.pvp import *
 from time import sleep
 import threading
 import time
-db = InterfDB("db/score.db")
+db = InterfDB("db/data.db")
 
 # 시작 화면
 def intro_screen():
@@ -219,12 +219,12 @@ def gameplay_easy():
     game_quit = False
     paused = False
     # 게임 후 버튼
-    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
-    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
-    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 80, -1))
-    btn_save, btn_save_rect = load_image('btn_save.png', 150, 80, -1)
-    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', EASY_BTN_X, EASY_BTN_Y, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', EASY_BTN_X, EASY_BTN_Y, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', EASY_BTN_X, EASY_BTN_Y, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', EASY_BTN_X, EASY_BTN_Y, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', EASY_BTN_X, EASY_BTN_Y, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', EASY_BTN_X, EASY_BTN_Y, -1)
     #
     # 캐릭터 적용 여부
     is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
@@ -246,12 +246,12 @@ def gameplay_easy():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
-    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
-    alpha_back_rect.left = -20
-    scb = Scoreboard( y = height * 0.03)
-    highsc = Scoreboard(width * 0.77, height * 0.03)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
+    scb = Scoreboard( y = height * SCB_HEIGHT)
+    highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
     heart = HeartIndicator(player_dino.life)
-    speed_indicator = Scoreboard(width * 0.135, height * 0.15)
+    speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
     counter = 0
     speed_text = font.render("SPEED", True, black)
     # #장애물 osbt1 obst2 obst3
@@ -279,12 +279,12 @@ def gameplay_easy():
     # HighJumpItem.containers = highjump_items
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', OVER_X, OVER_Y, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     high_image = my_font.render('HI', True, black)
     high_rect = high_image.get_rect()
-    high_rect.top = height * 0.03
-    high_rect.left = width * 0.71
+    high_rect.top = height * HI_HEIGHT
+    high_rect.left = width * HI_WIDTH
     while not game_quit:
         while start_menu:
             pass
@@ -535,10 +535,13 @@ def gameplay_easy():
                                 intro_screen()
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
-                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
-                sleep(0.08)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * btn_offset, \
+                                                                         resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * (2 * btn_offset), \
+                                                                   resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * (3 * btn_offset), \
+                                                                   resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                sleep(SLEEP_TIME)
                 screen.blit(alpha_back, alpha_back_rect)
                 if pygame.display.get_surface() is not None:
                     if high_score != 0:
@@ -585,11 +588,11 @@ def gameplay_hard():
     coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
     paused = False
     # 게임 후 버튼
-    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
-    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
-    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', 150, 80, -1))
-    btn_save, btn_save_rect = load_image('btn_save.png', 150, 80, -1)
-    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', EASY_BTN_X, EASY_BTN_Y, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', EASY_BTN_X, EASY_BTN_Y, -1)
+    r_btn_save, r_btn_save_rect = load_image(*resize('btn_save.png', EASY_BTN_X, EASY_BTN_Y, -1))
+    btn_save, btn_save_rect = load_image('btn_save.png', EASY_BTN_X, EASY_BTN_Y, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', EASY_BTN_X, EASY_BTN_Y, -1))
     # 캐릭터 적용 여부
     is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
     is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
@@ -610,18 +613,18 @@ def gameplay_hard():
         new_ground = Ground(-1 * game_speed)
     else:
         new_ground = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
-    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
-    alpha_back_rect.left = -20
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', EASY_BTN_X, EASY_BTN_Y, -1)
     scb = Scoreboard()
-    highsc = Scoreboard(width * 0.78)
+    highsc = Scoreboard(width * SCB_WIDTH)
     heart = HeartIndicator(life)
-    speed_indicator = Scoreboard(width * 0.135, height * 0.15)
+    speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
     counter = 0
     speed_text = font.render("SPEED", True, black)
     #아이템 컨테이너
-    item_back, item_back_rect = alpha_image('item_back.png', 380, 50, -1)
-    (item_back_rect.centerx, item_back_rect.top) = (width * 0.48, 0)
+    item_back, item_back_rect = alpha_image('item_back.png', ITEM_BACK_WIDTH, ITEM_BACK_HEIGHT, -1)
+    (item_back_rect.centerx, item_back_rect.top) = (width * ITEM_BACK_X, ITEM_BACK_Y)
     # #장애물 1,2,3
     # cacti = pygame.sprite.Group()
     # fire_cacti = pygame.sprite.Group()
@@ -646,16 +649,16 @@ def gameplay_hard():
     CoinItem.containers = coin_items
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
-    game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
-    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, 23, 23, -1)
-    heart_item_image, heart_item_rect = load_image('love-shield.png', 23, 23, -1)
-    slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, 23, 23, -1)
-    coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, 23, 23, -1)
+    game_over_image, game_over_rect = load_image('game_over.png', OVER_X, OVER_Y, -1)
+    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
+    heart_item_image, heart_item_rect = load_image('love-shield.png', GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
+    slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
+    coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     high_image = my_font.render('HI', True, black)
     high_rect = high_image.get_rect()
-    high_rect.top = height * 0.15
-    high_rect.left = width * 0.73
+    high_rect.top = height * HARD_HI_HEIGHT
+    high_rect.left = width * HARD_HI_WIDTH
     # 1. 미사일 발사.
     space_go = False
     m_list = []
@@ -1133,10 +1136,10 @@ def gameplay_hard():
                     speed_indicator.draw()
                     screen.blit(item_back, item_back_rect)
                     screen.blit(speed_text, (width * 0.01, height * 0.15))
-                    screen.blit(coin_image[0], (width * 0.29, height * 0.02))
-                    screen.blit(shield_item_image[0], (width * 0.4, height * 0.02))
-                    screen.blit(heart_item_image, (width * 0.50, height * 0.02))
-                    screen.blit(slow_item_image[0], (width * 0.60, height * 0.02))
+                    screen.blit(coin_image[0], (width * 0.29, height * HARD_ITEM_HEIGHT))
+                    screen.blit(shield_item_image[0], (width * 0.4, height * HARD_ITEM_HEIGHT))
+                    screen.blit(heart_item_image, (width * (0.4 + HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
+                    screen.blit(slow_item_image[0], (width * (0.4 + 2 * HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
                     if bonus_blit is not None:
                         screen.blit(*bonus_blit)
                     shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
@@ -1148,17 +1151,21 @@ def gameplay_hard():
                     coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
                     screen.blit(coin_count_text, (width * 0.33, height * 0.02))
                     if shield_item_count == 0:
-                        screen.blit(soldout_shiled_text, (width * 0.44, height * 0.02))
+                        screen.blit(soldout_shiled_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
                     else:
-                        screen.blit(shield_item_count_text, (width * 0.44, height * 0.02))
+                        screen.blit(shield_item_count_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
                     if life_item_count == 0:
-                        screen.blit(soldout_life_text, (width * 0.54, height * 0.02))
+                        screen.blit(soldout_life_text, (width * (0.44 + HARD_ITEM_OFF),
+                                                        height * HARD_ITEM_HEIGHT))
                     else:
-                        screen.blit(life_item_count_text, (width * 0.54, height * 0.02))
+                        screen.blit(life_item_count_text, (width * (0.44 + HARD_ITEM_OFF),
+                                                           height * HARD_ITEM_HEIGHT))
                     if slow_item_count == 0:
-                        screen.blit(soldout_slow_text, (width * 0.64, height * 0.02))
+                        screen.blit(soldout_slow_text, (width * (0.44 + 2 * HARD_ITEM_OFF),
+                                                        height * HARD_ITEM_HEIGHT))
                     else:
-                        screen.blit(slow_item_count_text, (width * 0.64, height * 0.02))
+                        screen.blit(slow_item_count_text, (width * (0.44 + 2 * HARD_ITEM_OFF),
+                                                           height * HARD_ITEM_HEIGHT))
                     heart.draw()
                     boss_heart.draw()
                     if high_score != 0:
@@ -1292,10 +1299,13 @@ def gameplay_hard():
                                 intro_screen()
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
-                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.6
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
-                sleep(0.08)
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * btn_offset, \
+                                                                         resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                r_btn_save_rect.centerx, r_btn_save_rect.centery = resized_screen.get_width() * (2 * btn_offset), \
+                                                                   resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * (3 * btn_offset), \
+                                                                   resized_screen.get_height() * GAMEOVER_BTN_HEIGHT
+                sleep(SLEEP_TIME)
                 screen.blit(alpha_back, alpha_back_rect)
                 disp_gameover_buttons(btn_restart, btn_save, btn_exit)
                 resized_screen.blit(
@@ -1338,13 +1348,13 @@ def board(mode=""):
         screen_board_height
     ))
 
-    title_image, title_rect = load_image("ranking.png", 360, 75, -1)
-    title_rect.centerx = width * 0.5
-    title_rect.centery = height * 0.2
+    title_image, title_rect = load_image("ranking.png", RANKING_WIDTH, RANKING_HEIGHT, -1)
+    title_rect.centerx = width * RANKING_X
+    title_rect.centery = height * RANKING_Y
 
     # back button
-    btn_back, btn_back_rect = load_image('btn_back.png', 100, 50, -1)
-    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    btn_back, btn_back_rect = load_image('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1))
 
     while not game_quit:
         if pygame.display.get_surface() is None:
@@ -1355,47 +1365,47 @@ def board(mode=""):
             screen_board.blit(btn_back, btn_back_rect)
             if results:
                 for i, result in enumerate(results):
-                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
                     name_inform_surface = font.render("Name", True, black)
                     score_inform_surface = font.render("Score", True, black)
                     score_surface = font.render(str(result['score']), True, black)
                     txt_surface = font.render(result['username'], True, black)
 
-                    screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + RESULT_OFF * i)))
                     screen_board.blit(name_inform_surface, (width * 0.4, height * 0.40))
                     screen_board.blit(score_inform_surface, (width * 0.6, height * 0.40))
-                    screen_board.blit(txt_surface, (width * 0.4, height * (0.55 + 0.1 * i)))
-                    screen_board.blit(score_surface, (width * 0.6, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(txt_surface, (width * 0.4, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(score_surface, (width * 0.6, height * (0.55 + RESULT_OFF * i)))
             else:
                 easy_mode_surface = font.render(f"[Easy Mode]", True, black)
                 hard_mode_surface = font.render(f"[Hard Mode]", True, black)
                 screen_board.blit(easy_mode_surface, (width * 0.2, height * 0.35))
                 screen_board.blit(hard_mode_surface, (width * 0.62, height * 0.35))
                 for i, result in enumerate(easy_mode_results):
-                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
                     name_inform_surface = font.render("Name", True, black)
                     score_inform_surface = font.render("Score", True, black)
                     score_surface = font.render(str(result['score']), True, black)
                     txt_surface = font.render(result['username'], True, black)
 
-                    screen_board.blit(top_i_surface, (width * 0.05, height * (0.55 + 0.1 * i)))
-                    screen_board.blit(name_inform_surface, (width * 0.2, height * 0.45))
-                    screen_board.blit(score_inform_surface, (width * 0.35, height * 0.45))
-                    screen_board.blit(txt_surface, (width * 0.2, height * (0.55 + 0.1 * i)))
-                    screen_board.blit(score_surface, (width * 0.35, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(top_i_surface, (width * 0.05, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.2, height * RESULT_HEIGHT))
+                    screen_board.blit(score_inform_surface, (width * (0.2 + RESULT_X_OFF), height * RESULT_HEIGHT))
+                    screen_board.blit(txt_surface, (width * 0.2, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(score_surface, (width * (0.2 + RESULT_X_OFF), height * (0.55 + RESULT_OFF * i)))
 
                 for i, result in enumerate(hard_mode_results):
-                    top_i_surface = font.render(f"TOP {i + 1}", True, black)
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_blue)
                     name_inform_surface = font.render("Name", True, black)
                     score_inform_surface = font.render("Score", True, black)
                     score_surface = font.render(str(result['score']), True, black)
                     txt_surface = font.render(result['username'], True, black)
 
-                    screen_board.blit(top_i_surface, (width * 0.5, height * (0.55 + 0.1 * i)))
-                    screen_board.blit(name_inform_surface, (width * 0.62, height * 0.45))
-                    screen_board.blit(score_inform_surface, (width * 0.77, height * 0.45))
+                    screen_board.blit(top_i_surface, (width * 0.5, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.62, height * RESULT_HEIGHT))
+                    screen_board.blit(score_inform_surface, (width * (0.62 + RESULT_X_OFF), height *RESULT_HEIGHT))
                     screen_board.blit(txt_surface, (width * 0.62, height * (0.55 + 0.1 * i)))
-                    screen_board.blit(score_surface, (width * 0.77, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(score_surface, (width * (0.62 + RESULT_X_OFF), height * (0.55 + RESULT_OFF * i)))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_quit = True
@@ -1404,18 +1414,18 @@ def board(mode=""):
                         game_quit = True
                         intro_screen()
                     if event.key == pygame.K_UP:
-                        scroll_y = min(scroll_y + 15, 0)
+                        scroll_y = min(scroll_y + SCROLL, 0)
                     if event.key == pygame.K_DOWN:
-                        scroll_y = max(scroll_y - 15, -(length // max_per_screen) * scr_size[1])
+                        scroll_y = max(scroll_y - SCROLL, -(length // max_per_screen) * scr_size[1])
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
                         if r_btn_back_rect.collidepoint(x, y):
                             intro_screen()
                     if event.button == 4:
-                        scroll_y = min(scroll_y + 15, 0)
+                        scroll_y = min(scroll_y + SCROLL, 0)
                     if event.button == 5:
-                        scroll_y = max(scroll_y - 15, -(length // max_per_screen) * scr_size[1])
+                        scroll_y = max(scroll_y - SCROLL, -(length // max_per_screen) * scr_size[1])
                     # if event.button == 1:
                     # game_quit = True
                     # intro_screen()
@@ -1440,28 +1450,29 @@ def pausing():
     global resized_screen
     game_quit = False
     pause_pic, pause_pic_rect = load_image('paused.png', 360, 75, -1)
-    pause_pic_rect.centerx = width * 0.5
-    pause_pic_rect.centery = height * 0.2
+    pause_pic_rect.centerx = width * PAUSE_X
+    pause_pic_rect.centery = height * PAUSE_Y
 
     pygame.mixer.music.pause()  # 일시정지상태가 되면 배경음악도 일시정지
 
     # BUTTON IMG LOAD
-    retbutton_image, retbutton_rect = load_image('main_button.png', 70, 62, -1)
-    resume_image, resume_rect = load_image('continue_button.png', 70, 62, -1)
-
-    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('main_button.png', 70, 62, -1))
-    resized_resume_image, resized_resume_rect = load_image(*resize('continue_button.png', 70, 62, -1))
+    retbutton_image, retbutton_rect = load_image('main_button.png', PAUSE_BTN_WIDTH, PAUSE_BTN_HEIGHT, -1)
+    resume_image, resume_rect = load_image('continue_button.png', PAUSE_BTN_WIDTH, PAUSE_BTN_HEIGHT, -1)
+    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('main_button.png', PAUSE_BTN_WIDTH,
+                                                                         PAUSE_BTN_HEIGHT, -1))
+    resized_resume_image, resized_resume_rect = load_image(*resize('continue_button.png', PAUSE_BTN_WIDTH,
+                                                                   PAUSE_BTN_HEIGHT, -1))
 
     # BUTTONPOS
     retbutton_rect.centerx = width * 0.4
-    retbutton_rect.top = height * 0.52
-    resume_rect.centerx = width * 0.6
-    resume_rect.top = height * 0.52
+    retbutton_rect.top = height * PAUSE_BTN_Y
+    resume_rect.centerx = width * (0.4 + PAUSE_OFF)
+    resume_rect.top = height * PAUSE_BTN_Y
 
     resized_retbutton_rect.centerx = resized_screen.get_width() * 0.4
-    resized_retbutton_rect.top = resized_screen.get_height() * 0.52
-    resized_resume_rect.centerx = resized_screen.get_width() * 0.6
-    resized_resume_rect.top = resized_screen.get_height() * 0.52
+    resized_retbutton_rect.top = resized_screen.get_height() * PAUSE_BTN_Y
+    resized_resume_rect.centerx = resized_screen.get_width() * (0.4 + PAUSE_OFF)
+    resized_resume_rect.top = resized_screen.get_height() * PAUSE_BTN_Y
 
     while not game_quit:
         if pygame.display.get_surface() is None:
@@ -1515,9 +1526,7 @@ def type_score(score):
     message_pos = (width * 0.25, height * 0.3)
     score_pos = (width * 0.35, height * 0.4)
     input_box_pos = (width * 0.43, height * 0.5)
-    type_box_size = 100
-    letter_num_restriction = 3
-    input_box = pygame.Rect(input_box_pos[0], input_box_pos[1], 500, 50)
+    input_box = pygame.Rect(input_box_pos[0], input_box_pos[1], INPUT_X, INPUT_Y)
     color = pygame.Color('dodgerblue2')
     text = ''
     text2 = font.render("플레이어 이름을 입력해주세요", True, black)
@@ -1560,7 +1569,7 @@ def type_score(score):
 def show_bonus_score(monster, bonus_score):
     # x = monster.rect.centerx + round(monster.rect.width)
     # y = monster.rect.centery + round(monster.rect.height / 2)
-    x = width * 0.89
-    y = height * 0.23
+    x = width * BONUS_SCORE_WIDTH
+    y = height * BONUS_SCORE_HEIGHT
     bonus_score_text = small_font.render(f"+{bonus_score}", True, black)
     return bonus_score_text, (x, y)

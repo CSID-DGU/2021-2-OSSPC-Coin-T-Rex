@@ -3,6 +3,7 @@ from src.setting import pygame
 from src.setting import load_sprite_sheet
 from src.setting import width, height
 from src.setting import screen
+from src.game_value import *
 
 
 class Cactus(pygame.sprite.Sprite):
@@ -48,7 +49,7 @@ class FireCactus(
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png',
                                                    3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0, 3)]
         self.movement = [-1 * speed, 0]
@@ -68,7 +69,7 @@ class PinkTree(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('spring1.png',
                                                    2, 1, 60, 60, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0, 2)]
         self.movement = [-1 * speed, 0]
@@ -89,7 +90,7 @@ class CutTree(
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('spring2.png',
                                                    1, 1, 60, 60, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -108,7 +109,7 @@ class FruitTree(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('spring3.png', 1, 1, 60, 60, -1)
         self.rect.top = height * 0.9
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -128,7 +129,7 @@ class Pumpkin(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fall1.png',
                                                    1, 1, 40, 40, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -148,7 +149,7 @@ class FallTree(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fall2.png',
                                                    2, 1, 60, 60, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -167,7 +168,7 @@ class FallBush(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('fall3.png', 1, 1, 40, 40, -1)
         self.rect.top = height * 0.9
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -187,7 +188,7 @@ class Snowman(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('winter1.png',
                                                    1, 1, 70, 70, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -207,7 +208,7 @@ class WinterBush(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('winter2.png',
                                                    1, 1, 60, 60, -1)
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -226,7 +227,7 @@ class WinterTree(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('winter3.png', 1, 1, 60, 60, -1)
         self.rect.top = height * 0.9
-        self.rect.bottom = int(0.98 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
@@ -255,9 +256,9 @@ class PteraKing(pygame.sprite.Sprite):
         self.image = self.images[0]
         self.movement = [-1 * speed, 0]
         # 
-        self.down_speed = 2
+        self.down_speed = SPEED_UP_DOWN
         self.down_movement = [0, self.down_speed]
-        self.up_speed = 2
+        self.up_speed = SPEED_UP_DOWN
         self.up_movement = [0, -self.up_speed]
 
         self.stop_movement = [0, 0]
