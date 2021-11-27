@@ -6,37 +6,14 @@ from src.setting import screen
 from src.game_value import *
 
 
-class PvP:
-    def __init__(self, speed=DEFAULT_SPEED, moving=""):
-        self.moving = moving
-        self.speed = speed
-
-    def get_movement(self):
-        if self.moving == "left":
-            self.rect.left = width * MOVING_WIDTH
-            self.movement = [-1 * self.speed, 0]
-        elif self.moving == "right":
-            self.rect.right = width * MOVING_WIDTH
-            self.movement = [self.speed, 0]
-        else:
-            self.rect.left = width + self.rect.width
-            self.movement = [-1 * self.speed, 0]
-
-    def update(self):
-        if self.rect.right < 0 or self.rect.left > width:
-            self.kill()
-
-
-class Cactus(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=""):
-        pygame.sprite.Sprite.__init__(self, self.containers)
-        super().__init__(speed, moving)
-        self.images, self.rect = load_sprite_sheet('cacti-small.png',
-                                                   3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+class Cactus(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
+        self.rect.bottom = int(0.98*height)
         self.rect.left = width + self.rect.width
-        self.image = self.images[random.randrange(0, 3)]
-        super().get_movement()
+        self.image = self.images[random.randrange(0,3)]
+        self.movement = [-1*speed, 0]
 
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -44,7 +21,27 @@ class Cactus(PvP, pygame.sprite.Sprite):
     def update(self):
         self.rect = self.rect.move(self.movement)
 
-        super().update()
+        if self.rect.right < 0:
+            self.kill()
+
+class Stone(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
+        self.rect.top = height *0.9
+        self.rect.bottom = int(0.98*height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1*speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
 
 class FireCactus(
     pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
@@ -65,28 +62,6 @@ class FireCactus(
 
         if self.rect.right < 0:
             self.kill()
-
-
-class Stone(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=""):
-        pygame.sprite.Sprite.__init__(self, self.containers)
-        super().__init__(speed, moving)
-        self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
-        self.rect.top = height * 0.9
-        self.rect.bottom = int(DEFAULT_HEIGHT * height)
-        self.rect.left = width + self.rect.width
-
-        self.image = self.images[0]
-        super().get_movement()
-
-    def draw(self):
-        screen.blit(self.image, self.rect)
-
-    def update(self):
-        self.rect = self.rect.move(self.movement)
-
-        super().update()
-
 
 # Spring 스킨의 장애물 (3개)
 class PinkTree(pygame.sprite.Sprite):
@@ -427,10 +402,94 @@ class PteraKing(pygame.sprite.Sprite):
             # self.pattern2_counter = 0 
             self.pattern2()
 
+class Ptera(pygame.sprite.Sprite):
 
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)
+        self.ptera_height = [height*0.82, height*0.75, height*0.60]
+        self.rect.centery = self.ptera_height[random.randrange(0, 3)]
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1*speed, 0]
+        self.index = 0
+        self.counter = 0
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        if self.counter % 10 == 0:
+            self.index = (self.index+1) % 2
+        self.image = self.images[self.index]
+        self.rect = self.rect.move(self.movement)
+        self.counter = (self.counter + 1)
+        if self.rect.right < 0:
+            self.kill()
 #
-class Ptera(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=""):
+
+class PvP:
+    def __init__(self, speed=4, moving=''):
+        self.moving = moving
+        self.speed = speed
+
+    def get_movement(self):
+        if self.moving == "left":
+            self.rect.left = width * 0.5
+            self.movement = [-1 * self.speed, 0]
+        elif self.moving == "right":
+            self.rect.right = width * 0.5
+            self.movement = [self.speed, 0]
+        else:
+            self.rect.left = width + self.rect.width
+            self.movement = [-1 * self.speed, 0]
+
+    def update(self):
+        if self.rect.right < 0 or self.rect.left > width:
+            self.kill()
+
+
+class Cactus_pvp(PvP, pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        super().__init__(speed, moving)
+        self.images, self.rect = load_sprite_sheet('cacti-small.png',
+                                                   3, 1, sizex, sizey, -1)
+        self.rect.bottom = int(0.98 * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[random.randrange(0, 3)]
+        super().get_movement()
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        super().update()
+
+# class Stone_pvp(PvP, pygame.sprite.Sprite):
+#     def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+#         pygame.sprite.Sprite.__init__(self, self.containers)
+#         super().__init__(speed, moving)
+#         self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
+#         self.rect.top = height * 0.9
+#         self.rect.bottom = int(0.98 * height)
+#         self.rect.left = width + self.rect.width
+
+#         self.image = self.images[0]
+#         super().get_movement()
+
+#     def draw(self):
+#         screen.blit(self.image, self.rect)
+
+#     def update(self):
+#         self.rect = self.rect.move(self.movement)
+
+#         super().update()
+
+class Ptera_pvp(PvP, pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)
