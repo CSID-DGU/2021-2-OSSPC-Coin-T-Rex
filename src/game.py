@@ -623,8 +623,8 @@ def gameplay_hard():
     counter = 0
     speed_text = font.render("SPEED", True, black)
     #아이템 컨테이너
-    item_back, item_back_rect = alpha_image('item_back.png', OVER_X, OVER_Y, -1)
-    (item_back_rect.centerx, item_back_rect.top) = (width * 0.48, 0)
+    item_back, item_back_rect = alpha_image('item_back.png', ITEM_BACK_WIDTH, ITEM_BACK_HEIGHT, -1)
+    (item_back_rect.centerx, item_back_rect.top) = (width * ITEM_BACK_X, ITEM_BACK_Y)
     # #장애물 1,2,3
     # cacti = pygame.sprite.Group()
     # fire_cacti = pygame.sprite.Group()
@@ -1365,7 +1365,7 @@ def board(mode=""):
             screen_board.blit(btn_back, btn_back_rect)
             if results:
                 for i, result in enumerate(results):
-                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_red)
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
                     name_inform_surface = font.render("Name", True, black)
                     score_inform_surface = font.render("Score", True, black)
                     score_surface = font.render(str(result['score']), True, black)
@@ -1382,7 +1382,7 @@ def board(mode=""):
                 screen_board.blit(easy_mode_surface, (width * 0.2, height * 0.35))
                 screen_board.blit(hard_mode_surface, (width * 0.62, height * 0.35))
                 for i, result in enumerate(easy_mode_results):
-                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_red)
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
                     name_inform_surface = font.render("Name", True, black)
                     score_inform_surface = font.render("Score", True, black)
                     score_surface = font.render(str(result['score']), True, black)
