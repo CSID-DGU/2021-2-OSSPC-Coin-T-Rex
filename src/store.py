@@ -2,7 +2,6 @@ from src.item import *
 from src.interface import *
 from db.db_interface import InterfDB
 from src.game_value import *
-db = InterfDB("db/score.db")
 db = InterfDB("db/data.db")
 import src.game
 
