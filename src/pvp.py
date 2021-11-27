@@ -29,10 +29,10 @@ def pvp():
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
 
-    Stone.containers = stones
-    Cactus.containers = cacti
+    Stone_pvp.containers = stones
+    Cactus_pvp.containers = cacti
     FireCactus.containers = fire_cacti
-    Ptera.containers = pteras
+    Ptera_pvp.containers = pteras
     Cloud.containers = clouds
 
     start_menu = False
@@ -475,12 +475,12 @@ def display_obstacle(dino, counter, moving):
     if len(cacti) < 1:
         if len(cacti) == 0:
             last_obstacle.empty()
-            last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+            last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
         else:
             for l in last_obstacle:
                 if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                     last_obstacle.empty()
-                    last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+                    last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
     # if len(fire_cacti) < 2:
     #     for l in last_obstacle:
@@ -492,7 +492,7 @@ def display_obstacle(dino, counter, moving):
         for l in last_obstacle:
             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
                 last_obstacle.empty()
-                last_obstacle.add(Stone(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+                last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
         print("???")
@@ -500,7 +500,7 @@ def display_obstacle(dino, counter, moving):
         #     print("!!!")
         #     if l.rect.right < OBJECT_REFRESH_LINE:
         last_obstacle.empty()
-        last_obstacle.add(Ptera(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
+        last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
 
     cacti.update()
     fire_cacti.update()
