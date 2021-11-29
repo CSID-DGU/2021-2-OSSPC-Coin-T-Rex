@@ -362,9 +362,9 @@ def pvp():
                 pygame.display.update()
                 clock.tick(FPS)
 
-                if player1_dino.is_life_zero() or player2_dino.is_life_zero():
-                    game_over = True
-                    pygame.mixer.music.stop()
+                # if player1_dino.is_life_zero() or player2_dino.is_life_zero():
+                #     game_over = True
+                #     pygame.mixer.music.stop()
 
                 if player1_dino.is_dead or player2_dino.is_dead:
                     game_over = True
@@ -452,6 +452,8 @@ def display_obstacle(dino, counter, moving):
                 dino.collision_immune = True
                 dino.decrease_life()
                 collision_time = pygame.time.get_ticks()
+                if dino.is_life_zero():
+                    dino.is_dead = True
                 if pygame.mixer.get_init() is not None:
                     die_sound.play()
 
@@ -466,6 +468,8 @@ def display_obstacle(dino, counter, moving):
                 dino.collision_immune = True
                 dino.decrease_life()
                 collision_time = pygame.time.get_ticks()
+                if dino.is_life_zero():
+                    dino.is_dead = True
                 if pygame.mixer.get_init() is not None:
                     die_sound.play()
 
@@ -480,6 +484,8 @@ def display_obstacle(dino, counter, moving):
                 dino.collision_immune = True
                 dino.decrease_life()
                 collision_time = pygame.time.get_ticks()
+                if dino.is_life_zero():
+                    dino.is_dead = True
                 if pygame.mixer.get_init() is not None:
                     die_sound.play()
         elif not dino.is_super:
