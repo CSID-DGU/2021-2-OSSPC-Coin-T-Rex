@@ -133,7 +133,10 @@ class Dino:
         self.life -= 1
 
     def is_life_zero(self):
-        return True if self.life == 0 else False
+        if self.life == 0:
+            return True 
+        else:
+            False
 
     def add_score(self, score):
         self.score += score
