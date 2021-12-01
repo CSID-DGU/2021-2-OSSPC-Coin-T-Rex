@@ -358,9 +358,10 @@ def pvp():
                         player2_dino.is_jumping = True
                         player2_dino.movement[1] = -1 * player2_dino.super_jump_speed
 
+                display_obstacle(player1_dino, counter, "left")
+                display_obstacle(player2_dino, counter, "right")
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
-
                 # new_ground.update()
                 speed_indicator.update(PVP_GAME_SPEED - 3)
                 heart_1p.update(player1_dino.life)
@@ -380,10 +381,10 @@ def pvp():
 
                     for m in m_list_2p:
                         m.show()
+                cacti.draw(screen)
+                pteras.draw(screen)
                 player1_dino.draw()
                 player2_dino.draw()
-                display_obstacle(player1_dino, counter, "left")
-                display_obstacle(player2_dino, counter, "right")
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -394,10 +395,15 @@ def pvp():
                 #     game_over = True
                 #     pygame.mixer.music.stop()
 
-                if player1_dino.is_dead or player2_dino.is_dead:
+                if player1_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()
 
+                if player2_dino.is_dead:
+                    game_over = True
+                    pygame.mixer.music.stop()
+                heart_1p.update(player1_dino.life)
+                heart_2p.update(player2_dino.life)
             counter += 1
 
 
@@ -465,34 +471,9 @@ def display_obstacle(dino, counter, moving):
     global last_obstacle
     global collision_time
 
-    for s in stones:
-        if not dino.collision_immune:
-            if pygame.sprite.collide_mask(dino, s):
-                dino.collision_immune = True
-                dino.decrease_life()
-                collision_time = pygame.time.get_ticks()
-                if pygame.mixer.get_init() is not None:
-                    die_sound.play()
-
     for c in cacti:
         if not dino.collision_immune:
             if pygame.sprite.collide_mask(dino, c):
-                dino.collision_immune = True
-                dino.decrease_life()
-                collision_time = pygame.time.get_ticks()
-                if dino.is_life_zero():
-                    dino.is_dead = True
-                if pygame.mixer.get_init() is not None:
-                    die_sound.play()
-
-        elif not dino.is_super:
-            immune_time = pygame.time.get_ticks()
-            if immune_time - collision_time > collision_immune_time:
-                dino.collision_immune = False
-
-    for f in fire_cacti:
-        if not dino.collision_immune:
-            if pygame.sprite.collide_mask(dino, f):
                 dino.collision_immune = True
                 dino.decrease_life()
                 collision_time = pygame.time.get_ticks()
@@ -516,6 +497,7 @@ def display_obstacle(dino, counter, moving):
                     dino.is_dead = True
                 if pygame.mixer.get_init() is not None:
                     die_sound.play()
+
         elif not dino.is_super:
             immune_time = pygame.time.get_ticks()
             if immune_time - collision_time > collision_immune_time:
@@ -551,11 +533,5 @@ def display_obstacle(dino, counter, moving):
         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
 
     cacti.update()
-    fire_cacti.update()
-    stones.update()
     pteras.update()
 
-    cacti.draw(screen)
-    stones.draw(screen)
-    fire_cacti.draw(screen)
-    pteras.draw(screen)
