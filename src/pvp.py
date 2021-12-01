@@ -81,6 +81,10 @@ def pvp():
     m_list_2p = []
     bk_2p = 0
 
+    # 이단 점프
+    jumpingx2_1p = False
+    jumpingx2_2p = False
+
     while not game_quit:
         while start_menu:
             pass
@@ -119,6 +123,10 @@ def pvp():
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = True
                             bk_1p = 0
+                        
+                        if event.key == pygame.K_TAB:
+                            jumpingx2_1p = True
+
 
                         # 2p dino        
                         if event.key == pygame.K_UP:
@@ -145,6 +153,9 @@ def pvp():
                         if event.key == pygame.K_p:
                             space_go_2p = True
                             bk_2p = 0
+                        
+                        if event.key == pygame.K_o:
+                            jumpingx2_2p = True
 
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
@@ -164,6 +175,9 @@ def pvp():
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = False
 
+                        if event.key == pygame.K_TAB:
+                            jumpingx2_1p = False
+
                         # 2p dino
                         if event.key == pygame.K_DOWN:
                             player2_dino.is_ducking = False
@@ -176,6 +190,10 @@ def pvp():
 
                         if event.key == pygame.K_p:
                             space_go_2p = False
+                        
+                        if event.key == pygame.K_o:
+                            jumpingx2_2p = False
+
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
@@ -256,6 +274,11 @@ def pvp():
                 d_list_1p.reverse()
                 for d in d_list_1p:
                     del m_list_1p[d]
+                
+                if jumpingx2_1p:
+                    if player1_dino.rect.bottom == int(height * 0.98):
+                        player1_dino.is_jumping = True
+                        player1_dino.movement[1] = -1 * player1_dino.super_jump_speed
 
                 if go_left_2p:
                     if player2_dino.rect.left < width * 0.5:
@@ -329,6 +352,11 @@ def pvp():
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
+                
+                if jumpingx2_2p:
+                    if player2_dino.rect.bottom == int(height * 0.98):
+                        player2_dino.is_jumping = True
+                        player2_dino.movement[1] = -1 * player2_dino.super_jump_speed
 
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
