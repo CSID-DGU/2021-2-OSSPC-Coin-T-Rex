@@ -38,6 +38,7 @@ dark_pink = (147, 0, 0)
 large_font = pygame.font.Font('DungGeunMo.ttf', 55)
 font = pygame.font.Font('DungGeunMo.ttf', 32)
 small_font = pygame.font.Font('DungGeunMo.ttf', 25)
+xsmall_font = pygame.font.Font('DungGeunMo.ttf', 15)
 full_screen = False
 monitor_size = (monitor_width, monitor_height) = (display.Info().current_w,
                                                   display.Info().current_h)

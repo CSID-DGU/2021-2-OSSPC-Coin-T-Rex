@@ -561,10 +561,25 @@ def gameplay_easy():
     pygame.quit()
     quit()
 
+def boss_appear():
+        global game_over
+        global paused
+        if game_over:
+            return
+        if paused:
+            return
+        threading.Timer(ONE_SECOND,boss_appear).start()
+        global rest_time
+        rest_time -= 1
+        if rest_time <= 0:
+            rest_time = 0
+        print(rest_time)
 
 def gameplay_hard():
     global resized_screen
     global high_score
+    global game_over
+    global paused
     result = db.query_db("select score from hard_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
@@ -680,13 +695,7 @@ def gameplay_hard():
     pm_pattern0_count = 0
     pm_pattern1_count = 0
     global rest_time
-    def boss_appear():
-        if game_over:
-            return
-        threading.Timer(ONE_SECOND,boss_appear).start()
-        global rest_time
-        rest_time += 1
-        temp = rest_time
+    rest_time = 10
     boss_appear()
     #boss_appearance_score = 100
     jumpingx2 = False
@@ -977,7 +986,7 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                if is_boss_alive and (rest_time >= BOSS_APPEARANCE_TIME):
+                if is_boss_alive and (rest_time <= BOSS_APPEARANCE_TIME):
                     is_boss_time = True
                 else:
                     is_boss_time = False
@@ -1042,7 +1051,7 @@ def gameplay_hard():
                                 player_dino.add_score(boss_bonus_score)
                                 boss_bonus_score = BOSS_BONUS_SCORE + (SCORE_BY_STAGE * stage)
                                 stage += 1
-                                rest_time = 0
+                                rest_time = 10
                                 new_ground.speed -= SPEED_RATE
                                 game_speed += SPEED_RATE
                                 boss_life *= BOSS_LIFE_INCREASE_RATE
@@ -1149,6 +1158,12 @@ def gameplay_hard():
                     slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
                     soldout_slow_text = small_font.render(f"x{slow_item_count}", True, red)
                     coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
+                    if rest_time > 0:
+                        boss_appear_time = xsmall_font.render(f"boss 출현{rest_time}초 전",True,black)
+                        screen.blit(boss_appear_time, (width * 0.70, height * 0.03))
+                    else:
+                        boss_appear_time = xsmall_font.render(f"boss 출현",True,black)
+                        screen.blit(boss_appear_time, (width * 0.75, height * 0.03))
                     screen.blit(coin_count_text, (width * 0.33, height * 0.02))
                     if shield_item_count == 0:
                         screen.blit(soldout_shiled_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
@@ -1225,16 +1240,16 @@ def gameplay_hard():
                     if event.type == pygame.QUIT:
                         game_quit = True
                         game_over = False
-                        rest_time = 1
+                        rest_time = 10
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             game_quit = True
                             game_over = False
-                            rest_time = 1    
+                            rest_time = 10  
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
                             game_quit = True
-                            rest_time = 1
+                            rest_time = 10
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
@@ -1448,6 +1463,8 @@ def board(mode=""):
 
 def pausing():
     global resized_screen
+    global paused
+    global game_over
     game_quit = False
     pause_pic, pause_pic_rect = load_image('paused.png', 360, 75, -1)
     pause_pic_rect.centerx = width * PAUSE_X
@@ -1482,9 +1499,13 @@ def pausing():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_quit = True
+                    game_over = True
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        game_over = False
+                        paused = False
+                        boss_appear()
                         pygame.mixer.music.unpause()
                         # pausing상태에서 다시 esc누르면 배경음악 일시정지 해제
                         return False
@@ -1493,9 +1514,13 @@ def pausing():
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
                         if resized_retbutton_rect.collidepoint(x, y):
+                            game_over = True
                             intro_screen()
 
                         if resized_resume_rect.collidepoint(x, y):
+                            game_over = False
+                            paused = False
+                            boss_appear()
                             pygame.mixer.music.unpause()  # pausing상태에서 오른쪽의 아이콘 클릭하면 배경음악 일시정지 해제
 
                             return False
