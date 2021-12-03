@@ -336,7 +336,7 @@ def char_store():
     purple_price = my_font.render(f"x {p_price}", True, black)
     red_price = my_font.render(f'x {r_price}', True, black)
     yellow_price = my_font.render(f'x {y_price}', True, black)
-    tux_price = my_font.render(f'x {y_price}', True, black)
+    tux_price = my_font.render(f'x {t_price}', True, black)
     # 배치
     (purple_rect.centerx, purple_rect.centery) = (width * 0.2, height * 0.37)
     (coin1_rect.centerx, coin1_rect.centery) = (width * 0.18, height * (0.37 + item_price_offset))
