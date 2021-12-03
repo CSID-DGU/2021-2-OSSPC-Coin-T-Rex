@@ -197,7 +197,7 @@ def item_store():
                         f"UPDATE item SET count = {shield_item_count + 1} where name = 'shield'"
                     )
                     db.query_db(
-                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                        f"UPDATE item SET count = {coin_item_count - s_price} where name = 'coin'"
                     )
                     db.commit()
                 if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= l_price:
@@ -205,7 +205,7 @@ def item_store():
                         f"UPDATE item SET count = {life_item_count + 1} where name = 'life'"
                     )
                     db.query_db(
-                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                        f"UPDATE item SET count = {coin_item_count - l_price} where name = 'coin'"
                     )
                     db.commit()
                 if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
@@ -213,7 +213,7 @@ def item_store():
                         f"UPDATE item SET count = {slow_item_count + 1} where name = 'slow'"
                     )
                     db.query_db(
-                        f"UPDATE item SET count = {coin_item_count - 1} where name = 'coin'"
+                        f"UPDATE item SET count = {coin_item_count - t_price} where name = 'coin'"
                     )
                     db.commit()
 
@@ -379,6 +379,10 @@ def char_store():
     (user_coin_rect.centerx, user_coin_rect.centery) = (width * (0.65 + btn_offset), height * 0.08)
     user_c_rect = user_coin.get_rect(center=(width * (0.69 + btn_offset), height * 0.08))
     user_coin = user_font.render(f'X {coin_item_count}', True, black)
+    is_purple_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Purple';", one=True)['is_paid']
+    is_red_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Red';", one=True)['is_paid']
+    is_yellow_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Yellow';", one=True)['is_paid']
+    is_tux_buy = db.query_db("SELECT is_paid FROM character WHERE name = 'Tux';", one=True)['is_paid']
     while not game_start:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE and not full_screen:
@@ -394,28 +398,28 @@ def char_store():
                 x, y = event.pos
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price:
+                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price and is_purple_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Purple';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - p_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price:
+                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price and is_red_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Red';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - r_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price:
+                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price and is_yellow_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Yellow';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - y_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price:
+                if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price and is_tux_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Tux';")
                     db.query_db(
@@ -541,14 +545,14 @@ def skin_store():
     # 배치
     (spring_rect.centerx, spring_rect.centery) = (width * 0.25, height * 0.37)
     (coin1_rect.centerx, coin1_rect.centery) = (width * 0.23, height * (0.37 + item_price_offset))
-    spring_price_rect = spring_price.get_rect(center=(width * 0.28, height * (0.37 + item_price_offset)))
+    spring_price_rect = spring_price.get_rect(center=(width * 0.285, height * (0.37 + item_price_offset)))
     (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
     (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
     (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
     #
     (fall_rect.centerx, fall_rect.centery) = (width * (0.25 + btn_offset), height * 0.37)
     (coin2_rect.centerx, coin2_rect.centery) = (width * (0.23 + btn_offset), height * (0.37 + item_price_offset))
-    fall_price_rect = fall_price.get_rect(center=(width * (0.28 + btn_offset), height * (0.37 + item_price_offset)))
+    fall_price_rect = fall_price.get_rect(center=(width * (0.285 + btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
     (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
     (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
@@ -556,7 +560,7 @@ def skin_store():
     (winter_rect.centerx, winter_rect.centery) = (width * (0.25 + 2 * btn_offset), height * 0.37)
     (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height * (0.37 + item_price_offset))
     winter_price_rect = winter_price.get_rect(
-        center=(width * (0.28 + 2 * btn_offset), height * (0.37 + item_price_offset)))
+        center=(width * (0.285 + 2 * btn_offset), height * (0.37 + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
     width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (
@@ -569,6 +573,9 @@ def skin_store():
     #
     (user_coin_rect.centerx, user_coin_rect.centery) = (width * (0.65 + btn_offset), height * 0.08)
     user_c_rect = user_coin.get_rect(center=(width * (0.69 + btn_offset), height * 0.08))
+    is_spring_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Spring';", one=True)['is_paid']
+    is_fall_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Fall';", one=True)['is_paid']
+    is_winter_buy = db.query_db("SELECT is_paid FROM skin WHERE name = 'Winter';", one=True)['is_paid']
 
     while not game_start:
         for event in pygame.event.get():
@@ -585,21 +592,21 @@ def skin_store():
                 x, y = event.pos
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
+                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price and is_spring_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Spring';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - s_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price:
+                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price and is_fall_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Fall';")
                     db.query_db(
                         f"update item SET count = {coin_item_count - f_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price:
+                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price and is_winter_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Winter';")
                     db.query_db(
