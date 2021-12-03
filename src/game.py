@@ -1152,11 +1152,11 @@ def gameplay_hard():
                     if bonus_blit is not None:
                         screen.blit(*bonus_blit)
                     shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
-                    soldout_shiled_text = small_font.render(f"x{shield_item_count}", True, red)
+                    soldout_shiled_text = small_font.render(f"x{shield_item_count}", True, deep_red)
                     life_item_count_text = small_font.render(f"x{life_item_count}", True, black)
-                    soldout_life_text = small_font.render(f"x{life_item_count}", True, red)
+                    soldout_life_text = small_font.render(f"x{life_item_count}", True, deep_red)
                     slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
-                    soldout_slow_text = small_font.render(f"x{slow_item_count}", True, red)
+                    soldout_slow_text = small_font.render(f"x{slow_item_count}", True, deep_red)
                     coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
                     if rest_time > 0:
                         boss_appear_time = xsmall_font.render(f"boss 출현{rest_time}초 전",True,black)

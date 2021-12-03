@@ -42,7 +42,8 @@ def pvp():
     if setting.bgm_on:
         pygame.mixer.music.play(-1)  # 배경음악 실행
 
-    # 
+    #
+
     player1_dino = Dino(dino_size[0], dino_size[1], type='original')
     player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original', loc=1)
 
@@ -113,20 +114,15 @@ def pvp():
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player1_dino.is_jumping and player1_dino.is_dead):
                                 player1_dino.is_ducking = True
-
                         if event.key == pygame.K_a:
                             go_left_1p = True
-
                         if event.key == pygame.K_d:
                             go_right_1p = True
-
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = True
                             bk_1p = 0
-                        
                         if event.key == pygame.K_TAB:
                             jumpingx2_1p = True
-
 
                         # 2p dino        
                         if event.key == pygame.K_UP:
@@ -136,27 +132,21 @@ def pvp():
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
                                 player2_dino.movement[1] = -1 * player2_dino.jump_speed
-
                         if event.key == pygame.K_DOWN:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player2_dino.is_jumping and player2_dino.is_dead):
                                 player2_dino.is_ducking = True
-
                         if event.key == pygame.K_LEFT:
                             # print("left")
                             go_left_2p = True
-
                         if event.key == pygame.K_RIGHT:
                             # print("right")
                             go_right_2p = True
-
                         if event.key == pygame.K_p:
                             space_go_2p = True
                             bk_2p = 0
-                        
                         if event.key == pygame.K_o:
                             jumpingx2_2p = True
-
                         if event.key == pygame.K_ESCAPE:
                             paused = not paused
                             paused = src.game.pausing()
@@ -165,54 +155,39 @@ def pvp():
                         # 1p dino
                         if event.key == pygame.K_s:
                             player1_dino.is_ducking = False
-
                         if event.key == pygame.K_a:
                             go_left_1p = False
-
                         if event.key == pygame.K_d:
                             go_right_1p = False
-
                         if event.key == pygame.K_LCTRL:
                             space_go_1p = False
-
                         if event.key == pygame.K_TAB:
                             jumpingx2_1p = False
-
                         # 2p dino
                         if event.key == pygame.K_DOWN:
                             player2_dino.is_ducking = False
-
                         if event.key == pygame.K_LEFT:
                             go_left_2p = False
-
                         if event.key == pygame.K_RIGHT:
                             go_right_2p = False
-
                         if event.key == pygame.K_p:
                             space_go_2p = False
-                        
                         if event.key == pygame.K_o:
                             jumpingx2_2p = False
-
-
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
+
             if not paused:
-
-
-
                 if go_left_1p:
                     if player1_dino.rect.left < 0:
                         player1_dino.rect.left = 0
                     else:
                         player1_dino.rect.left = player1_dino.rect.left - PVP_GAME_SPEED
-
                 if go_right_1p:
                     if player1_dino.rect.right > width * 0.5:
                         player1_dino.rect.right = width * 0.5
                     else:
                         player1_dino.rect.left = player1_dino.rect.left + PVP_GAME_SPEED
-
                 if space_go_1p and (int(bk_1p % MISSILE) == 0):
                     # print(bk)
                     missile_1p = Obj()
@@ -224,23 +199,15 @@ def pvp():
                     elif player1_dino.type == 'YELLOW':
                         missile_1p.put_img("./sprites/blue_bullet.png")
                         missile_1p.change_size(10, 10)
-                    elif player1_dino.type == 'ORANGE':
-                        missile_1p.put_img("./sprites/blue_bullet.png")
-                        missile_1p.change_size(10, 10)
                     elif player1_dino.type == 'PURPLE':
                         missile_1p.put_img("./sprites/pink_bullet.png")
                         missile_1p.change_size(15, 5)
-                    elif player1_dino.type == 'PINK':
-                        missile_1p.put_img("./sprites/heart_bullet.png")
-                        missile_1p.change_size(10, 10)
                     else:
                         missile_1p.put_img("./sprites/red_bullet.png")
                         missile_1p.change_size(10, 10)
-
                     if not player1_dino.is_ducking:
                         missile_1p.x = round(player1_dino.rect.centerx)
                         missile_1p.y = round(player1_dino.rect.top * 1.035)
-
                     if player1_dino.is_ducking:
                         missile_1p.x = round(player1_dino.rect.centerx)
                         missile_1p.y = round(player1_dino.rect.centery * 1.01)
@@ -252,7 +219,6 @@ def pvp():
                     
                 bk_1p = bk_1p + 1
                 d_list_1p = []
-
                 for i in range(len(m_list_1p)):
                     m = m_list_1p[i]
                     m.x += m.move
@@ -270,32 +236,26 @@ def pvp():
                             if player2_dino.is_life_zero():
                                 player2_dino.is_dead = True
                             m_list_1p.remove(m_1p)
-
                 d_list_1p.reverse()
                 for d in d_list_1p:
                     del m_list_1p[d]
-                
                 if jumpingx2_1p:
                     if player1_dino.rect.bottom == int(height * 0.98):
                         player1_dino.is_jumping = True
                         player1_dino.movement[1] = -1 * player1_dino.super_jump_speed
-
                 if go_left_2p:
                     if player2_dino.rect.left < width * 0.5:
                         player2_dino.rect.left = width * 0.5
                     else:
                         player2_dino.rect.left = player2_dino.rect.left - PVP_GAME_SPEED
-
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
                         player2_dino.rect.left = player2_dino.rect.left + PVP_GAME_SPEED
-
                 if space_go_2p and (int(bk_2p % MISSILE) == 0):
                     # print(bk)
                     missile_2p = Obj()
-
                     # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
                     if player2_dino.type == 'RED':
                         missile_2p.put_img("./sprites/black_bullet.png")
@@ -303,15 +263,9 @@ def pvp():
                     elif player2_dino.type == 'YELLOW':
                         missile_2p.put_img("./sprites/blue_bullet.png")
                         missile_2p.change_size(10, 10)
-                    elif player2_dino.type == 'ORANGE':
-                        missile_2p.put_img("./sprites/blue_bullet.png")
-                        missile_2p.change_size(10, 10)
                     elif player2_dino.type == 'PURPLE':
                         missile_2p.put_img("./sprites/pink_bullet.png")
                         missile_2p.change_size(15, 5)
-                    elif player2_dino.type == 'PINK':
-                        missile_2p.put_img("./sprites/heart_bullet.png")
-                        missile_2p.change_size(10, 10)
                     else:
                         missile_2p.put_img("./sprites/orange_bullet.png")
                         missile_2p.change_size(10, 10)
@@ -319,7 +273,6 @@ def pvp():
                     if not player2_dino.is_ducking:
                         missile_2p.x = round(player2_dino.rect.centerx)
                         missile_2p.y = round(player2_dino.rect.top * 1.035)
-
                     if player2_dino.is_ducking:
                         missile_2p.x = round(player2_dino.rect.centerx)
                         missile_2p.y = round(player2_dino.rect.centery * 1.01)
@@ -330,13 +283,11 @@ def pvp():
                         m_list_2p.append(missile_2p)
                 bk_2p = bk_2p + 1
                 d_list_2p = []
-
                 for i in range(len(m_list_2p)):
                     m = m_list_2p[i]
                     m.x -= m.move
                     if m.x > width:
                         d_list_2p.append(i)
-
                 # 2p의 미사일이 1p를 맞추었을 때
                 if len(m_list_2p) == 0:
                     pass
@@ -352,7 +303,6 @@ def pvp():
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
-                
                 if jumpingx2_2p:
                     if player2_dino.rect.bottom == int(height * 0.98):
                         player2_dino.is_jumping = True
@@ -372,7 +322,6 @@ def pvp():
                     new_ground.draw()
                     screen.blit(alpha_back, alpha_back_rect)
                     pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
-
                     heart_1p.draw()
                     heart_2p.draw()
 
@@ -398,14 +347,12 @@ def pvp():
                 if player1_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()
-
                 if player2_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
             counter += 1
-
 
         if game_quit:
             break
@@ -442,8 +389,8 @@ def pvp():
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
-                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.25, resized_screen.get_height() * 0.6
-                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.75, resized_screen.get_height() * 0.6
+                r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
+                r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
                 disp_pvp_winner_loser(player1_dino)
 
@@ -531,7 +478,6 @@ def display_obstacle(dino, counter, moving):
         #     if l.rect.right < OBJECT_REFRESH_LINE:
         last_obstacle.empty()
         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
-
     cacti.update()
     pteras.update()
 

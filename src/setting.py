@@ -35,7 +35,7 @@ dark_blue = (10, 112, 138)
 dark_pink = (147, 0, 0)
 
 
-large_font = pygame.font.Font('DungGeunMo.ttf', 55)
+large_font = pygame.font.Font('DungGeunMo.ttf', 75)
 font = pygame.font.Font('DungGeunMo.ttf', 32)
 small_font = pygame.font.Font('DungGeunMo.ttf', 25)
 xsmall_font = pygame.font.Font('DungGeunMo.ttf', 15)
@@ -185,8 +185,8 @@ def disp_pvp_gameover_buttons(btn_restart, btn_exit):
     btn_exit_rect = btn_exit.get_rect()
     btn_restart_rect.centerx = width * 0.35
     btn_exit_rect.centerx = width * 0.65
-    btn_restart_rect.centery = height * 0.6
-    btn_exit_rect.centery = height * 0.6
+    btn_restart_rect.centery = height * 0.55
+    btn_exit_rect.centery = height * 0.55
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_exit, btn_exit_rect)
 
