@@ -322,7 +322,6 @@ def pvp():
                     new_ground.draw()
                     screen.blit(alpha_back, alpha_back_rect)
                     pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
-
                     heart_1p.draw()
                     heart_2p.draw()
 
@@ -353,6 +352,8 @@ def pvp():
                     pygame.mixer.music.stop()
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
+            counter += 1
+
         if game_quit:
             break
 
@@ -477,7 +478,6 @@ def display_obstacle(dino, counter, moving):
         #     if l.rect.right < OBJECT_REFRESH_LINE:
         last_obstacle.empty()
         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
-    dino.update()
     cacti.update()
     pteras.update()
 
