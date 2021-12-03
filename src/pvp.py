@@ -299,6 +299,8 @@ def pvp():
                             if player1_dino.is_life_zero():
                                 player1_dino.is_dead = True
                             m_list_2p.remove(m_2p)
+                        if m.x < 0:
+                            m_list_2p.remove(m_2p)
 
                 d_list_2p.reverse()
                 for d in d_list_2p:
