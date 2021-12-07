@@ -113,8 +113,11 @@ def item_store():
     user_coin_rect = user_coin_image.get_rect()
     # item store 버튼 이미지
     buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn1_image, r_buy_btn1_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn2_image, r_buy_btn2_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn3_image, r_buy_btn3_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
@@ -192,7 +195,7 @@ def item_store():
                 x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
+                if r_buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
                     db.query_db(
                         f"UPDATE item SET count = {shield_item_count + 1} where name = 'shield'"
                     )
@@ -200,7 +203,7 @@ def item_store():
                         f"UPDATE item SET count = {coin_item_count - s_price} where name = 'coin'"
                     )
                     db.commit()
-                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= l_price:
+                if r_buy_btn2_rect.collidepoint(x, y) and coin_item_count >= l_price:
                     db.query_db(
                         f"UPDATE item SET count = {life_item_count + 1} where name = 'life'"
                     )
@@ -208,7 +211,7 @@ def item_store():
                         f"UPDATE item SET count = {coin_item_count - l_price} where name = 'coin'"
                     )
                     db.commit()
-                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
+                if r_buy_btn3_rect.collidepoint(x, y) and coin_item_count >= t_price:
                     db.query_db(
                         f"UPDATE item SET count = {slow_item_count + 1} where name = 'slow'"
                     )
@@ -216,6 +219,12 @@ def item_store():
                         f"UPDATE item SET count = {coin_item_count - t_price} where name = 'coin'"
                     )
                     db.commit()
+        (r_buy_btn1_rect.centerx, r_buy_btn1_rect.centery) = (resized_screen.get_width() * 0.25,
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn2_rect.centerx, r_buy_btn2_rect.centery) = (resized_screen.get_width() * (0.25 + btn_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn3_rect.centerx, r_buy_btn3_rect.centery) = (resized_screen.get_width() * (0.25 + 2 * btn_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
 
         shield_item_count = db.query_db("select count from item where name ='shield';", one=True)['count']
         life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
@@ -312,9 +321,13 @@ def char_store():
     user_coin = user_font.render(f'X {coin_item_count}', True, black)
     # skin store 버튼 이미지
     buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn1_image, r_buy_btn1_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn2_image, r_buy_btn2_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
-    buy_btn4_image, buy_btn4_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn3_image, r_buy_btn3_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
+    buy_btn4_image, buy_btn4_rect = load_image('buy.png',STORE_BTN_X, STORE_BTN_Y,-1)
+    r_buy_btn4_image, r_buy_btn4_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
@@ -340,34 +353,46 @@ def char_store():
     # 배치
     (purple_rect.centerx, purple_rect.centery) = (width * 0.2, height * 0.37)
     (coin1_rect.centerx, coin1_rect.centery) = (width * 0.18, height * (0.37 + item_price_offset))
-    purple_price_rect = purple_price.get_rect(center=(width * 0.23, height * (0.37 + item_price_offset)))
-    (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
-    (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
-    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.2, height * (0.37 + item_btn_offset))
+    purple_price_rect = purple_price.get_rect(center=(width * 0.23,
+                                                      height * (0.37 + item_price_offset)))
+    (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.2,
+                                                      height * (0.37 + item_btn_offset))
+    (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.2,
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.2,
+                                                        height * (0.37 + item_btn_offset))
     #
     (red_rect.centerx, red_rect.centery) = (width * (0.2 + char_offset), height * 0.37)
-    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.18 + char_offset), height * (0.37 + item_price_offset))
-    red_price_rect = red_price.get_rect(center=(width * (0.23 + char_offset), height * (0.37 + item_price_offset)))
-    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
-    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
-    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.2 + char_offset), height * (0.37 + item_btn_offset))
+    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.18 + char_offset),
+                                                height * (0.37 + item_price_offset))
+    red_price_rect = red_price.get_rect(center=(width * (0.23 + char_offset),
+                                                height * (0.37 + item_price_offset)))
+    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.2 + char_offset),
+                                                      height * (0.37 + item_btn_offset))
+    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.2 + char_offset),
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.2 + char_offset),
+                                                        height * (0.37 + item_btn_offset))
     #
     (yellow_rect.centerx, yellow_rect.centery) = (width * (0.2 + 2 * char_offset), height * 0.37)
-    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * char_offset), height * (0.37 + item_price_offset))
-    yellow_price_rect = yellow_price.get_rect(
-                                        center=(width * (0.23 + 2 * char_offset), height * (0.37 + item_price_offset)))
-    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
-                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
-    (no_money3_rect.centerx, no_money3_rect.centery) = (
-                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
-    (sold_out3_rect.centerx, sold_out3_rect.centery) = (
-                                                width * (0.2 + 2 * char_offset), height * (0.37 + item_btn_offset))
+    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.18 + 2 * char_offset),
+                                                height * (0.37 + item_price_offset))
+    yellow_price_rect = yellow_price.get_rect(center=(width * (0.23 + 2 * char_offset),
+                                                      height * (0.37 + item_price_offset)))
+    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = ( width * (0.2 + 2 * char_offset),
+                                                       height * (0.37 + item_btn_offset))
+    (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.2 + 2 * char_offset),
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out3_rect.centerx, sold_out3_rect.centery) = (width * (0.2 + 2 * char_offset),
+                                                        height * (0.37 + item_btn_offset))
     #
     (tux_rect.centerx, tux_rect.centery) = (width * (0.2 + 3 * char_offset), height * 0.37)
-    (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * char_offset), height * (0.37 + item_price_offset))
-    tux_price_rect = tux_price.get_rect(center=(width * (0.23 + 3 * char_offset), height * (0.37 + item_price_offset)))
-    (buy_btn4_rect.centerx, buy_btn4_rect.centery) = (
-    width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
+    (coin4_rect.centerx, coin4_rect.centery) = (width * (0.18 + 3 * char_offset),
+                                                height * (0.37 + item_price_offset))
+    tux_price_rect = tux_price.get_rect(center=(width * (0.23 + 3 * char_offset),
+                                                height * (0.37 + item_price_offset)))
+    (buy_btn4_rect.centerx, buy_btn4_rect.centery) = (width * (0.2 + 3 * char_offset),
+                                                      height * (0.37 + item_btn_offset))
     (no_money4_rect.centerx, no_money4_rect.centery) = (
     width * (0.2 + 3 * char_offset), height * (0.37 + item_btn_offset))
     (sold_out4_rect.centerx, sold_out4_rect.centery) = (
@@ -398,34 +423,42 @@ def char_store():
                 x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price and is_purple_buy == 0:
+                if r_buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price and is_purple_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Purple';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - p_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price and is_red_buy == 0:
+                if r_buy_btn2_rect.collidepoint(x, y) and coin_item_count >= r_price and is_red_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Red';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - r_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price and is_yellow_buy == 0:
+                if r_buy_btn3_rect.collidepoint(x, y) and coin_item_count >= y_price and is_yellow_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Yellow';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - y_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price and is_tux_buy == 0:
+                if r_buy_btn4_rect.collidepoint(x, y) and coin_item_count >= t_price and is_tux_buy == 0:
                     db.query_db(
                         f"UPDATE character SET  is_paid=1  WHERE name = 'Tux';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - t_price} WHERE name='coin'"
                     )
                     db.commit()
+        (r_buy_btn1_rect.centerx, r_buy_btn1_rect.centery) = (resized_screen.get_width() * 0.2,
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn2_rect.centerx, r_buy_btn2_rect.centery) = (resized_screen.get_width() * (0.2 + char_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn3_rect.centerx, r_buy_btn3_rect.centery) = (resized_screen.get_width() * (0.2 + 2 * char_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn4_rect.centerx, r_buy_btn4_rect.centery) = (resized_screen.get_width() * (0.2 + 3 * char_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
         coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 
@@ -522,8 +555,11 @@ def skin_store():
     user_coin = user_font.render(f'X {coin_item_count}', True, black)
     # skin store 버튼 이미지
     buy_btn1_image, buy_btn1_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn1_image, r_buy_btn1_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn2_image, buy_btn2_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn2_image, r_buy_btn2_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     buy_btn3_image, buy_btn3_rect = load_image('buy.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_buy_btn3_image, r_buy_btn3_rect = load_image(*resize('buy.png', STORE_BTN_X, STORE_BTN_Y, -1))
     no_money1_image, no_money1_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
@@ -545,28 +581,38 @@ def skin_store():
     # 배치
     (spring_rect.centerx, spring_rect.centery) = (width * 0.25, height * 0.37)
     (coin1_rect.centerx, coin1_rect.centery) = (width * 0.23, height * (0.37 + item_price_offset))
-    spring_price_rect = spring_price.get_rect(center=(width * 0.285, height * (0.37 + item_price_offset)))
-    (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
-    (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
-    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.25, height * (0.37 + item_btn_offset))
+    spring_price_rect = spring_price.get_rect(center=(width * 0.285,
+                                                      height * (0.37 + item_price_offset)))
+    (buy_btn1_rect.centerx, buy_btn1_rect.centery) = (width * 0.25,
+                                                      height * (0.37 + item_btn_offset))
+    (no_money1_rect.centerx, no_money1_rect.centery) = (width * 0.25,
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out1_rect.centerx, sold_out1_rect.centery) = (width * 0.25,
+                                                        height * (0.37 + item_btn_offset))
     #
     (fall_rect.centerx, fall_rect.centery) = (width * (0.25 + btn_offset), height * 0.37)
-    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.23 + btn_offset), height * (0.37 + item_price_offset))
-    fall_price_rect = fall_price.get_rect(center=(width * (0.285 + btn_offset), height * (0.37 + item_price_offset)))
-    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
-    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
-    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.25 + btn_offset), height * (0.37 + item_btn_offset))
+    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.23 + btn_offset),
+                                                height * (0.37 + item_price_offset))
+    fall_price_rect = fall_price.get_rect(center=(width * (0.285 + btn_offset),
+                                                  height * (0.37 + item_price_offset)))
+    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.25 + btn_offset),
+                                                      height * (0.37 + item_btn_offset))
+    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.25 + btn_offset),
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out2_rect.centerx, sold_out2_rect.centery) = (width * (0.25 + btn_offset),
+                                                        height * (0.37 + item_btn_offset))
     #
     (winter_rect.centerx, winter_rect.centery) = (width * (0.25 + 2 * btn_offset), height * 0.37)
-    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset), height * (0.37 + item_price_offset))
-    winter_price_rect = winter_price.get_rect(
-        center=(width * (0.285 + 2 * btn_offset), height * (0.37 + item_price_offset)))
-    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
-    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
-    (no_money3_rect.centerx, no_money3_rect.centery) = (
-    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
-    (sold_out3_rect.centerx, sold_out3_rect.centery) = (
-    width * (0.25 + 2 * btn_offset), height * (0.37 + item_btn_offset))
+    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.23 + 2 * btn_offset),
+                                                height * (0.37 + item_price_offset))
+    winter_price_rect = winter_price.get_rect(center=(width * (0.285 + 2 * btn_offset),
+                                                      height * (0.37 + item_price_offset)))
+    (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (width * (0.25 + 2 * btn_offset),
+                                                      height * (0.37 + item_btn_offset))
+    (no_money3_rect.centerx, no_money3_rect.centery) = (width * (0.25 + 2 * btn_offset),
+                                                        height * (0.37 + item_btn_offset))
+    (sold_out3_rect.centerx, sold_out3_rect.centery) = (width * (0.25 + 2 * btn_offset),
+                                                        height * (0.37 + item_btn_offset))
     #
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
@@ -592,27 +638,34 @@ def skin_store():
                 x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
-                if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price and is_spring_buy == 0:
+                if r_buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price and is_spring_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Spring';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - s_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price and is_fall_buy == 0:
+                if r_buy_btn2_rect.collidepoint(x, y) and coin_item_count >= f_price and is_fall_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Fall';")
                     db.query_db(
                         f"update item SET count = {coin_item_count - f_price} WHERE name='coin'"
                     )
                     db.commit()
-                if buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price and is_winter_buy == 0:
+                if r_buy_btn3_rect.collidepoint(x, y) and coin_item_count >= w_price and is_winter_buy == 0:
                     db.query_db(
                         f"UPDATE skin SET  is_paid=1  WHERE name = 'Winter';")
                     db.query_db(
                         f"UPDATE item SET count = {coin_item_count - w_price} WHERE name='coin'"
                     )
                     db.commit()
+        (r_buy_btn1_rect.centerx, r_buy_btn1_rect.centery) = (resized_screen.get_width() * 0.25,
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn2_rect.centerx, r_buy_btn2_rect.centery) = (resized_screen.get_width() * (0.25 + btn_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn3_rect.centerx, r_buy_btn3_rect.centery) = (resized_screen.get_width() * (0.25 + 2 * btn_offset),
+                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+
         coin_item_count = db.query_db("SELECT count FROM item WHERE name='coin';", one=True)['count']
         user_coin = user_font.render(f'X {coin_item_count}', True, black)
 

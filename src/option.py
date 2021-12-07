@@ -317,28 +317,45 @@ def set():
     skin_title = big_font.render('SKIN', True, black)
     #
     spring_image, spring_rect = load_image('ex_spring.png', 230, 210, -1)
+    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', 230, 210, -1))
     un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
+    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', 230, 210, -1))
     fall_image, fall_rect = load_image('ex_fall.png', 230, 210, -1)
+    r_fall_image, r_fall_rect = load_image(*resize('ex_fall.png', 230, 210, -1))
     un_fall_image, un_fall_rect = load_image('unselect_fall.png', 230, 210, -1)
+    r_un_fall_image, r_un_fall_rect = load_image(*resize('unselect_fall.png', 230, 210, -1))
     winter_image, winter_rect = load_image('ex_winter.png', 230, 210, -1)
+    r_winter_image, r_winter_rect = load_image(*resize('ex_winter.png', 230, 210, -1))
     un_winter_image, un_winter_rect = load_image('unselect_winter.png', 230, 210, -1)
+    r_un_winter_image, r_un_winter_rect = load_image(*resize('unselect_winter.png', 230, 210, -1))
     #
     purple_image, _ = load_sprite_sheet('purple_dino.png', 6, 1, -1, -1, -1)
     purple_image = transform.scale(purple_image[0], (50, 50))
     purple_rect = purple_image.get_rect()
+    r_purple_image, r_purple_rect = load_image(*resize('purple_buy.png', 50, 50, -1))
     un_purple_image, un_purple_rect = load_image('unselect_purple.png', 50, 50, -1)
+    r_un_purple_image, r_un_purple_rect = load_image(*resize('unselect_purple.png', 50, 50, -1))
+    #
     red_image, _ = load_sprite_sheet('red_dino.png', 6, 1, -1, -1, -1)
     red_image = transform.scale(red_image[0], (50, 50))
     red_rect = red_image.get_rect()
+    r_red_image, r_red_rect = load_image(*resize('red_buy.png', 50, 50, -1))
     un_red_image, un_red_rect = load_image('unselect_red.png', 50, 50, -1)
+    r_un_red_image, r_un_red_rect = load_image(*resize('unselect_red.png', 50, 50, -1))
+    #
     yellow_image, _ = load_sprite_sheet('yellow_dino.png', 6, 1, -1, -1, -1)
     yellow_image = transform.scale(yellow_image[0], (50, 50))
     yellow_rect = yellow_image.get_rect()
+    r_yellow_image, r_yellow_rect = load_image(*resize('yellow_buy.png', 50, 50, -1))
     un_yellow_image, un_yellow_rect = load_image('unselect_yellow.png', 50, 50, -1)
+    r_un_yellow_image, r_un_yellow_rect = load_image(*resize('unselect_yellow.png', 50, 50, -1))
+    #
     tux_image, _ = load_sprite_sheet('tux.png', 8, 9, -1, -1, -1)
     tux_image = transform.scale(tux_image[0], (50, 50))
     tux_rect = tux_image.get_rect()
-    un_tux_image, un_tux_rect = load_image('unselect_tux.png', 50, 50, -1)
+    r_tux_image, r_tux_rect = load_image(*resize('tux_buy.png', 50, 50, -1))
+    un_tux_image, un_tux_rect = load_image(*resize('unselect_tux.png', 50, 50, -1))
+    r_un_tux_image, r_un_tux_rect = load_image('unselect_tux.png', 50, 50, -1)
     #
     check1, check1_rect = load_image('check.png', 60, 60, -1)
     check2, check2_rect = load_image('check.png', 60, 60, -1)
@@ -372,20 +389,24 @@ def set():
     (check3_rect.centerx, check3_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
     (winter_rect.centerx, winter_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
     (un_winter_rect.centerx, un_winter_rect.centery) = (width * (3 * skin_offset), height * (skin_height))
-    #
+    ##
     char_title_rect = char_title.get_rect(center=(width * 0.5, height * 0.55))
     (purple_rect.centerx, purple_rect.centery) = (width * (char_offset), height * (char_height))
     (un_purple_rect.centerx, un_purple_rect.centery) = (width * (char_offset), height * (char_height))
     (check4_rect.centerx, check4_rect.centery) = (width * (char_offset), height * (char_height))
+    #
     (red_rect.centerx, red_rect.centery) = (width * (2 * char_offset), height * (char_height))
     (un_red_rect.centerx, un_red_rect.centery) = (width * (2 * char_offset), height * (char_height))
     (check5_rect.centerx, check5_rect.centery) = (width * (2 * char_offset), height * (char_height))
+    #
     (yellow_rect.centerx, yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
     (un_yellow_rect.centerx, un_yellow_rect.centery) = (width * (3 * char_offset), height * (char_height))
     (check6_rect.centerx, check6_rect.centery) = (width * (3 * char_offset), height * (char_height))
+    #
     (tux_rect.centerx, tux_rect.centery) = (width * (4 * char_offset), height * (char_height))
     (un_tux_rect.centerx, un_tux_rect.centery) = (width * (4 * char_offset), height * (char_height))
     (check7_rect.centerx, check7_rect.centery) = (width * (4 * char_offset), height * (char_height))
+    ##
     r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
     r_back_btn_rect.centery = resized_screen.get_height() * 0.1
     while not game_start:
@@ -402,7 +423,7 @@ def set():
                     x, y = event.pos
                     if r_back_btn_rect.collidepoint(x, y):
                         select_mode()
-                    if spring_rect.collidepoint(x, y) and buy_spring == 1:
+                    if r_spring_rect.collidepoint(x, y) and buy_spring == 1:
                         # 이미 적용이 됐으면
                         if is_spring == 1:
                             db.query_db(f"UPDATE skin SET is_apply = 0")
@@ -411,7 +432,7 @@ def set():
                             db.query_db(
                                 f"UPDATE skin SET is_apply = CASE WHEN name = 'Spring' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if fall_rect.collidepoint(x, y) and buy_fall == 1:
+                    if r_fall_rect.collidepoint(x, y) and buy_fall == 1:
                         if is_fall == 1:
                             db.query_db(f"UPDATE skin SET is_apply = 0")
                             db.commit()
@@ -419,7 +440,7 @@ def set():
                             db.query_db(
                                 f"UPDATE skin SET is_apply = CASE WHEN name = 'Fall' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if winter_rect.collidepoint(x, y) and buy_winter == 1:
+                    if r_winter_rect.collidepoint(x, y) and buy_winter == 1:
                         if is_winter == 1:
                             db.query_db(f"UPDATE skin SET is_apply = 0")
                             db.commit()
@@ -427,7 +448,7 @@ def set():
                             db.query_db(
                                 f"UPDATE skin SET is_apply = CASE WHEN name = 'Winter' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if purple_rect.collidepoint(x, y) and buy_purple == 1:
+                    if r_purple_rect.collidepoint(x, y) and buy_purple == 1:
                         if is_purple == 1:
                             db.query_db(f"UPDATE character SET is_apply = 0")
                             db.commit()
@@ -435,7 +456,7 @@ def set():
                             db.query_db(
                                 f"UPDATE character SET is_apply = CASE WHEN name = 'Purple' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if red_rect.collidepoint(x, y) and buy_red == 1:
+                    if r_red_rect.collidepoint(x, y) and buy_red == 1:
                         if is_red == 1:
                             db.query_db(f"UPDATE character SET is_apply = 0")
                             db.commit()
@@ -443,7 +464,7 @@ def set():
                             db.query_db(
                                 f"UPDATE character SET is_apply = CASE WHEN name = 'Red' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if yellow_rect.collidepoint(x, y) and buy_yellow == 1:
+                    if r_yellow_rect.collidepoint(x, y) and buy_yellow == 1:
                         if is_yellow == 1:
                             db.query_db(f"UPDATE character SET is_apply = 0")
                             db.commit()
@@ -451,7 +472,7 @@ def set():
                             db.query_db(
                                 f"UPDATE character SET is_apply = CASE WHEN name = 'Yellow' THEN 1 ELSE 0 END;")
                             db.commit()
-                    if tux_rect.collidepoint(x, y) and buy_tux == 1:
+                    if r_tux_rect.collidepoint(x, y) and buy_tux == 1:
                         if is_tux == 1:
                             db.query_db(f"UPDATE character SET is_apply = 0")
                             db.commit()
@@ -461,6 +482,20 @@ def set():
                             db.commit()
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
+        (r_tux_rect.centerx, r_tux_rect.centery) = (resized_screen.get_width() * (4 * char_offset),
+                                                    resized_screen.get_height() * (char_height))
+        (r_yellow_rect.centerx, r_yellow_rect.centery) = (resized_screen.get_width() * (3 * char_offset),
+                                                          resized_screen.get_height() * (char_height))
+        (r_red_rect.centerx, r_red_rect.centery) = (resized_screen.get_width() * (2 * char_offset),
+                                                    resized_screen.get_height() * (char_height))
+        (r_purple_rect.centerx, r_purple_rect.centery) = (resized_screen.get_width() * (char_offset),
+                                                          resized_screen.get_height() * (char_height))
+        (r_winter_rect.centerx, r_winter_rect.centery) = (resized_screen.get_width() * (3 * skin_offset),
+                                                          resized_screen.get_height() * (skin_height))
+        (r_fall_rect.centerx, r_fall_rect.centery) = (resized_screen.get_width() * (2 * skin_offset),
+                                                      resized_screen.get_height() * (skin_height))
+        (r_spring_rect.centerx, r_spring_rect.centery) = (resized_screen.get_width() * (skin_offset),
+                                                          resized_screen.get_height() * (skin_height))
 
         # 각 skin 및 char 적용 여부
         is_spring = db.query_db("select is_apply from skin where name='Spring'", one=True)['is_apply']
