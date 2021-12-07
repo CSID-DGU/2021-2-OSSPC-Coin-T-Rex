@@ -573,7 +573,7 @@ def boss_appear():
         rest_time -= 1
         if rest_time <= 0:
             rest_time = 0
-        print(rest_time)
+
 
 def gameplay_hard():
     global resized_screen

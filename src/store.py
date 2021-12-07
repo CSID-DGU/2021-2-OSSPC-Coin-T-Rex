@@ -44,7 +44,7 @@ def store():
                     return False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
-                    x, y = event.pos
+                    x, y = pygame.mouse.get_pos()
                     if r_char_btn_rect.collidepoint(x, y):
                         char_store()
                     if r_skin_btn_rect.collidepoint(x, y):
@@ -189,7 +189,7 @@ def item_store():
                 if event.key == pygame.K_ESCAPE:
                     return False
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                x, y = event.pos
+                x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price:
@@ -395,7 +395,7 @@ def char_store():
                 if event.key == pygame.K_ESCAPE:
                     return False
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                x, y = event.pos
+                x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= p_price and is_purple_buy == 0:
@@ -589,7 +589,7 @@ def skin_store():
                 if event.key == pygame.K_ESCAPE:
                     return False
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                x, y = event.pos
+                x, y = pygame.mouse.get_pos()
                 if r_back_btn_rect.collidepoint(x, y):
                     store()
                 if buy_btn1_rect.collidepoint(x, y) and coin_item_count >= s_price and is_spring_buy == 0:
