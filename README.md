@@ -30,6 +30,11 @@ python run.py
 ```
 <br>
 
+## How to Play
+![gamerule](https://user-images.githubusercontent.com/81295661/145060164-0c1d8954-5767-46c8-8b8f-166c4fcd12d7.png)
+<br>
+<br>
+
 ## Developed by:
 ### CSID-DGU - "Two Seok Two Joo"
 
