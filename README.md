@@ -35,6 +35,13 @@ python run.py
 <br>
 <br>
 
+## Structural change
+- Describes the role of the directory and changes from previous projects.
+![디렉토리 및 코드 구조 변경](https://user-images.githubusercontent.com/81295661/145167573-378fa948-00be-417e-b714-a6bcdb7a846b.png)
+
+<br>
+<br>
+
 ## Developed by:
 ### CSID-DGU - "Two Seok Two Joo"
 
